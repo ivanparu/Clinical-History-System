@@ -2,7 +2,7 @@
 
 ## Objetivos 📋
 Desarrollar un sistema, que permita la administración general de un consultorio (de cara a los administradores): Prestaciones, Profesionales, Pacientes, etc., como así también, permitir a los pacientes, realizar reserva sobre turnos ofrecidos.
-Utilizar Visual Studio 2019 preferentemente y crear una aplicación utilizando ASP.NET MVC Core (versión a definir por el docente 3.1 o 6.0).
+Utilizar Visual Studio 2022 preferentemente y crear una aplicación utilizando ASP.NET MVC Core (versión a definir por el docente ).
 
 <hr />
 
