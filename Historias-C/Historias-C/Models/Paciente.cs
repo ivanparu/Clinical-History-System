@@ -1,6 +1,10 @@
 ﻿namespace Historias_C.Models
 {
-    public class Paciente
+    public class Paciente: Persona 
     {
+
+        
+
+
     }
 }
