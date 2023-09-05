@@ -7,8 +7,8 @@
         public string Especialidad { get; set; }
         public Medico(string nombre, string apellido, int dni, int telefono, string direccion, string legajo, string matricula, string especialidad) : base(nombre, apellido, dni, telefono, direccion, legajo)
         {
-            Matricula = matricula;
-            Especialidad = especialidad;
+            this.Matricula = matricula;
+            this.Especialidad = especialidad;
         }
 
 
