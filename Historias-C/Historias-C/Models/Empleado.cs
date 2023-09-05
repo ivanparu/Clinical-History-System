@@ -6,7 +6,7 @@
         public Empleado(string nombre, string apellido, int dni, int telefono, string direccion, string legajo)
             : base(nombre, apellido, dni, telefono, direccion)
         {
-            Legajo = legajo;
+            this.Legajo = legajo;
         }
 
     }
