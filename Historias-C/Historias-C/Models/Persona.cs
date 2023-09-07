@@ -2,6 +2,7 @@
 {
     public class Persona
     {
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -14,8 +15,9 @@
         public string Direccion { get; set; } // TO DO: Esta seria una clase aparte. 
 
 
-        public Persona(string nombre, string apellido, int dni, int telefono, string direccion)
+        public Persona(string nombre, string apellido, int dni, int telefono, string direccion, int Id)
         {
+            this.Id = dni;
             this.Nombre = nombre;
             this.Apellido = apellido;
             this.Telefono = telefono;
