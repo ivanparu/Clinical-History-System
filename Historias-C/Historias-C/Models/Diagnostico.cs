@@ -2,10 +2,10 @@
 {
     public class Diagnostico
     {
-      int id { get; set; }
-      Epicrisis epicrisis { get; }
-      String descripcion { get; }
-      String recomendacion { get; }   
+        public int id { get; set; }
+        public Epicrisis epicrisis { get; set; }
+        public String descripcion { get; set; }
+        public String recomendacion { get; set; }
 
 
         public Diagnostico (int id,Epicrisis epicrisis, String descripcion, String recomendacion)
