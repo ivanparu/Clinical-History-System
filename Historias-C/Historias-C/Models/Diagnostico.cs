@@ -8,10 +8,10 @@
         public String recomendacion { get; set; }
 
 
-        public Diagnostico(int id, Epicrisis epicrisis, String descripcion, String recomendacion)
+        public Diagnostico (int id,Epicrisis epicrisis, String descripcion, String recomendacion)
         {
-            this.id = id;
-            this.epicrisis = epicrisis;
+            this.id = id;   
+            this.epicrisis = epicrisis;   
             this.descripcion = descripcion;
             this.recomendacion = recomendacion;
 

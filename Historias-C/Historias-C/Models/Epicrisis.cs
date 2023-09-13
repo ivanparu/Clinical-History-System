@@ -2,11 +2,11 @@
 {
     public class Epicrisis
     {
-        public int Id { get; set; } 
-        public Episodio Episodio { get; set;}
-        public Medico Medico { get; set;}
-        public DateTime fechaYHora { get; set;} = DateTime.Now;
-        public Diagnostico Diagnostico { get; set;}
+        public int Id { get; set; }
+        public Episodio Episodio { get; set; }
+        public Medico Medico { get; set; }
+        public DateTime fechaYHora { get; set; } = DateTime.Now;
+        public Diagnostico Diagnostico { get; set; }
 
         public Epicrisis()
         {
