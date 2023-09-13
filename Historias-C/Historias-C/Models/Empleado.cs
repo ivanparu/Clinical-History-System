@@ -3,11 +3,13 @@
     public class Empleado : Persona
     {
         public string Legajo { get; set; }
-        public Empleado(string nombre, string apellido, int dni, int telefono, string direccion, string legajo)
-            : base(nombre, apellido, dni, telefono, direccion)
+        public Empleado(string nombre, string apellido, int dni, int telefono, string direccion,int id, string legajo)
+            : base(nombre, apellido, dni, telefono, direccion, id)
         {
-            Legajo = legajo;
+            this.Legajo = legajo;
         }
 
+        public Empleado (string nombre, string apellido, int dni, int telefono, string direccion, int id)
+        : base(nombre, apellido, dni, telefono, direccion, id) { }
     }
 }
