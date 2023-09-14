@@ -2,23 +2,23 @@
 {
     public class Diagnostico
     {
-        public int id { get; set; }
-        public Epicrisis epicrisis { get; set; }
-        public String descripcion { get; set; }
-        public String recomendacion { get; set; }
+        public int Id { get; set; }
+        public Epicrisis Epicrisis { get; set; }
+        public String Descripcion { get; set; }
+        public String Recomendacion { get; set; }
 
 
         public Diagnostico (int id,Epicrisis epicrisis, String descripcion, String recomendacion)
         {
-            this.id = id;   
-            this.epicrisis = epicrisis;   
-            this.descripcion = descripcion;
-            this.recomendacion = recomendacion;
+            this.Id = id;   
+            this.Epicrisis = epicrisis;   
+            this.Descripcion = descripcion;
+            this.Recomendacion = recomendacion;
 
         }
 
 
-
+        public Diagnostico () { }
 
 
 
