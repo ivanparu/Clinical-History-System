@@ -7,4 +7,8 @@
     <RootNamespace>Historias_C</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Models\efb1nxmo.umv~" />
+  </ItemGroup>
+
 </Project>

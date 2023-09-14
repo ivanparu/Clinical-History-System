@@ -2,24 +2,29 @@
 {
     public class Epicrisis
     {
-        public int id { get; set; }
-        public Episodio episodio; { get; set; }
-        public Medico medico { get; set; }
+        public int Id { get; set; }
+        public Episodio Episodio { get; set; }
+        public Medico Medico { get; set; }
         public DateTime fechaYHora { get; set; } = DateTime.Now;
-        public Diagnostico diagnostico { get; set; }
+        public Diagnostico Diagnostico { get; set; }
 
-
-        public Epicrisis(int id,Episodio episodio, Medico  medico, DateTime fechaYHora, Diagnostico diagnostico)
+        public Epicrisis()
         {
-            this.id = id;   
-            this.episodio = episodio;
-            this.medico = medico;   
-            this.diagnostico = diagnostico;
-            this.fechaYHora = fechaYHora;
 
         }
 
+        public Epicrisis(int id, Episodio episodio, Medico medico, DateTime fechaYHora, Diagnostico diagnostico)
+        {
+            this.Id = id;
+            this.Episodio = episodio;
+            this.Medico = medico;
+            this.fechaYHora = fechaYHora;
+            this.Diagnostico = diagnostico;
 
+
+        }
+
+        public Epicrisis() { }
 
     }
 }
