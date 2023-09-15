@@ -8,6 +8,11 @@
         public String Recomendacion { get; set; }
 
 
+        public Diagnostico()
+        {
+
+        }
+
         public Diagnostico (int id,Epicrisis epicrisis, String descripcion, String recomendacion)
         {
             this.Id = id;   
@@ -18,8 +23,7 @@
         }
 
 
-        public Diagnostico () { }
-
+  
 
 
 
