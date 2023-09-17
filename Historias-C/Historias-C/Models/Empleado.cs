@@ -9,6 +9,6 @@
             this.Legajo = $"{id}-{dni}";
         }
 
-        
+        public List<Episodio> Episodios { get; set; }   
     }
 }
