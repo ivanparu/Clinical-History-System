@@ -17,7 +17,8 @@
 
         public Persona(string nombre, string apellido, int dni, int telefono, string direccion, int Id)
         {
-            this.Id = dni;
+            this.Id = Id;
+            this.DNI = dni;
             this.Nombre = nombre;
             this.Apellido = apellido;
             this.Telefono = telefono;
