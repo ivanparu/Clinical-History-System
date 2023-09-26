@@ -1,46 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Historias_C.Models.Diagnostico">
-    <Position X="2.75" Y="1.5" Width="1.5" />
+    <Position X="8" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAFAACAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAACAAAAAAgAAQAAIAAAAAABQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Diagnostico.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Historias_C.Models.Empleado">
     <Position X="11.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Empleado.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Episodios" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Epicrisis">
-    <Position X="5.75" Y="1.5" Width="1.5" />
+    <Position X="13.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAIAAAAAAAAAAAACAAAAAAAAEAAAAAAgA=</HashCode>
+      <HashCode>AAACAAAAAQAAAAIAACAAIAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Models\Epicrisis.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Medico" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Historias_C.Models.Episodio">
-    <Position X="5" Y="5.25" Width="1.5" />
+    <Position X="14.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BAAAAAAAAAAAAAAQACEAAAARQAAAABAAAAAAAAAAACA=</HashCode>
       <FileName>Models\Episodio.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EmpleadoRegistra" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Historias_C.Models.HistoriaClinica">
     <Position X="7" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAABAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\HistoriaClinica.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Historias_C.Models.Medico">
     <Position X="11.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BAEAAAAAEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Medico.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Evoluciones" />
+      <Property Name="Epicrisis" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Notas">
     <Position X="1.75" Y="8.75" Width="1.5" />

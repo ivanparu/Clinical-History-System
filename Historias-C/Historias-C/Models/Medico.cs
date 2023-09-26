@@ -11,7 +11,7 @@
             this.Especialidad = especialidad;
         }
 
-
-
+        public List<Evolucion> Evoluciones { get; set; }
+        public List<Epicrisis> Epicrisis { get; set;}
     }
 }
