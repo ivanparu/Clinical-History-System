@@ -27,6 +27,7 @@
 
         public Episodio() { }
         public HistoriaClinica HistoriaClinica { get; set; }
+        public int HistoriaClinicaId { get; set; }
     }
 
     

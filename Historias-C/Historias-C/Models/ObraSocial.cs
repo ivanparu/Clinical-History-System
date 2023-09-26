@@ -2,7 +2,7 @@
 {
     public enum ObraSocial
     {
-        OSDE, SweetMedical, Medife, Galeno, PAMI, Medicus
+        OSDE, SwissMedical, Medife, Galeno, PAMI, Medicus, NINGUNA
 
     }
 }

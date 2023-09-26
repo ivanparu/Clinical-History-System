@@ -1,9 +1,0 @@
-namespace Historias_C.Models
-    
-    public Enum ObraSocial
-    {
-        OSDE,
-        SwissMedical,
-        Galeno,
-        IOMA,
-    }

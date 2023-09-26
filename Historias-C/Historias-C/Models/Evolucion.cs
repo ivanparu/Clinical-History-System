@@ -29,6 +29,7 @@ namespace Historias_C.Models
 
 
         public Episodio Episodio { get; set; }
+        public int EpisodioId { get; set; }
     }
 
     

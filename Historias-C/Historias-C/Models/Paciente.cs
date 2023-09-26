@@ -1,15 +1,21 @@
-﻿namespace Historias_C.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Historias_C.Models
 {
     public class Paciente : Persona
     {
+        [Required]
         public ObraSocial ObraSocial { get; set; }
+        
+        [Required]
         public HistoriaClinica HistoriaClinica { get; set; }
+        public int HistoriaClinicaId { get; set; }
 
-        public Paciente(string nombre, string apellido, int dni, int telefono, string direccion, int id, ObraSocial obraSocial, HistoriaClinica historiaClinica) : base(
+        public Paciente(string nombre, string apellido, int dni, int telefono, string direccion, int id, ObraSocial obraSocial) : base(
              nombre, apellido, dni, telefono, direccion, id)
         {
-            ObraSocial = ObraSocial;
-            HistoriaClinica = historiaClinica;
+            ObraSocial = obraSocial;
+            HistoriaClinica = new HistoriaClinica();
         }
 
 
