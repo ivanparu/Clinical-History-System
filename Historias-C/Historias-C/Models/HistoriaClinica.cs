@@ -4,12 +4,12 @@
     {
 
         public Paciente Paciente { get; set; }
-        public Episodio Episodio { get; set; }
+        public List<Episodio> Episodio { get; set; }
 
         public HistoriaClinica(Paciente paciente, Episodio episodio)
         {
             Paciente = paciente;
-            Episodio = episodio;
+           // Episodio = episodio;  revisar
         }
 
         public HistoriaClinica() { }

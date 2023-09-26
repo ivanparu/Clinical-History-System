@@ -26,7 +26,11 @@ namespace Historias_C.Models
 
         public bool EstadoAbierto { get; set; }
         public List<Notas> Notas { get; set; }
+
+
+        public Episodio Episodio { get; set; }
     }
 
     
+
 }

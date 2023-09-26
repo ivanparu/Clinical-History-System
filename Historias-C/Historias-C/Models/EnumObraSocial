@@ -1,6 +1,6 @@
 namespace Historias_C.Models
     
-    public enum ObraSocial
+    public Enum ObraSocial
     {
         OSDE,
         SwissMedical,

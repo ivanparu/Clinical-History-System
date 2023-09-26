@@ -26,5 +26,8 @@
         }
 
         public Episodio() { }
+        public HistoriaClinica HistoriaClinica { get; set; }
     }
+
+    
 }

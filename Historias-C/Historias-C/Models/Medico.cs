@@ -12,6 +12,8 @@
         }
 
         public List<Evolucion> Evoluciones { get; set; }
+        public int EvolucionId { get; set; }
         public List<Epicrisis> Epicrisis { get; set;}
+        public int EpicrisisId { get; set;}
     }
 }
