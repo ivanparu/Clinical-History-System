@@ -10,8 +10,9 @@ namespace Historias_C.Models
         [Required]
         public HistoriaClinica HistoriaClinica { get; set; }
         public int HistoriaClinicaId { get; set; }
+        public Direccion Direccion { get; set; }
 
-        public Paciente(string nombre, string apellido, int dni, int telefono, string direccion, int id, ObraSocial obraSocial) : base(
+        public Paciente(string nombre, string apellido, int dni, int telefono, Direccion direccion, int id, ObraSocial obraSocial) : base(
              nombre, apellido, dni, telefono, direccion, id)
         {
             ObraSocial = obraSocial;

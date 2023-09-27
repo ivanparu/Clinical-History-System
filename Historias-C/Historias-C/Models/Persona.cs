@@ -43,11 +43,11 @@ namespace Historias_C.Models
         [Phone]
         public int Telefono { get; set; }
 
-        //@TO DO: FALTA PONERLO REQUIRE CUANDO SE DEFINA SI ES CLASE APARTE.
-        public string Direccion { get; set; } // TO DO: Esta seria una clase aparte. 
+        //@TO DO: FALTA PONER en REQUIRE cuando se defina Direccon clase aparte.
+        public Direccion Direccion { get; set; }
 
 
-        public Persona(string nombre, string apellido, int dni, int telefono, string direccion, int Id)
+        public Persona(string nombre, string apellido, int dni, int telefono, Direccion direccion, int Id)
         {
             this.Id = Id;
             this.DNI = dni;
