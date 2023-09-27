@@ -4,9 +4,8 @@ namespace Historias_C.Models
 {
     public class Epicrisis
     {
-        private const string _reqStrMinMaxEpicrisis = "Debe ser entre {2} y {1}";
 
-        [Range(10,20,ErrorMessage = _reqStrMinMaxEpicrisis)]
+        [Range(10,20,ErrorMessage = ErrorMessages._reqStrMinMaxEpicrisis)]
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
         public Medico Medico { get; set; }
