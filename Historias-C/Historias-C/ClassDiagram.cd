@@ -13,11 +13,12 @@
   <Class Name="Historias_C.Models.Empleado">
     <Position X="12.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAJAAAAAKAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Empleado.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Episodios" />
+      <Property Name="Notas" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Epicrisis">
@@ -72,23 +73,25 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Notas">
-    <Position X="19.75" Y="6.75" Width="1.5" />
+    <Position X="19.75" Y="6.5" Width="1.5" />
     <AssociationLine Name="Empleado" Type="Historias_C.Models.Empleado" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="21.25" Y="8.665" />
-        <Point X="21.625" Y="8.665" />
-        <Point X="21.625" Y="6.25" />
-        <Point X="19.333" Y="6.25" Type="JumpStart" />
-        <Point X="19.167" Y="6.25" Type="JumpEnd" />
-        <Point X="18.208" Y="6.25" Type="JumpStart" />
-        <Point X="18.042" Y="6.25" Type="JumpEnd" />
-        <Point X="17.126" Y="6.25" Type="JumpStart" />
-        <Point X="16.96" Y="6.25" Type="JumpEnd" />
-        <Point X="16.794" Y="6.25" Type="JumpStart" />
-        <Point X="16.628" Y="6.25" Type="JumpEnd" />
-        <Point X="14.756" Y="6.25" />
-        <Point X="14.756" Y="3.688" />
-        <Point X="14.25" Y="3.688" />
+        <Point X="21.25" Y="8.415" />
+        <Point X="21.625" Y="8.415" />
+        <Point X="21.625" Y="6.125" />
+        <Point X="19.333" Y="6.125" Type="JumpStart" />
+        <Point X="19.167" Y="6.125" Type="JumpEnd" />
+        <Point X="18.208" Y="6.125" Type="JumpStart" />
+        <Point X="18.042" Y="6.125" Type="JumpEnd" />
+        <Point X="17.208" Y="6.125" Type="JumpStart" />
+        <Point X="17.042" Y="6.125" Type="JumpEnd" />
+        <Point X="16.958" Y="6.125" Type="JumpStart" />
+        <Point X="16.792" Y="6.125" Type="JumpEnd" />
+        <Point X="15.384" Y="6.125" Type="JumpStart" />
+        <Point X="15.218" Y="6.125" Type="JumpEnd" />
+        <Point X="14.572" Y="6.125" />
+        <Point X="14.572" Y="4.016" />
+        <Point X="14.25" Y="4.016" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -108,6 +111,7 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="HistoriaClinica" />
+      <Property Name="ObraSocial" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Historias_C.Models.Persona">
@@ -131,5 +135,12 @@
       <Property Name="Notas" />
     </ShowAsCollectionAssociation>
   </Class>
+  <Enum Name="Historias_C.Models.ObraSocial" Collapsed="true">
+    <Position X="12.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIAAAQAABAAAAAAAIAAAAAAAAgAAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\ObraSocial.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

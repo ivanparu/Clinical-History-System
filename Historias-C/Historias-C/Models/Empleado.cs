@@ -10,5 +10,8 @@
         }
 
         public List<Episodio> Episodios { get; set; }   
+        public int EpisodioId { get; set; }
+        public List<Notas> Notas { get; set; }
+        public int NotaId { get; set; }
     }
 }
