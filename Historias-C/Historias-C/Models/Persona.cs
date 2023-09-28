@@ -61,6 +61,9 @@ namespace Historias_C.Models
             this.FechaAlta = DateTime.Now;
 
         }
+
+        public Persona() { }
+
     }
 
 }
