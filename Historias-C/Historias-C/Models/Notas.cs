@@ -10,6 +10,8 @@ namespace Historias_C.Models
         public int Id { get; set; }
         public Evolucion Evolucion { get; set; }
         public int EvolucionId { get; set; }
+
+        [Required(ErrorMessage = _reqMsg)]
         public Empleado Empleado { get; set; }
        
         [Required(ErrorMessage = _reqMsg)]
