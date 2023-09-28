@@ -44,8 +44,8 @@ namespace Historias_C.Models
         public int Telefono { get; set; }
 
         //@TO DO: FALTA PONER en REQUIRE cuando se defina Direccon clase aparte.
-        public Direccion Direccion { get; set; }
-
+      
+        public List<Direccion> Direccion { get; set; }
 
         public Persona(string nombre, string apellido, int dni, int telefono, Direccion direccion, int Id)
         {
@@ -54,7 +54,7 @@ namespace Historias_C.Models
             this.Nombre = nombre;
             this.Apellido = apellido;
             this.Telefono = telefono;
-            this.Direccion = direccion;
+            this.Direccion = new List<Direccion>();
             this.Password = "Password1!";
             this.UserName = $"{nombre}{apellido}@ort.edu.ar";
             this.Email = $"{nombre}{apellido}@ort.edu.ar";

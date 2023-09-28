@@ -6,14 +6,14 @@ namespace Historias_C.Models
     { 
 
 
-        [Range(10, 20, ErrorMessage = ErrorMessages._reqStrMinMaxDiagnostico)]
+        [Range(10, 20, ErrorMessage = ErrorMessages._reqStrMinMax)]
         public int Id { get; set; }
         public Epicrisis Epicrisis { get; set; }
-        [Required(ErrorMessage = ErrorMessages._reqMsgDiagnostico)]
-        [StringLength(400,MinimumLength = 10,ErrorMessage = ErrorMessages._reqStrMinMaxDiagnostico)]
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
+        [StringLength(400,MinimumLength = 10,ErrorMessage = ErrorMessages._reqStrMinMax)]
         public String Descripcion { get; set; }
-        [Required(ErrorMessage = ErrorMessages._reqMsgDiagnostico)]
-        [StringLength(200, MinimumLength = 5,ErrorMessage = ErrorMessages._reqStrMinMaxDiagnostico)]
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
+        [StringLength(200, MinimumLength = 5,ErrorMessage = ErrorMessages._reqStrMinMax)]
         public String Recomendacion { get; set; }
 
         

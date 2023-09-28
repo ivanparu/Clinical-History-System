@@ -5,7 +5,7 @@ namespace Historias_C.Models
     public class Epicrisis
     {
 
-        [Range(10,20,ErrorMessage = ErrorMessages._reqStrMinMaxEpicrisis)]
+        [Range(10,20,ErrorMessage = ErrorMessages._reqStrMinMax)]
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
         public Medico Medico { get; set; }

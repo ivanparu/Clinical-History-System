@@ -7,6 +7,7 @@ public class Direccion
 	public string altura { get; set; }
 	public string barrio { get; set; }
 	public string ciudad { get; set; }
+    
 
 	public Direccion(string calle, string altura, string barrio, string ciudad)
 	{

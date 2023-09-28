@@ -3,7 +3,7 @@
     public class Empleado : Persona
     {
         public string Legajo { get; set; }
-        public Direccion Direccion { get; set; }
+       
 
         public Empleado(string nombre, string apellido, int dni, int telefono, Direccion direccion, int id)
             : base(nombre, apellido, dni, telefono, direccion, id)
