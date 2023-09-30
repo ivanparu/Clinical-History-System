@@ -8,7 +8,7 @@ namespace Historias_C.Models
   
         public int Id { get; set; }
         public Epicrisis Epicrisis { get; set; }
-        public int idEpicrisis { get; set; }
+        public int IdEpicrisis { get; set; }
         [Required(ErrorMessage = ErrorMessages._reqMsg)]
         [StringLength(400,MinimumLength = 10,ErrorMessage = ErrorMessages._reqStrMinMax)]
         public string Descripcion { get; set; }
