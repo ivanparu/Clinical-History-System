@@ -1,3 +1,6 @@
+using Historias_C.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Historias_C
 {
     public class Program
@@ -7,6 +10,8 @@ namespace Historias_C
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<HistoriasClinicasCContext>(options => options.UseInMemoryDatabase("MiDb-C"));
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
