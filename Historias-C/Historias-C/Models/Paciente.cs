@@ -18,6 +18,10 @@ namespace Historias_C.Models
             ObraSocial = obraSocial;
             HistoriaClinica = new HistoriaClinica();
         }
+        public Paciente() 
+        {
+            HistoriaClinica = new HistoriaClinica();
+        }
 
 
     }

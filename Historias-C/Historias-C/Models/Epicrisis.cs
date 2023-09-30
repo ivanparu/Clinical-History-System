@@ -5,12 +5,16 @@ namespace Historias_C.Models
     public class Epicrisis
     {
 
-        [Range(10,20,ErrorMessage = ErrorMessages._reqStrMinMax)]
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
+        public int IdEpisodio { get; set; }
         public Medico Medico { get; set; }
+        public int IdMedico { get; set; }
+
         public DateTime fechaYHora { get; set; } = DateTime.Now;
         public Diagnostico Diagnostico { get; set; }
+        public int IdDiagnostico { get; set; }
+
 
 
         public Epicrisis()

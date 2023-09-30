@@ -2,7 +2,7 @@
 { 
 public class Direccion
 {
-	public int id { get; set; }
+	public int Id { get; set; }
 	public string calle { get; set; }
 	public string altura { get; set; }
 	public string barrio { get; set; }
