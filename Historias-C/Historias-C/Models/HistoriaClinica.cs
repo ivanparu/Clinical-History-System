@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Historias_C.Models
 {
@@ -12,6 +13,8 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         public Paciente Paciente { get; set; }
+
+        [ForeignKey("Paciente")]
         public int PacienteId { get; set; }
         public List<Episodio> Episodios { get; set; }
 

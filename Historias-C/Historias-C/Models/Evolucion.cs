@@ -10,6 +10,7 @@ namespace Historias_C.Models
 
         public int Id { get; set; }
         public Medico Medico { get; set; }
+        public int MedicoId { get; set; }
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         public DateTime FechaYHoraInicio { get; set; }

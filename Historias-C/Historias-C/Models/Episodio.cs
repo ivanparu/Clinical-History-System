@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Historias_C.Models
 {
@@ -8,6 +9,7 @@ namespace Historias_C.Models
 
         private const string _reqRange = "El texto debe tener entre {2} y {1} caracteres.";
 
+        public int Id { get; set; }
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(100, MinimumLength = 5, ErrorMessage = _reqRange)]
         public string Motivo { get; set; }
@@ -33,6 +35,9 @@ namespace Historias_C.Models
 
         public List<Evolucion> Evoluciones { get; set;}
         public Epicrisis Epicrisis { get; set; }
+
+        [ForeignKey("Epicrisis")]
+        public int EpicrisisId { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         public Empleado EmpleadoRegistra { get; set; }

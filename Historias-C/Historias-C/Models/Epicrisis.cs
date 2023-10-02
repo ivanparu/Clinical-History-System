@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Historias_C.Models
 {
@@ -7,13 +8,15 @@ namespace Historias_C.Models
 
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
-        public int IdEpisodio { get; set; }
+        
+        [ForeignKey("Episodio")]
+        public int EpisodioId { get; set; }
         public Medico Medico { get; set; }
-        public int IdMedico { get; set; }
+        public int MedicoId { get; set; }
 
         public DateTime fechaYHora { get; set; } = DateTime.Now;
         public Diagnostico Diagnostico { get; set; }
-        public int IdDiagnostico { get; set; }
+        public int DiagnosticoId { get; set; }
 
 
 

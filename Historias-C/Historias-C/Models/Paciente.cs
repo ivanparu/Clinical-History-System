@@ -9,6 +9,7 @@ namespace Historias_C.Models
         
         [Required]
         public HistoriaClinica HistoriaClinica { get; set; }
+
         public int HistoriaClinicaId { get; set; }
        
 
