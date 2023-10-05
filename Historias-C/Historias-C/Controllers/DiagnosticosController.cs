@@ -44,8 +44,16 @@ namespace Historias_C.Controllers
         }
 
         // GET: Diagnosticos/Create
-        public IActionResult Create()
+        public IActionResult Create(int idEpicrisis, string descripcion, string recomendacion)
         {
+
+             Diagnostico diagnostico = new Diagnostico();
+             diagnostico.IdEpicrisis = idEpicrisis;
+             diagnostico.Descripcion = descripcion;
+             diagnostico.Recomendacion = recomendacion;
+             
+              _context.Diagnosticos.Add(diagnostico);
+            
             return View();
         }
 
