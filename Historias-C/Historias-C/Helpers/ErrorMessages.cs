@@ -5,7 +5,7 @@ namespace Historias_C.Models
     public class ErrorMessages
     {
         //MSG: Epicrisis
-        public const string _reqStrMinMax = "Debe ser entre {2} y {1}";
+        public const string _reqStrMinMax = "Debe ser entre {2} y {1} caracteres.";
         //MSG: Diagnostico
         public const string _reqMsg = "Campo requerido, porfavor ingrese datos.";
         
