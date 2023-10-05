@@ -54,7 +54,10 @@ namespace Historias_C.Models
 
         }
 
-        public Episodio() { }
+        public Episodio() {
+            Evoluciones = new List<Evolucion>();
+
+        }
 
         [Required(ErrorMessage = _reqMsg)]
         public HistoriaClinica HistoriaClinica { get; set; }
