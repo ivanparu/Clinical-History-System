@@ -5,7 +5,7 @@ namespace Historias_C.Models
 {
     public class Epicrisis
     {
-
+     
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
         
