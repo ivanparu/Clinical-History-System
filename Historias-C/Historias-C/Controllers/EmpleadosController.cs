@@ -54,7 +54,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,EpisodioId,NotasId,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
+        public async Task<IActionResult> Create([Bind("Legajo,EpisodioId,NotasId,Id,UserName,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
         {
             if (ModelState.IsValid)
             {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Historias_C.Models
 {
@@ -10,6 +11,7 @@ namespace Historias_C.Models
         [Required]
         public HistoriaClinica HistoriaClinica { get; set; }
 
+        [ForeignKey("HistoriaClinica")]
         public int HistoriaClinicaId { get; set; }
        
 
