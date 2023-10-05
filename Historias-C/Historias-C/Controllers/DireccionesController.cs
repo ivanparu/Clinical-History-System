@@ -10,85 +10,85 @@ using Historias_C.Models;
 
 namespace Historias_C.Controllers
 {
-    public class MedicosController : Controller
+    public class DireccionesController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
 
-        public MedicosController(HistoriasClinicasCContext context)
+        public DireccionesController(HistoriasClinicasCContext context)
         {
             _context = context;
         }
 
-        // GET: Medicos
+        // GET: Direcciones
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Medicos.ToListAsync());
+              return View(await _context.Direcciones.ToListAsync());
         }
 
-        // GET: Medicos/Details/5
+        // GET: Direcciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Medicos == null)
+            if (id == null || _context.Direcciones == null)
             {
                 return NotFound();
             }
 
-            var medico = await _context.Medicos
+            var direccion = await _context.Direcciones
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (medico == null)
+            if (direccion == null)
             {
                 return NotFound();
             }
 
-            return View(medico);
+            return View(direccion);
         }
 
-        // GET: Medicos/Create
+        // GET: Direcciones/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Medicos/Create
+        // POST: Direcciones/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotaId,Id,UserName,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Id,calle,altura,barrio,ciudad")] Direccion direccion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medico);
+                _context.Add(direccion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(medico);
+            return View(direccion);
         }
 
-        // GET: Medicos/Edit/5
+        // GET: Direcciones/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Medicos == null)
+            if (id == null || _context.Direcciones == null)
             {
                 return NotFound();
             }
 
-            var medico = await _context.Medicos.FindAsync(id);
-            if (medico == null)
+            var direccion = await _context.Direcciones.FindAsync(id);
+            if (direccion == null)
             {
                 return NotFound();
             }
-            return View(medico);
+            return View(direccion);
         }
 
-        // POST: Medicos/Edit/5
+        // POST: Direcciones/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotaId,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,calle,altura,barrio,ciudad")] Direccion direccion)
         {
-            if (id != medico.Id)
+            if (id != direccion.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(medico);
+                    _context.Update(direccion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MedicoExists(medico.Id))
+                    if (!DireccionExists(direccion.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace Historias_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(medico);
+            return View(direccion);
         }
 
-        // GET: Medicos/Delete/5
+        // GET: Direcciones/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Medicos == null)
+            if (id == null || _context.Direcciones == null)
             {
                 return NotFound();
             }
 
-            var medico = await _context.Medicos
+            var direccion = await _context.Direcciones
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (medico == null)
+            if (direccion == null)
             {
                 return NotFound();
             }
 
-            return View(medico);
+            return View(direccion);
         }
 
-        // POST: Medicos/Delete/5
+        // POST: Direcciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Medicos == null)
+            if (_context.Direcciones == null)
             {
-                return Problem("Entity set 'HistoriasClinicasCContext.Medicos'  is null.");
+                return Problem("Entity set 'HistoriasClinicasCContext.Direcciones'  is null.");
             }
-            var medico = await _context.Medicos.FindAsync(id);
-            if (medico != null)
+            var direccion = await _context.Direcciones.FindAsync(id);
+            if (direccion != null)
             {
-                _context.Medicos.Remove(medico);
+                _context.Direcciones.Remove(direccion);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MedicoExists(int id)
+        private bool DireccionExists(int id)
         {
-          return _context.Medicos.Any(e => e.Id == id);
+          return _context.Direcciones.Any(e => e.Id == id);
         }
     }
 }

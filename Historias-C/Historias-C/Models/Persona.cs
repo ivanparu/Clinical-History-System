@@ -40,7 +40,7 @@ namespace Historias_C.Models
         public int DNI { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
-        [Phone]
+        [DataType(DataType.PhoneNumber)]
         public int Telefono { get; set; }
 
         //@TO DO: FALTA PONER en REQUIRE cuando se defina Direccon clase aparte.
@@ -62,7 +62,9 @@ namespace Historias_C.Models
 
         }
 
-        public Persona() { }
+        public Persona() {
+            this.Password = "Password1!";
+        }
 
     }
 
