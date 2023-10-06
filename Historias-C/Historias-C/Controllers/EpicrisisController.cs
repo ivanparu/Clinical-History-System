@@ -48,14 +48,21 @@ namespace Historias_C.Controllers
         }
 
         // GET: Epicrisis/Create
-        public IActionResult Create()
+        public IActionResult Create(int id, Episodio episodio, Medico medico, DateTime fechaYHora, Diagnostico diagnostico)
         {
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnosticos, "Id", "Descripcion");
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            Epicrisis epicrisis = new Epicrisis();
+            epicrisis.Id = id;
+            epicrisis.Episodio = episodio;
+            epicrisis.Medico = medico;
+            epicrisis.fechaYHora = DateTime.Now;
+            epicrisis.Diagnostico = diagnostico;
+
+            _context.Epicrisis.Add(epicrisis);
+           
+
             return View();
         }
-
+       
         // POST: Epicrisis/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

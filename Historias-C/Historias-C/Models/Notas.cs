@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Historias_C.Models
 {
@@ -13,7 +14,10 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         public Empleado Empleado { get; set; }
-       
+
+        [ForeignKey("Empleado")]
+        public int EmpleadoId { get; set; }
+
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(400, MinimumLength =2, ErrorMessage = _reqRange)]
         public string Mensaje { get; set; }

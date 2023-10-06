@@ -54,7 +54,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotaId,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotasId,Id,UserName,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotaId,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("Matricula,Especialidad,EvolucionId,EpicrisisId,Legajo,EpisodioId,NotasId,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
         {
             if (id != medico.Id)
             {

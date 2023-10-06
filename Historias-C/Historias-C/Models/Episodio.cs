@@ -40,9 +40,12 @@ namespace Historias_C.Models
         public int EpicrisisId { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
-        public Empleado EmpleadoRegistra { get; set; }
 
-        public Episodio(string motivo, string descripcion, DateTime fechaYHoraInicio, DateTime fechaYHoraCierre, DateTime fechaYHoraAlta, Empleado empleadoRegistra) {
+        [ForeignKey("Empleado")]
+        public int EmpleadoId { get; set; }
+        public Empleado Empleado { get; set; }
+
+        public Episodio(string motivo, string descripcion, DateTime fechaYHoraInicio, DateTime fechaYHoraCierre, DateTime fechaYHoraAlta, Empleado empleado) {
             this.Motivo = motivo;
             this.Descripcion = descripcion;
             this.FechaYHoraInicio = fechaYHoraInicio;
@@ -50,14 +53,19 @@ namespace Historias_C.Models
             this.FechaYHoraAlta = fechaYHoraAlta;
             this.EstadoAbierto = true;
             Evoluciones = new List<Evolucion>();
-            this.EmpleadoRegistra = empleadoRegistra;
+            this.Empleado = empleado;
 
         }
 
-        public Episodio() { }
+        public Episodio() {
+            Evoluciones = new List<Evolucion>();
+
+        }
 
         [Required(ErrorMessage = _reqMsg)]
         public HistoriaClinica HistoriaClinica { get; set; }
+
+        [ForeignKey("HistoriaClinica")]
         public int HistoriaClinicaId { get; set; }
     }
 
