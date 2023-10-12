@@ -10,26 +10,36 @@ namespace Historias_C.Models
 
         public int Id { get; set; }
         public Medico Medico { get; set; }
+        
+        [Required(ErrorMessage = _reqMsg)]
         public int MedicoId { get; set; }
+        
+        
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         public DateTime FechaYHoraInicio { get; set; }
+
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         public DateTime FechaYHoraAlta { get; set; }
+
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         public DateTime FechaYHoraCierre { get; set; }
+
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(1000, MinimumLength = 50, ErrorMessage = _reqRange)]
         public string DescripcionAtencion { get; set; }
-        [Required(ErrorMessage = _reqMsg)]
 
-        public bool EstadoAbierto { get; set; }
+        [Required(ErrorMessage = _reqMsg)]
+        public bool EstadoAbierto { get; set; } = true;
+
         public List<Notas> Notas { get; set; }
 
 
         public Episodio Episodio { get; set; }
+
+        [Required(ErrorMessage = _reqMsg)]
         public int EpisodioId { get; set; }
     }
 

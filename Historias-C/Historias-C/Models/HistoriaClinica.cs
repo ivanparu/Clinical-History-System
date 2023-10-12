@@ -11,24 +11,17 @@ namespace Historias_C.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = _reqMsg)]
+       
         public Paciente Paciente { get; set; }
 
+        [Required(ErrorMessage = _reqMsg)]
         [ForeignKey("Paciente")]
         public int PacienteId { get; set; }
+
         public List<Episodio> Episodios { get; set; }
-        public int EpisodioId { get; set; }
+        
 
-        public HistoriaClinica(Paciente paciente, Episodio episodio)
-        {
-            Paciente = paciente;
-            Episodios = new List<Episodio>();
-        }
+       
 
-        public HistoriaClinica() {
-            Episodios = new List<Episodio>();
-
-
-        }
     }
 }

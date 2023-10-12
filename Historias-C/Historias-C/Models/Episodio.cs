@@ -42,7 +42,7 @@ namespace Historias_C.Models
         [Required(ErrorMessage = _reqMsg)]
 
         [ForeignKey("Empleado")]
-        public int EmpleadoId { get; set; }
+        public int EmpleadoId { get; set; } //empleado que registra el episodio
         public Empleado Empleado { get; set; }
 
         public Episodio(string motivo, string descripcion, DateTime fechaYHoraInicio, DateTime fechaYHoraCierre, DateTime fechaYHoraAlta, Empleado empleado) {

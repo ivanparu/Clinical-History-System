@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Historias_C.Models.Diagnostico">
-    <Position X="20.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAgAAQAAIAAAAAABQAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Diagnostico.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Epicrisis" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="Historias_C.Models.Empleado">
-    <Position X="12.75" Y="2.25" Width="1.5" />
+    <Position X="11.25" Y="5.5" Width="1.5" />
+    <AssociationLine Name="Episodios" Type="Historias_C.Models.Episodio" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.406" Y="6.733" />
+        <Point X="12.406" Y="10.625" />
+        <Point X="11.708" Y="10.625" Type="JumpStart" />
+        <Point X="11.542" Y="10.625" Type="JumpEnd" />
+        <Point X="11.25" Y="10.625" />
+        <Point X="11.25" Y="11" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAJAAAAAKAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Empleado.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -22,36 +22,35 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Epicrisis">
-    <Position X="18.5" Y="2.25" Width="1.5" />
+    <Position X="14.25" Y="15.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAQAAAAIAACAAIAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAQAAAAAAIAAAIAAJAACAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Models\Epicrisis.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Episodio" />
       <Property Name="Medico" />
-      <Property Name="Diagnostico" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Historias_C.Models.Episodio">
-    <Position X="14" Y="6.75" Width="1.5" />
+    <Position X="9.75" Y="11" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAQAQACEAAAARQAAAABAAAAAAIAAAACA=</HashCode>
+      <HashCode>BAACAABAAAAAAQAQAGlAAAABQAAAABAAAAAAIACAACA=</HashCode>
       <FileName>Models\Episodio.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Epicrisis" />
-      <Property Name="EmpleadoRegistra" />
       <Property Name="HistoriaClinica" />
+      <Property Name="Empleado" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Evoluciones" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.HistoriaClinica">
-    <Position X="10.75" Y="7" Width="1.5" />
+    <Position X="5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAABAAAAAAAQAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAABAAAAAAAUAAIAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Models\HistoriaClinica.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -62,9 +61,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Medico">
-    <Position X="15.75" Y="2.75" Width="1.5" />
+    <Position X="13" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAEAAAAAEAAAAAAAAAgAAAAAQAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>BAEAAAAAEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Medico.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -73,29 +72,17 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Historias_C.Models.Notas">
-    <Position X="19.75" Y="6.5" Width="1.5" />
+    <Position X="16" Y="11.75" Width="1.5" />
     <AssociationLine Name="Empleado" Type="Historias_C.Models.Empleado" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="21.25" Y="8.415" />
-        <Point X="21.625" Y="8.415" />
-        <Point X="21.625" Y="6.125" />
-        <Point X="19.333" Y="6.125" Type="JumpStart" />
-        <Point X="19.167" Y="6.125" Type="JumpEnd" />
-        <Point X="18.208" Y="6.125" Type="JumpStart" />
-        <Point X="18.042" Y="6.125" Type="JumpEnd" />
-        <Point X="17.208" Y="6.125" Type="JumpStart" />
-        <Point X="17.042" Y="6.125" Type="JumpEnd" />
-        <Point X="16.958" Y="6.125" Type="JumpStart" />
-        <Point X="16.792" Y="6.125" Type="JumpEnd" />
-        <Point X="15.384" Y="6.125" Type="JumpStart" />
-        <Point X="15.218" Y="6.125" Type="JumpEnd" />
-        <Point X="14.572" Y="6.125" />
-        <Point X="14.572" Y="4.016" />
-        <Point X="14.25" Y="4.016" />
+        <Point X="17.5" Y="13.665" />
+        <Point X="17.875" Y="13.665" />
+        <Point X="17.875" Y="6.552" />
+        <Point X="12.75" Y="6.552" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAABAAAAAAAAAAEAAAAAAAAAAAAAAACAEIACBAAA=</HashCode>
+      <HashCode>AAACAABAAAAAAAAAAEBAAAAAAAAAAAAAACAEIACBAAA=</HashCode>
       <FileName>Models\Notas.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -106,25 +93,25 @@
   <Class Name="Historias_C.Models.Paciente">
     <Position X="9" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAA=</HashCode>
       <FileName>Models\Paciente.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="HistoriaClinica" />
       <Property Name="ObraSocial" />
+      <Property Name="HistoriaClinica" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Historias_C.Models.Persona">
-    <Position X="10.5" Y="1" Width="1.5" />
+    <Position X="10.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAACAAAAEEAGAAgAAAAAEAAAACAQAAAgCAAAA=</HashCode>
       <FileName>Models\Persona.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Historias_C.Models.Evolucion">
-    <Position X="16.5" Y="6.75" Width="1.75" />
+    <Position X="13" Y="11" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAACAgAAAQAAAAAQAEEAIAAAAACIABAAAAAAAACAACA=</HashCode>
+      <HashCode>AAACAgAAAQAAAAAQAEEAIAAIAACIABAAAAAAAACAACA=</HashCode>
       <FileName>Models\Evolucion.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -136,7 +123,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Enum Name="Historias_C.Models.ObraSocial" Collapsed="true">
-    <Position X="12.25" Y="5.25" Width="1.5" />
+    <Position X="5.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAIAAAQAABAAAAAAAIAAAAAAAAgAAAAAAgAAAAAA=</HashCode>
       <FileName>Models\ObraSocial.cs</FileName>

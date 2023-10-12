@@ -25,7 +25,7 @@ namespace Historias_C.Models
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.Date)]
         [Display(Name ="Fecha de alta")]
-        public DateTime FechaAlta { get; set; }
+        public DateTime FechaAlta { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(30, MinimumLength = 2, ErrorMessage = _reqRange)]
@@ -46,28 +46,8 @@ namespace Historias_C.Models
 
         //@TO DO: FALTA PONER en REQUIRE cuando se defina Direccon clase aparte.
       
-        public List<Direccion> Direccion { get; set; }
+        public Direccion Direccion { get; set; }
 
-        public Persona(string nombre, string apellido, int dni, int telefono, Direccion direccion, int Id)
-        {
-            this.Id = Id;
-            this.DNI = dni;
-            this.Nombre = nombre;
-            this.Apellido = apellido;
-            this.Telefono = telefono;
-            this.Direccion = new List<Direccion>();
-            this.Password = "Password1!";
-            this.UserName = $"{nombre}{apellido}@ort.edu.ar";
-            this.Email = $"{nombre}{apellido}@ort.edu.ar";
-            this.FechaAlta = DateTime.Now;
-
-        }
-
-        public Persona() {
-            this.Password = "Password1!";
-            this.Direccion = new List<Direccion>();
-
-        }
 
     }
 

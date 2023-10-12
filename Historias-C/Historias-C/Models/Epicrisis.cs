@@ -8,33 +8,27 @@ namespace Historias_C.Models
      
         public int Id { get; set; }
         public Episodio Episodio { get; set; }
-        
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
+
         [ForeignKey("Episodio")]
         public int EpisodioId { get; set; }
         public Medico Medico { get; set; }
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
         public int MedicoId { get; set; }
 
-        public DateTime fechaYHora { get; set; } = DateTime.Now;
-        public Diagnostico Diagnostico { get; set; }
-        public int DiagnosticoId { get; set; }
+        public DateTime FechaYHora { get; set; } = DateTime.Now;
+        
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
+        [StringLength(400, MinimumLength = 10, ErrorMessage = ErrorMessages._reqStrMinMax)]
+        [Display(Name ="Diagnostico")]
+        public string Descripcion { get; set; }
 
 
-
-        public Epicrisis()
-        {
-
-        }
-
-        public Epicrisis(int id, Episodio episodio, Medico medico, DateTime fechaYHora, Diagnostico diagnostico)
-        {
-            this.Id = id;
-            this.Episodio = episodio;
-            this.Medico = medico;
-            this.fechaYHora = fechaYHora;
-            this.Diagnostico = diagnostico;
+        [Required(ErrorMessage = ErrorMessages._reqMsg)]
+        [StringLength(200, MinimumLength = 5, ErrorMessage = ErrorMessages._reqStrMinMax)]
+        public string Recomendacion { get; set; }
 
 
-        }
 
 
     }

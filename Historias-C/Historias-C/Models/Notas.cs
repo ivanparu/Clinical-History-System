@@ -10,13 +10,16 @@ namespace Historias_C.Models
         private const string _reqRange = "El texto debe tener entre {2} y {1} caracteres.";
         public int Id { get; set; }
         public Evolucion Evolucion { get; set; }
-        public int EvolucionId { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
+        public int EvolucionId { get; set; }
+
+        
         public Empleado Empleado { get; set; }
 
+        [Required(ErrorMessage = _reqMsg)]
         [ForeignKey("Empleado")]
-        public int EmpleadoId { get; set; }
+        public int EmpleadoId { get; set; } //el empleado que cargo la nota
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(400, MinimumLength =2, ErrorMessage = _reqRange)]
@@ -24,6 +27,6 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHora { get; set; }
+        public DateTime FechaYHora { get; set; } = DateTime.Now;
     }
 }
