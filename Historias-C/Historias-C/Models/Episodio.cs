@@ -45,24 +45,9 @@ namespace Historias_C.Models
         public int EmpleadoId { get; set; } //empleado que registra el episodio
         public Empleado Empleado { get; set; }
 
-        public Episodio(string motivo, string descripcion, DateTime fechaYHoraInicio, DateTime fechaYHoraCierre, DateTime fechaYHoraAlta, Empleado empleado) {
-            this.Motivo = motivo;
-            this.Descripcion = descripcion;
-            this.FechaYHoraInicio = fechaYHoraInicio;
-            this.FechaYHoraCierre = fechaYHoraCierre;
-            this.FechaYHoraAlta = fechaYHoraAlta;
-            this.EstadoAbierto = true;
-            Evoluciones = new List<Evolucion>();
-            this.Empleado = empleado;
+       
 
-        }
-
-        public Episodio() {
-            Evoluciones = new List<Evolucion>();
-
-        }
-
-        [Required(ErrorMessage = _reqMsg)]
+        
         public HistoriaClinica HistoriaClinica { get; set; }
 
         [ForeignKey("HistoriaClinica")]
