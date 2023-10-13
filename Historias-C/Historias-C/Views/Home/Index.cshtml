@@ -2,6 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (ViewBag.Mensaje != null)
+{
+    <h2 class="text-secondary">@ViewBag.Mensaje</h2>
+}
+
 <div class="text-center">
     <h1 class="display-5" style="color: dimgrey;">Bienvenido!</h1>
     <p style="color: dimgrey">Pagina en proceso</p>

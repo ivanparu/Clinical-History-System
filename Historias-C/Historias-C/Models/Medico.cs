@@ -10,7 +10,7 @@ namespace Historias_C.Models
         public string Matricula { get; set; }
 
         [Required(ErrorMessage = ErrorMessages._reqMsg)]
-        public string Especialidad { get; set; } //Enum??
+        public Especialidad Especialidad { get; set; } 
 
         
 
