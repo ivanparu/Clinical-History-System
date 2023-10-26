@@ -10,7 +10,7 @@ namespace Historias_C
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<HistoriasClinicasCContext>(options => options.UseInMemoryDatabase("MiDb-C"));
+            builder.Services.AddDbContext<HistoriasClinicasCContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HistoriasDBCS")));
 
             builder.Services.AddControllersWithViews();
 
