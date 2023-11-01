@@ -10,6 +10,16 @@ namespace Historias_C.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Episodio>()
+                .HasOne(e => e.HistoriaClinica)
+                .WithMany(h => h.Episodios)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Empleado> Empleados { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Historias_C.Migrations
 {
     [DbContext(typeof(HistoriasClinicasCContext))]
-    [Migration("20231026015224_Inicial")]
-    partial class Inicial
+    [Migration("20231101222557_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -370,7 +370,7 @@ namespace Historias_C.Migrations
                     b.HasOne("Historias_C.Models.HistoriaClinica", "HistoriaClinica")
                         .WithMany("Episodios")
                         .HasForeignKey("HistoriaClinicaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Empleado");

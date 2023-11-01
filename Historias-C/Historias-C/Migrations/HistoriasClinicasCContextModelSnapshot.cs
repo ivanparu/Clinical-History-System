@@ -367,7 +367,7 @@ namespace Historias_C.Migrations
                     b.HasOne("Historias_C.Models.HistoriaClinica", "HistoriaClinica")
                         .WithMany("Episodios")
                         .HasForeignKey("HistoriaClinicaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Empleado");
