@@ -32,7 +32,7 @@ namespace Historias_C.Controllers
 
                 if (resultado.Succeeded)
                 {
-                    return RedirectToAction("Edit", "Clientes", new {id = paciente.Id});
+                    return RedirectToAction("Edit", "Pacientes", new {id = paciente.Id});
                 }
 
                 foreach(var error in resultado.Errors)
