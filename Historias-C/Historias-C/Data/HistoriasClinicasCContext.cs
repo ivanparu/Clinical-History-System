@@ -1,9 +1,11 @@
 ﻿using Historias_C.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Historias_C.Data
 {
-    public class HistoriasClinicasCContext : DbContext
+    public class HistoriasClinicasCContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>,int>
     {
         public HistoriasClinicasCContext(DbContextOptions options) : base(options)
         {
@@ -18,6 +20,11 @@ namespace Historias_C.Data
                 .HasOne(e => e.HistoriaClinica)
                 .WithMany(h => h.Episodios)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity < IdentityUser<int>>().ToTable("Personas");
+            modelBuilder.Entity<IdentityRole<int>>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("PersonasRoles");
+
         }
 
         public DbSet<Persona> Personas { get; set; }
@@ -30,7 +37,7 @@ namespace Historias_C.Data
         public DbSet<Evolucion> Evoluciones { get; set; }
         public DbSet<Episodio> Episodios { get; set; }
         public DbSet<Epicrisis> Epicrisis { get; set; }
-        
 
+        public DbSet<Rol> Roles { get; set; }
     }
 }

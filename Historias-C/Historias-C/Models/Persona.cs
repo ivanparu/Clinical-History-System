@@ -1,17 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Historias_C.Models
 {
-    public class Persona
+    public class Persona : IdentityUser<int>
     {
         private const string _reqMsg = "El campo {0} es requerido.";
 
         private const string _reqRange = "El texto debe tener entre {2} y {1} caracteres.";
-        public int Id { get; set; }
+       // public int Id { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(30, MinimumLength = 8, ErrorMessage = _reqRange)]
-        public string UserName { get; set; }
+        public override string UserName
+        {
+            get { return base.UserName; }
+            set { base.UserName = value; }
+        }
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(25, MinimumLength = 8, ErrorMessage = _reqRange)]
@@ -20,7 +25,11 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [EmailAddress]
-        public string Email { get; set; }
+        public override string Email { 
+            get { return base.Email; }
+            set { base.Email = value; } 
+        }
+
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.Date)]
