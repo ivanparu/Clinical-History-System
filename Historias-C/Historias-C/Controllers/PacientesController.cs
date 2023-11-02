@@ -22,7 +22,7 @@ namespace Historias_C.Controllers
         // GET: Pacientes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Pacientes.ToListAsync());
+            return View(await _context.Pacientes.ToListAsync());
         }
 
         // GET: Pacientes/Details/5
@@ -97,7 +97,33 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(paciente);
+
+                    var pacienteEnDb = _context.Pacientes.Find(paciente.Id);
+
+                    if (pacienteEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+
+                    pacienteEnDb.ObraSocial = paciente.ObraSocial;
+                    pacienteEnDb.UserName = paciente.UserName;
+                    pacienteEnDb.Nombre = paciente.Nombre;
+                    pacienteEnDb.Apellido = paciente.Apellido;
+                    pacienteEnDb.DNI = paciente.DNI;
+                    pacienteEnDb.Telefono = paciente.Telefono;
+
+                    if (!ActualizarEmail(paciente, pacienteEnDb))
+                    {
+                        ModelState.AddModelError("Email", "El email ya está en uso");
+                        return View(paciente);
+
+
+                    }
+
+
+
+                    _context.Update(pacienteEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -115,6 +141,52 @@ namespace Historias_C.Controllers
             }
             return View(paciente);
         }
+
+
+        private bool ActualizarEmail(Paciente paciente, Paciente pacienteendb)
+        {
+            bool resultado = true;
+
+            try
+            {
+                if (!pacienteendb.NormalizedEmail.Equals(paciente.Email.ToUpper()))
+                {
+                    if (EmailExist(paciente.Email))
+                    {
+                        resultado = false;
+                    }
+                    else
+                    {
+                        pacienteendb.Email = paciente.Email;
+                        pacienteendb.NormalizedEmail = paciente.Email.ToUpper();
+                        pacienteendb.UserName = paciente.Email;
+                        pacienteendb.NormalizedUserName = paciente.NormalizedEmail;
+
+                    }
+
+                }
+                else
+                {
+                    //no se actualiza ya que son iguales.
+                }
+
+
+
+
+            }
+            catch
+            {
+
+                resultado = false;
+
+
+            }
+
+            return resultado;
+
+        }
+
+
 
         // GET: Pacientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -148,14 +220,19 @@ namespace Historias_C.Controllers
             {
                 _context.Pacientes.Remove(paciente);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PacienteExists(int id)
         {
-          return _context.Pacientes.Any(e => e.Id == id);
+            return _context.Pacientes.Any(e => e.Id == id);
+        }
+
+        private bool EmailExist(String email)
+        {
+            return _context.Pacientes.Any(e => e.Email == email);
         }
     }
 }
