@@ -46,5 +46,42 @@ namespace Historias_C.Controllers
             }
             return View(model);
         }
+
+
+        public IActionResult IniciarSesion()
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> IniciarSesion(Login model)
+        {
+            if (ModelState.IsValid)
+            {
+               var resultado =  await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.Recordarme, false);
+
+                if (resultado.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError(String.Empty, "Inicio de sesion invalido");
+            
+            }
+
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> CerrarSesion()
+        {
+
+           await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+
+        }
+
     }
+
+
+
 }
