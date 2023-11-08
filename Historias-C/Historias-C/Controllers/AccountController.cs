@@ -8,8 +8,11 @@ namespace Historias_C.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<Persona>  _userManager;
-        public AccountController(UserManager<Persona> userManager) {
+        private readonly SignInManager<Persona> _signInManager;
+
+        public AccountController(UserManager<Persona> userManager, SignInManager<Persona> signInManager) {
             this._userManager = userManager;
+            this._signInManager = signInManager;
         }
         public IActionResult Registrar()
         {
@@ -32,6 +35,7 @@ namespace Historias_C.Controllers
 
                 if (resultado.Succeeded)
                 {
+                    await _signInManager.SignInAsync(paciente, isPersistent: false);
                     return RedirectToAction("Edit", "Pacientes", new {id = paciente.Id});
                 }
 

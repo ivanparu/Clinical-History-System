@@ -86,9 +86,9 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Paciente pacienteDelFormulario)
         {
-            if (id != paciente.Id)
+            if (id != pacienteDelFormulario.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,30 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(paciente);
+                    var pacienteEnDb = _context.Pacientes.Find(pacienteDelFormulario.Id);
+                    if(pacienteEnDb == null)
+                    {
+                        return NotFound();
+                    }
+                    pacienteEnDb.ObraSocial = pacienteDelFormulario.ObraSocial;
+                    pacienteEnDb.FechaAlta = pacienteDelFormulario.FechaAlta;
+                    pacienteEnDb.Nombre = pacienteDelFormulario.Nombre;
+                    pacienteEnDb.Apellido = pacienteDelFormulario.Apellido;
+                    pacienteEnDb.Telefono = pacienteDelFormulario.Telefono;
+                    pacienteEnDb.DNI = pacienteDelFormulario.DNI;
+
+                    if(!ActualizarEmail(pacienteDelFormulario, pacienteEnDb))
+                    {
+                        ModelState.AddModelError("Email", "El email ya está en uso");
+                        return View(pacienteDelFormulario);
+                    }
+
+                    _context.Update(pacienteDelFormulario);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PacienteExists(paciente.Id))
+                    if (!PacienteExists(pacienteDelFormulario.Id))
                     {
                         return NotFound();
                     }
@@ -113,8 +131,44 @@ namespace Historias_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paciente);
+            return View(pacienteDelFormulario);
         }
+
+        private bool ActualizarEmail(Paciente pacienteDelFormulario, Paciente pacienteEnDb)
+        {
+            bool resultado = true;
+            try
+            {
+                if (pacienteEnDb.NormalizedEmail.Equals(pacienteDelFormulario.Email.ToUpper()))
+                {
+                    if (ExistEmail(pacienteDelFormulario.Email))
+                    {
+                        resultado = false;
+                    }
+                    else
+                    {
+                        pacienteEnDb.Email = pacienteDelFormulario.Email;
+                        pacienteEnDb.NormalizedEmail = pacienteDelFormulario.Email.ToUpper();
+                        pacienteEnDb.UserName = pacienteDelFormulario.Email;
+                        pacienteEnDb.NormalizedUserName = pacienteDelFormulario.NormalizedEmail;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+                resultado &= false;
+            }
+            return resultado;
+        }
+
+        private bool ExistEmail(string email)
+        {
+            return _context.Pacientes.Any(p=>p.NormalizedEmail == email.ToUpper());
+                }
 
         // GET: Pacientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
