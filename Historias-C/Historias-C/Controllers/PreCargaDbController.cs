@@ -1,6 +1,7 @@
 ﻿using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Historias_C.Controllers
 {
@@ -95,7 +96,7 @@ namespace Historias_C.Controllers
         public IActionResult Recreate() {
             
             _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();  
+            _context.Database.Migrate();  
 
             return RedirectToAction("Index", "Home", new { mensaje = "se regeneró la base de datos" });
         }

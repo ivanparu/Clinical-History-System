@@ -6,7 +6,7 @@ namespace Historias_C.Models
     {
 
         [Required(ErrorMessage = ErrorMessages._reqMsg)]
-        [StringLength(30, MinimumLength = 2, ErrorMessage = ErrorMessages._reqStrMinMax)]
+        [StringLength(40, MinimumLength = 2, ErrorMessage = ErrorMessages._reqStrMinMax)]
         public string Legajo { get; set; } = Guid.NewGuid().ToString();
        
 
