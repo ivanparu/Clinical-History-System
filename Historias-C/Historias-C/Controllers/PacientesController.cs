@@ -109,13 +109,13 @@ namespace Historias_C.Controllers
                     pacienteEnDb.Telefono = pacienteDelFormulario.Telefono;
                     pacienteEnDb.DNI = pacienteDelFormulario.DNI;
 
-                    if(!ActualizarEmail(pacienteDelFormulario, pacienteEnDb))
+                    if(ActualizarEmail(pacienteDelFormulario, pacienteEnDb))
                     {
                         ModelState.AddModelError("Email", "El email ya está en uso");
                         return View(pacienteDelFormulario);
                     }
 
-                    _context.Update(pacienteDelFormulario);
+                    _context.Update(pacienteEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
