@@ -1,6 +1,7 @@
 ﻿using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,7 +56,14 @@ namespace Historias_C
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var contexto = serviceScope.ServiceProvider.GetRequiredService<HistoriasClinicasCContext>();
+
+                contexto.Database.Migrate(); 
+            }
+
+                app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
