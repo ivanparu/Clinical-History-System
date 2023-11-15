@@ -37,7 +37,6 @@ namespace Historias_C.Data
         public DbSet<Evolucion> Evoluciones { get; set; }
         public DbSet<Episodio> Episodios { get; set; }
         public DbSet<Epicrisis> Epicrisis { get; set; }
-
         public DbSet<Rol> Roles { get; set; }
     }
 }
