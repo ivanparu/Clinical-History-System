@@ -4,52 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Historias_C
-{
+{ using Historias_C;
     public class Program
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddDbContext<HistoriasClinicasCContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HistoriasDBCS")));
-
-            builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<HistoriasClinicasCContext>();
-
-            builder.Services.Configure<IdentityOptions>(opciones =>
-             {
-                opciones.Password.RequireNonAlphanumeric = false;
-                opciones.Password.RequireLowercase = false;
-                opciones.Password.RequireUppercase = false;
-                opciones.Password.RequireDigit = false;
-                opciones.Password.RequiredLength = 5;
-             }
-            ); 
+            var app = Startup.InicializarApp(args);
+      
             
-            builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+          
 
             app.Run();
         }

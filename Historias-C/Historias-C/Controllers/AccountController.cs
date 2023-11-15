@@ -2,6 +2,7 @@
 using Historias_C.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_C.Controllers
 {
@@ -14,11 +15,14 @@ namespace Historias_C.Controllers
             this._userManager = userManager;
             this._signInManager = signInManager;
         }
+
+        [AllowAnonymous]
         public IActionResult Registrar()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Registrar(RegistrarVM model)
         {
@@ -47,21 +51,30 @@ namespace Historias_C.Controllers
             return View(model);
         }
 
-
-        public IActionResult IniciarSesion()
+        [AllowAnonymous]
+        public IActionResult IniciarSesion(string returnUrl)
         {
+            TempData["ReturnUrl"] = returnUrl;
             return View();
 
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> IniciarSesion(Login model)
         {
+
+            string returnUrl = TempData["ReturnUrl"] as string;
+
             if (ModelState.IsValid)
             {
                var resultado =  await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.Recordarme, false);
 
                 if (resultado.Succeeded)
                 {
+                    if (!string.IsNullOrEmpty(returnUrl)) 
+                    {
+                        return Redirect(returnUrl); 
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(String.Empty, "Inicio de sesion invalido");

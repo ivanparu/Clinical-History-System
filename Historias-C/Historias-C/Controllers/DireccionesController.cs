@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_C.Controllers
 {
+    [Authorize]
     public class DireccionesController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
