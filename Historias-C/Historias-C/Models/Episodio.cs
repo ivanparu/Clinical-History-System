@@ -21,11 +21,11 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraInicio { get; set; }
+        public DateTime FechaYHoraInicio { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraCierre { get; set; }
+        public DateTime FechaYHoraCierre { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
