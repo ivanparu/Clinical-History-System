@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
+using System.Reflection.Metadata;
 
 namespace Historias_C.Controllers
 {
@@ -19,6 +21,11 @@ namespace Historias_C.Controllers
         public DireccionesController(HistoriasClinicasCContext context)
         {
             _context = context;
+        }
+
+        private IEnumerable<Persona> GetPersonasSinDireccion()
+        {
+            return _context.Personas.Include(p => p.Direccion).Where(p => p.Direccion == null);
         }
 
         // GET: Direcciones
@@ -50,7 +57,7 @@ namespace Historias_C.Controllers
         // GET: Direcciones/Create
         public IActionResult Create()
         {
-            ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "Apellido");
+            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido");
             return View();
         }
 
@@ -61,13 +68,46 @@ namespace Historias_C.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Calle,Altura,Barrio,Ciudad,PersonaId")] Direccion direccion)
         {
-            if (ModelState.IsValid)
+            string errorNoEsperado = string.Empty;
+
+            if (DireccionExists(direccion.Id))
             {
-                _context.Add(direccion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("Id", "Esta persona ya tiene una direccion asociada");
             }
-            ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "Apellido", direccion.PersonaId);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(direccion);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            } catch(DbUpdateException e)
+            {
+                SqlException ie = e.InnerException as SqlException;
+
+                if(ie != null && (ie.Number == 2627 || ie.Number == 2601))
+                {
+                    ModelState.AddModelError("Id", "Esta persona ya tiene una direccion asociada");
+                }
+                else
+                {
+                    errorNoEsperado = $"Error no esperado al actualizar la DB: {ie.Message}";
+                }
+            }
+            catch(Exception e)
+            {
+                errorNoEsperado = $"Error no esperado: {e.InnerException.Message}";
+            }
+
+            if (!string.IsNullOrEmpty(errorNoEsperado))
+            {
+                ModelState.AddModelError(string.Empty, errorNoEsperado);
+            }
+
+            
+            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
             return View(direccion);
         }
 
@@ -84,7 +124,7 @@ namespace Historias_C.Controllers
             {
                 return NotFound();
             }
-            ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "Apellido", direccion.PersonaId);
+            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
             return View(direccion);
         }
 
@@ -120,7 +160,7 @@ namespace Historias_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "Apellido", direccion.PersonaId);
+            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
             return View(direccion);
         }
 

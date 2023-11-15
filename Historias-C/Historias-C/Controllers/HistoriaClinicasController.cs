@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
 
 namespace Historias_C.Controllers
 {
@@ -20,6 +21,10 @@ namespace Historias_C.Controllers
         public HistoriaClinicasController(HistoriasClinicasCContext context)
         {
             _context = context;
+        }
+        private IEnumerable<Paciente> GetPersonasSinHistoria()
+        {
+            return _context.Pacientes.Include(p => p.HistoriaClinica).Where(p => p.HistoriaClinica == null);
         }
 
         // GET: HistoriaClinicas
@@ -51,7 +56,7 @@ namespace Historias_C.Controllers
         // GET: HistoriaClinicas/Create
         public IActionResult Create()
         {
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Apellido");
+            ViewData["PacienteId"] = new SelectList(GetPersonasSinHistoria(), "Id", "Apellido");
             return View();
         }
 
@@ -62,13 +67,47 @@ namespace Historias_C.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PacienteId")] HistoriaClinica historiaClinica)
         {
-            if (ModelState.IsValid)
+
+            string errorNoEsperado = string.Empty;
+
+            if (HistoriaClinicaExists(historiaClinica.Id))
             {
-                _context.Add(historiaClinica);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("Id", "Esta persona ya tiene una historia clinica asociada");
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Apellido", historiaClinica.PacienteId);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(historiaClinica);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                SqlException ie = e.InnerException as SqlException;
+
+                if (ie != null && (ie.Number == 2627 || ie.Number == 2601))
+                {
+                    ModelState.AddModelError("Id", "Esta persona ya tiene una historia clinica asociada");
+                }
+                else
+                {
+                    errorNoEsperado = $"Error no esperado al actualizar la DB: {ie.Message}";
+                }
+            }
+            catch (Exception e)
+            {
+                errorNoEsperado = $"Error no esperado: {e.InnerException.Message}";
+            }
+
+            if (!string.IsNullOrEmpty(errorNoEsperado))
+            {
+                ModelState.AddModelError(string.Empty, errorNoEsperado);
+            }
+           
+            ViewData["PacienteId"] = new SelectList(GetPersonasSinHistoria(), "Id", "Apellido", historiaClinica.PacienteId);
             return View(historiaClinica);
         }
 
@@ -85,7 +124,7 @@ namespace Historias_C.Controllers
             {
                 return NotFound();
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Apellido", historiaClinica.PacienteId);
+            ViewData["PacienteId"] = new SelectList(GetPersonasSinHistoria(), "Id", "Apellido", historiaClinica.PacienteId);
             return View(historiaClinica);
         }
 
@@ -121,7 +160,7 @@ namespace Historias_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Apellido", historiaClinica.PacienteId);
+            ViewData["PacienteId"] = new SelectList(GetPersonasSinHistoria(), "Id", "Apellido", historiaClinica.PacienteId);
             return View(historiaClinica);
         }
 
