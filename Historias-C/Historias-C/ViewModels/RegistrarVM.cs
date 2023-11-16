@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Historias_C.ViewModels
 {
@@ -7,6 +8,7 @@ namespace Historias_C.ViewModels
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electronico")]
+        [Remote(action:"EmailDisponible", controller:"Account")]
         public string Email { get; set; }
         
         [Required]
@@ -16,8 +18,8 @@ namespace Historias_C.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage ="La {0} no es igual")]
-        [Display(Name ="Confirmacion")]
+        [Compare("Password", ErrorMessage ="La contraseña no es igual")]
+        [Display(Name ="Confirmar contraseña")]
         public string ConfirmPassword { get; set; }
     }
 }

@@ -125,6 +125,21 @@ namespace Historias_C.Controllers
             return null;
         }
 
+        [HttpGet]
+
+        public async Task<IActionResult> EmailDisponible(string email)
+        {
+            var PersonaExistente = await _userManager.FindByEmailAsync(email);
+
+            if(PersonaExistente == null)
+            {
+                return Json(true);// no hay persona con ese email
+            }
+            else
+            {
+                return Json($"El correo {email} ya está en uso"); //el email ya esta en uso
+            }
+        }
 
     }
 
