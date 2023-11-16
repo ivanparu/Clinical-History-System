@@ -47,6 +47,8 @@ namespace Historias_C.Controllers
 
                 if (resultado.Succeeded)
                 {
+                    //le agrego el rol
+                    //creamos la HistoriaClinica y la asocio al paciente creado
                     await _signInManager.SignInAsync(paciente, isPersistent: false);
                     return RedirectToAction("Edit", "Pacientes", new {id = paciente.Id});
                 }

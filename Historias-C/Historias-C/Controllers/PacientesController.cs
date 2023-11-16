@@ -61,8 +61,16 @@ namespace Historias_C.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paciente);
-                await _context.SaveChangesAsync();
+                //_context.Add(paciente);
+
+                //creo con usermanager
+                //si está ok
+                //le agrego el rol
+
+
+
+                //creamos la HistoriaClinica y la asocio al paciente creado
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(paciente);

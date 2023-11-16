@@ -21,23 +21,23 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraInicio { get; set; }
+        public DateTime FechaYHoraInicio { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraCierre { get; set; }
+        public DateTime? FechaYHoraCierre { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraAlta { get; set; }
+        public DateTime? FechaYHoraAlta { get; set; }
 
-        public bool EstadoAbierto { get; set; }
+        public bool EstadoAbierto { get; set; } = true;
 
         public List<Evolucion> Evoluciones { get; set;}
         public Epicrisis Epicrisis { get; set; }
 
         [ForeignKey("Epicrisis")]
-        public int EpicrisisId { get; set; }
+        public int? EpicrisisId { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
 

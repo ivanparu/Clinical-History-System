@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
@@ -16,10 +17,12 @@ namespace Historias_C.Controllers
     public class EpisodiosController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public EpisodiosController(HistoriasClinicasCContext context)
+        public EpisodiosController(HistoriasClinicasCContext context,UserManager<Persona> userManager)
         {
             _context = context;
+            this._userManager = userManager;
         }
 
         // GET: Episodios
@@ -51,12 +54,42 @@ namespace Historias_C.Controllers
         }
 
         // GET: Episodios/Create
-        public IActionResult Create()
+        public IActionResult Create(int? pacienteId)
         {
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
-            ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion");
-            ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id");
-            return View();
+            //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
+            //ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion");
+            //ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id");
+            if(pacienteId == null)
+            {
+                //afuera
+                return Content("definir que hacemos");
+            }
+
+           
+
+            int? hcId = GetHC(pacienteId.Value);
+
+            if(hcId == null)
+            {
+                //no puedo avanzar
+            }
+
+            Episodio episodio = new Episodio();
+            episodio.HistoriaClinicaId = hcId.Value;
+
+
+            return View(episodio);
+        }
+
+        private int? GetHC(int id)
+        {
+            int? hc =null;
+            var paciente = _context.Pacientes.Include(p=> p.HistoriaClinica).FirstOrDefault(p=>p.Id == id);
+            if(paciente != null)
+            {
+                hc = paciente.HistoriaClinica.Id;
+            }
+            return hc.Value;
         }
 
         // POST: Episodios/Create
@@ -64,10 +97,14 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EstadoAbierto,EpicrisisId,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
+        public async Task<IActionResult> Create([Bind("Id,Motivo,Descripcion,FechaYHoraInicio,EstadoAbierto,HistoriaClinicaId")] Episodio episodio)
         {
             if (ModelState.IsValid)
             {
+                //Identificamos al empleado que esta ejecutando la aplicación y se lo asigno a episodio.empleadoid
+                var empleadoId = Int32.Parse(_userManager.GetUserId(User));
+                episodio.EmpleadoId = empleadoId;
+
                 _context.Add(episodio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
