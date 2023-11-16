@@ -9,6 +9,7 @@ namespace Historias_C.Models
         //MSG: Diagnostico
         public const string _reqMsg = "Campo requerido, porfavor ingrese datos.";
         public const string _reqRange = "Debe tener entre {1} y {2} caracteres.";
+        public const string MatriculaExistente = "Matricula existente"; 
 
 
     }

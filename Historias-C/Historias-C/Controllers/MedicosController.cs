@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
 
 namespace Historias_C.Controllers
 {
@@ -20,6 +21,19 @@ namespace Historias_C.Controllers
         public MedicosController(HistoriasClinicasCContext context)
         {
             _context = context;
+        }
+
+        private void ProcesoDuplicado(DbUpdateException dbex)
+        {
+            SqlException innerException = dbex.InnerException as SqlException;
+            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
+            {
+                ModelState.AddModelError("Matricula", ErrorMessages.MatriculaExistente);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, dbex.Message);
+            }
         }
 
         // GET: Medicos
@@ -62,8 +76,16 @@ namespace Historias_C.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(medico);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch(DbUpdateException dbex)
+                {
+                    ProcesoDuplicado(dbex);
+                }
+                
             }
             return View(medico);
         }
@@ -113,6 +135,10 @@ namespace Historias_C.Controllers
                     {
                         throw;
                     }
+                }
+                catch(DbUpdateException dbex)
+                {
+                    ProcesoDuplicado(dbex);
                 }
                 return RedirectToAction(nameof(Index));
             }

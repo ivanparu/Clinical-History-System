@@ -25,6 +25,11 @@ namespace Historias_C.Data
             modelBuilder.Entity<IdentityRole<int>>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserRole<int>>().ToTable("PersonasRoles");
 
+
+            #region
+            modelBuilder.Entity<Medico>().HasIndex(m => m.Matricula).IsUnique();
+            #endregion
+
         }
 
         public DbSet<Persona> Personas { get; set; }
