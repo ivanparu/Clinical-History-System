@@ -23,19 +23,6 @@ namespace Historias_C.Controllers
             _context = context;
         }
 
-        private void ProcesoDuplicado(DbUpdateException dbex)
-        {
-            SqlException innerException = dbex.InnerException as SqlException;
-            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
-            {
-                ModelState.AddModelError("Matricula", ErrorMessages.MatriculaExistente);
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, dbex.Message);
-            }
-        }
-
         // GET: Medicos
         public async Task<IActionResult> Index()
         {
@@ -73,6 +60,8 @@ namespace Historias_C.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Matricula,Especialidad,Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
         {
+            VerificarMatricula(medico);
+
             if (ModelState.IsValid)
             {
                 _context.Add(medico);
@@ -90,6 +79,46 @@ namespace Historias_C.Controllers
             return View(medico);
         }
 
+        private void VerificarMatricula(Medico medico)
+        {
+            if (MatriculaExist(medico))
+            {
+                ModelState.AddModelError("Matricula", "La matricula ya existe, verificada en BE");
+            }
+        }
+
+        private bool MatriculaExist(Medico medico)
+        {
+            bool resultado = false;
+            if (!string.IsNullOrEmpty(medico.Matricula))
+            {
+                if (medico.Id != null && medico.Id != 0) { 
+                    //Es una modificación, me interesa que по exista solo si no es del registro que soy.
+                    resultado = _context.Medicos.Any(m => m.Matricula == medico.Matricula && m.Id != medico.Id);
+                }
+                else
+                {
+                    //Es una creación, solo me interesa que no exista la patente
+                    resultado = _context.Medicos.Any(m => m.Matricula == medico.Matricula);
+                }
+            }
+            return resultado;
+        }
+
+        private void ProcesoDuplicado(DbUpdateException dbex)
+        {
+            SqlException innerException = dbex.InnerException as SqlException;
+            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
+            {
+                ModelState.AddModelError("Matricula", ErrorMessages.MatriculaExistente);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, dbex.Message);
+            }
+        }
+        
+        
         // GET: Medicos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -117,6 +146,8 @@ namespace Historias_C.Controllers
             {
                 return NotFound();
             }
+
+            VerificarMatricula(medico);
 
             if (ModelState.IsValid)
             {
