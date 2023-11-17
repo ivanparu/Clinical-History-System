@@ -111,12 +111,10 @@ namespace Historias_C.Migrations
                     b.Property<bool>("EstadoAbierto")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("FechaYHoraAlta")
-                        .IsRequired()
+                    b.Property<DateTime>("FechaYHoraAlta")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaYHoraCierre")
-                        .IsRequired()
+                    b.Property<DateTime>("FechaYHoraCierre")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaYHoraInicio")
