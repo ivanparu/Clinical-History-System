@@ -116,7 +116,7 @@ namespace Historias_C.Controllers
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
             ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);
             ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
-            return View(episodio);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Episodios/Edit/5
