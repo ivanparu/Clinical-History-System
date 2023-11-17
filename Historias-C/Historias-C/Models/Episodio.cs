@@ -21,16 +21,20 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
+        [Display(Name = "Fecha de inicio")]
         public DateTime FechaYHoraInicio { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
+        [Display(Name = "Fecha de cierre")]
         public DateTime? FechaYHoraCierre { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
+        [Display(Name = "Fecha de alta")]
         public DateTime? FechaYHoraAlta { get; set; }
 
+        [Display(Name = "Estado")]
         public bool EstadoAbierto { get; set; } = true;
 
         public List<Evolucion> Evoluciones { get; set;}
@@ -45,12 +49,13 @@ namespace Historias_C.Models
         public int EmpleadoId { get; set; } //empleado que registra el episodio
         public Empleado Empleado { get; set; }
 
-       
 
-        
+
+        [Display(Name = "Historia Clinica")]
         public HistoriaClinica HistoriaClinica { get; set; }
 
         [ForeignKey("HistoriaClinica")]
+        
         public int HistoriaClinicaId { get; set; }
     }
 

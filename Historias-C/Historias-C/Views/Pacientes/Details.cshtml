@@ -23,12 +23,6 @@
             @Html.DisplayFor(model => model.UserName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class = "col-sm-10">
@@ -66,6 +60,50 @@
         </dd>
     </dl>
 </div>
+@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null)
+{
+    <h4>Episodios</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Motivo</th>
+                <th>Descripción</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Cierre</th>
+                <th>Fecha de Alta</th>
+                <th>Estado</th>
+                <th>Epicrisis</th>
+                <th>Empleado</th>
+                <th>Historia Clinica</th>
+        </thead>
+        <tbody>
+            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+            {
+                <tr>
+                    <td>@episodio.Motivo</td>
+                    <td>@episodio.Descripcion</td>
+                    <td>@episodio.FechaYHoraInicio</td>
+                    <td>@episodio.FechaYHoraCierre</td>
+                    <td>@episodio.FechaYHoraAlta</td>
+                    <td>@episodio.EstadoAbierto</td>
+                    <td>@episodio.Epicrisis</td>
+                    <td>@episodio.Empleado</td>
+                    <td>@episodio.HistoriaClinica</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@episodio.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@episodio.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@episodio.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay Epidosodios disponibles</p>
+}
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
