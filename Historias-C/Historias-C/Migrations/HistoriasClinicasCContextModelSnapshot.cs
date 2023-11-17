@@ -114,10 +114,10 @@ namespace Historias_C.Migrations
                     b.Property<DateTime>("FechaYHoraAlta")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaYHoraCierre")
+                    b.Property<DateTime?>("FechaYHoraCierre")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaYHoraInicio")
+                    b.Property<DateTime?>("FechaYHoraInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("HistoriaClinicaId")
