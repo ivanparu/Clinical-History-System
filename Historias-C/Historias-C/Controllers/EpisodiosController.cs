@@ -9,6 +9,7 @@ using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Historias_C.Controllers
 {
@@ -72,6 +73,7 @@ namespace Historias_C.Controllers
             if(hcId == null)
             {
                 //no puedo avanzar
+                return Content("el paciente no tiene historia clinica");
             }
 
             Episodio episodio = new Episodio();
@@ -85,11 +87,11 @@ namespace Historias_C.Controllers
         {
             int? hc =null;
             var paciente = _context.Pacientes.Include(p=> p.HistoriaClinica).FirstOrDefault(p=>p.Id == id);
-            if(paciente != null)
+            if(paciente != null && paciente.HistoriaClinica != null)
             {
                 hc = paciente.HistoriaClinica.Id;
             }
-            return hc.Value;
+            return hc;
         }
 
         // POST: Episodios/Create
