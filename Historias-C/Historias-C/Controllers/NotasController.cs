@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
@@ -16,9 +17,11 @@ namespace Historias_C.Controllers
     public class NotasController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public NotasController(HistoriasClinicasCContext context)
+        public NotasController(HistoriasClinicasCContext context, UserManager<Persona> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -50,10 +53,20 @@ namespace Historias_C.Controllers
         }
 
         // GET: Notas/Create
-        public IActionResult Create()
+        public IActionResult Create(int? evolucionId)
         {
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
+            //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
+            //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
+            if (evolucionId == null)
+            {
+                //afuera
+                return Content("definir que hacemos");
+            }
+            else
+            {
+                Notas notas = new Notas();
+                notas.EvolucionId = (int)evolucionId;
+            }
             return View();
         }
 
@@ -66,6 +79,9 @@ namespace Historias_C.Controllers
         {
             if (ModelState.IsValid)
             {
+                var empleadoId = Int32.Parse(_userManager.GetUserId(User));
+                notas.EmpleadoId = empleadoId;
+                    
                 _context.Add(notas);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

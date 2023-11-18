@@ -111,12 +111,12 @@ namespace Historias_C.Controllers
 
                 _context.Add(episodio);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Pacientes");
             }
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
             ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);
             ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Pacientes");
         }
 
         // GET: Episodios/Edit/5

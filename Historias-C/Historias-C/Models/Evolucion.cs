@@ -31,6 +31,7 @@ namespace Historias_C.Models
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(1000, MinimumLength = 50, ErrorMessage = _reqRange)]
+        [Display(Name = "Descripcion")]
         public string DescripcionAtencion { get; set; }
 
         [Display(Name = "Estado")]

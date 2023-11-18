@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
@@ -16,10 +17,12 @@ namespace Historias_C.Controllers
     public class EpicrisisController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public EpicrisisController(HistoriasClinicasCContext context)
+        public EpicrisisController(HistoriasClinicasCContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager; 
         }
 
         // GET: Epicrisis
@@ -50,10 +53,20 @@ namespace Historias_C.Controllers
         }
 
         // GET: Epicrisis/Create
-        public IActionResult Create()
+        public IActionResult Create(int? episodioId)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
+            //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            if (episodioId == null)
+            {
+                //afuera
+                return Content("definir que hacemos");
+            }
+            else
+            {
+                Epicrisis epicrisis = new Epicrisis();
+                epicrisis.EpisodioId = (int)episodioId;
+            }
             return View();
         }
 
@@ -66,6 +79,9 @@ namespace Historias_C.Controllers
         {
             if (ModelState.IsValid)
             {
+                var medicoId = Int32.Parse(_userManager.GetUserId(User));
+                epicrisis.MedicoId = medicoId;
+
                 _context.Add(epicrisis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

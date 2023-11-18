@@ -1,4 +1,5 @@
-﻿@model Historias_C.Models.Paciente
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal;
+@model Historias_C.Models.Paciente
 
 @{
     ViewData["Title"] = "Details";
@@ -93,7 +94,11 @@
                         <a asp-action="Edit" asp-route-id="@episodio.Id">Editar</a> |
                         <a asp-action="Details" asp-route-id="@episodio.Id">Detalles</a> |
                         <a asp-action="Delete" asp-route-id="@episodio.Id">Borrar</a>  |
-                        <a asp-action="Delete" asp-route-id="@episodio.Id">Crear evolución</a>
+                        @if (User.IsInRole("medico"))
+                        {
+                            <a asp-controller="Evoluciones" asp-action="Create" asp-route-epidosioId="@episodio.Id">Crear evolución</a>
+                            <a asp-controller="Epicrisis" asp-action="Create" asp-route-id="@episodio.Id">Crear epicrisis</a>
+                        }
                     </td>
                 </tr>
             }
@@ -105,6 +110,112 @@ else
     <p>No hay Epidosodios disponibles</p>
 }
 
+@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
+{
+    <h4>Evoluciones</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Medico</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Alta</th>
+                <th>Fecha de Cierre</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th>Episodio</th>
+        </thead>
+        <tbody>
+            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+            {
+                foreach (var evolucion in episodio.Evoluciones)
+                {
+                    <tr>
+                        <td>@evolucion.Medico</td>
+                        <td>@evolucion.FechaYHoraInicio</td>
+                        <td>@evolucion.FechaYHoraAlta</td>
+                        <td>@evolucion.FechaYHoraCierre</td>
+                        <td>@evolucion.DescripcionAtencion</td>
+                        <td>@evolucion.EstadoAbierto</td>
+                        <td>@evolucion.Episodio</td>
+                        <td>
+                            <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Editar</a> |
+                            <a asp-controller="Evoluciones" asp-action="Details" asp-route-id="@evolucion.Id">Detalles</a> |
+                            <a asp-controller="Evoluciones" asp-action="Delete" asp-route-id="@evolucion.Id">Borrar</a>  |
+                            <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear nota</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Epicrisis != null && episodio.Epicrisis != null))
+{
+    <h4>Epicrisis</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Episodio</th>
+                <th>Medico</th>
+                <th>Fecha</th>
+                <th>Diagnostico</th>
+                <th>Recomendacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+            {
+                    <tr>
+                        <td>@episodio.Epicrisis.Episodio</td>
+                        <td>@episodio.Epicrisis.FechaYHora</td>
+                        <td>@episodio.Epicrisis.Descripcion</td>
+                        <td>@episodio.Epicrisis.Recomendacion</td>
+                        <td>
+                            <a asp-controller="Epicrisis" asp-action="Edit" asp-route-id="@episodio.Epicrisis.Id">Editar</a> |
+                            <a asp-controller="Epicrisis" asp-action="Details" asp-route-id="@episodio.Epicrisis.Id">Detalles</a> |
+                            <a asp-controller="Epicrisis" asp-action="Delete" asp-route-id="@episodio.Epicrisis.Id">Borrar</a>
+                    </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
+{
+    <h4>Notas</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Evolucion</th>
+                <th>Empleado</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+            {
+                foreach (var evolucion in episodio.Evoluciones)
+                {
+                    foreach(var nota in evolucion.Notas)
+                    {
+                        <tr>
+                            <td>@nota.Evolucion</td>
+                            <td>@nota.Empleado</td>
+                            <td>@nota.Mensaje</td>
+                            <td>@nota.FechaYHora</td>
+                            <td>
+                                <a asp-controller="Notas" asp-action="Edit" asp-route-id="@nota.Id">Editar</a> |
+                                <a asp-controller="Notas" asp-action="Details" asp-route-id="@nota.Id">Detalles</a> |
+                                <a asp-controller="Notas" asp-action="Delete" asp-route-id="@nota.Id">Borrar</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+}
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

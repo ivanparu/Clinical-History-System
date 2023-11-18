@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
@@ -16,10 +17,12 @@ namespace Historias_C.Controllers
     public class EvolucionesController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public EvolucionesController(HistoriasClinicasCContext context)
+        public EvolucionesController(HistoriasClinicasCContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Evoluciones
@@ -73,16 +76,18 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
+
+                var medicoId = Int32.Parse(_userManager.GetUserId(User));
+                evolucion.MedicoId = medicoId;
+
                 _context.Add(evolucion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", evolucion.EpisodioId);
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido", evolucion.MedicoId);
             return View(evolucion);
         }
 
