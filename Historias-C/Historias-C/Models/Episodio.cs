@@ -24,12 +24,10 @@ namespace Historias_C.Models
         [Display(Name = "Fecha de inicio")]
         public DateTime FechaYHoraInicio { get; set; } = DateTime.Now;
 
-        [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         [Display(Name = "Fecha de cierre")]
         public DateTime? FechaYHoraCierre { get; set; }
 
-        [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
         [Display(Name = "Fecha de alta")]
         public DateTime? FechaYHoraAlta { get; set; }
