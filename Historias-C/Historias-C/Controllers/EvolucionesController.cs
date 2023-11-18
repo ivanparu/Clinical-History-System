@@ -50,10 +50,21 @@ namespace Historias_C.Controllers
         }
 
         // GET: Evoluciones/Create
-        public IActionResult Create()
+        public IActionResult Create(int? episodioId)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
+            //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            if (episodioId == null)
+            {
+                //afuera
+                return Content("definir que hacemos");
+            }
+            else
+            {
+                Evolucion evolucion = new Evolucion();
+                evolucion.EpisodioId = (int)episodioId;
+            }
+
             return View();
         }
 

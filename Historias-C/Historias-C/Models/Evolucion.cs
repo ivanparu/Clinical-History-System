@@ -12,26 +12,28 @@ namespace Historias_C.Models
         public Medico Medico { get; set; }
         
         [Required(ErrorMessage = _reqMsg)]
+        [Display(Name = "Medico")]
         public int MedicoId { get; set; }
-        
-        
-        [Required(ErrorMessage = _reqMsg)]
-        [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraInicio { get; set; }
+
 
         [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraAlta { get; set; }
+        [Display(Name = "Fecha de inicio")]
+        public DateTime FechaYHoraInicio { get; set; } = DateTime.Now;
 
-        [Required(ErrorMessage = _reqMsg)]
         [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraCierre { get; set; }
+        [Display(Name = "Fecha de alta")]
+        public DateTime? FechaYHoraAlta { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Fecha de cierre")]
+        public DateTime? FechaYHoraCierre { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         [StringLength(1000, MinimumLength = 50, ErrorMessage = _reqRange)]
         public string DescripcionAtencion { get; set; }
 
-        [Required(ErrorMessage = _reqMsg)]
+        [Display(Name = "Estado")]
         public bool EstadoAbierto { get; set; } = true;
 
         public List<Notas> Notas { get; set; }
@@ -40,6 +42,7 @@ namespace Historias_C.Models
         public Episodio Episodio { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
+        [Display(Name = "Episodio")]
         public int EpisodioId { get; set; }
     }
 
