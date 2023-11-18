@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Historias_C.Migrations
 {
     [DbContext(typeof(HistoriasClinicasCContext))]
-    [Migration("20231116002511_ChangesInEpisode")]
-    partial class ChangesInEpisode
+    [Migration("20231118191530_Segunda")]
+    partial class Segunda
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,11 +115,9 @@ namespace Historias_C.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("FechaYHoraAlta")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaYHoraCierre")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaYHoraInicio")
@@ -522,6 +520,10 @@ namespace Historias_C.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.HasIndex("Matricula")
+                        .IsUnique()
+                        .HasFilter("[Matricula] IS NOT NULL");
 
                     b.HasDiscriminator().HasValue("Medico");
                 });

@@ -6,11 +6,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Historias_C.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregadoIdentity : Migration
+    public partial class Segunda : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Episodios_Epicrisis_EpicrisisId",
+                table: "Episodios");
+
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
                 table: "Personas",
@@ -48,6 +52,17 @@ namespace Historias_C.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(30)",
                 oldMaxLength: 30);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Legajo",
+                table: "Personas",
+                type: "nvarchar(40)",
+                maxLength: 40,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(30)",
+                oldMaxLength: 30,
+                oldNullable: true);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "FechaAlta",
@@ -162,6 +177,30 @@ namespace Historias_C.Migrations
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "FechaYHoraCierre",
+                table: "Episodios",
+                type: "datetime2",
+                nullable: true,
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2");
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "FechaYHoraAlta",
+                table: "Episodios",
+                type: "datetime2",
+                nullable: true,
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "EpicrisisId",
+                table: "Episodios",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
@@ -291,6 +330,13 @@ namespace Historias_C.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Personas_Matricula",
+                table: "Personas",
+                column: "Matricula",
+                unique: true,
+                filter: "[Matricula] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Personas",
                 column: "NormalizedUserName",
@@ -323,11 +369,22 @@ namespace Historias_C.Migrations
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Episodios_Epicrisis_EpicrisisId",
+                table: "Episodios",
+                column: "EpicrisisId",
+                principalTable: "Epicrisis",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Episodios_Epicrisis_EpicrisisId",
+                table: "Episodios");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -348,6 +405,10 @@ namespace Historias_C.Migrations
 
             migrationBuilder.DropIndex(
                 name: "EmailIndex",
+                table: "Personas");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Personas_Matricula",
                 table: "Personas");
 
             migrationBuilder.DropIndex(
@@ -448,6 +509,17 @@ namespace Historias_C.Migrations
                 oldMaxLength: 30,
                 oldNullable: true);
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Legajo",
+                table: "Personas",
+                type: "nvarchar(30)",
+                maxLength: 30,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(40)",
+                oldMaxLength: 40,
+                oldNullable: true);
+
             migrationBuilder.AlterColumn<DateTime>(
                 name: "FechaAlta",
                 table: "Personas",
@@ -490,6 +562,44 @@ namespace Historias_C.Migrations
                 oldType: "nvarchar(30)",
                 oldMaxLength: 30,
                 oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "FechaYHoraCierre",
+                table: "Episodios",
+                type: "datetime2",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "FechaYHoraAlta",
+                table: "Episodios",
+                type: "datetime2",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                oldClrType: typeof(DateTime),
+                oldType: "datetime2",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "EpicrisisId",
+                table: "Episodios",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Episodios_Epicrisis_EpicrisisId",
+                table: "Episodios",
+                column: "EpicrisisId",
+                principalTable: "Epicrisis",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }
