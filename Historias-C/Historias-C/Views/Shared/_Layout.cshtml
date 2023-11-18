@@ -29,6 +29,15 @@
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
                             </li>
                             <li class="nav-item">
@@ -43,18 +52,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="HistoriaClinicas" asp-action="Index">Historia Clinicas</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Personas" asp-action="Index">Personas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
-                            </li>
+                   
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
                             </li>
