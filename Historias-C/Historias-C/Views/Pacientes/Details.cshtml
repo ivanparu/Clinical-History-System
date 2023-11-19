@@ -141,7 +141,9 @@ else
                             <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Editar</a> |
                             <a asp-controller="Evoluciones" asp-action="Details" asp-route-id="@evolucion.Id">Detalles</a> |
                             <a asp-controller="Evoluciones" asp-action="Delete" asp-route-id="@evolucion.Id">Borrar</a>  |
-                            <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear nota</a>
+                            @if (User.IsInRole("empleado")){
+                                <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear nota</a>
+                            }
                         </td>
                     </tr>
                 }

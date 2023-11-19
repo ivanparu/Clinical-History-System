@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "medico")]
 
     public class EvolucionesController : Controller
     {
@@ -53,6 +53,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Evoluciones/Create
+        
         public IActionResult Create(int? episodioId)
         {
             // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
@@ -92,6 +93,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Evoluciones/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Evoluciones == null)
