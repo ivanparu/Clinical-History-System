@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Historias_C.Data;
 using System.Security.Claims;
+using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
@@ -32,7 +33,7 @@ namespace Historias_C.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Registrar(RegistrarVM model)
+        public async Task<IActionResult> Registrar([Bind("Email", "Password", "ConfirmPassword")]RegistrarVM model)
         {
             if(ModelState.IsValid)
             {
@@ -48,9 +49,19 @@ namespace Historias_C.Controllers
                 if (resultado.Succeeded)
                 {
                     //le agrego el rol
-                    //creamos la HistoriaClinica y la asocio al paciente creado
-                    await _signInManager.SignInAsync(paciente, isPersistent: false);
-                    return RedirectToAction("Edit", "Pacientes", new {id = paciente.Id});
+                    var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
+
+                    if (resultadoAddRole.Succeeded)
+                    {
+                        //creamos la HistoriaClinica y la asocio al paciente creado
+                        await _signInManager.SignInAsync(paciente, isPersistent: false);
+                        return RedirectToAction("Edit", "Pacientes", new { id = paciente.Id });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.PacienteRolName}")
+                    }
+                    
                 }
 
                 foreach(var error in resultado.Errors)
