@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Historias_C.Data;
 using System.Security.Claims;
 using Historias_C.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Historias_C.Controllers
 {
@@ -54,6 +55,12 @@ namespace Historias_C.Controllers
                     if (resultadoAddRole.Succeeded)
                     {
                         //creamos la HistoriaClinica y la asocio al paciente creado
+                        HistoriaClinica hc = new HistoriaClinica()
+                        {
+                            PacienteId = paciente.Id,
+                        };
+                        _contexto.Add(hc);
+                        await _contexto.SaveChangesAsync();
                         await _signInManager.SignInAsync(paciente, isPersistent: false);
                         return RedirectToAction("Edit", "Pacientes", new { id = paciente.Id });
                     }
