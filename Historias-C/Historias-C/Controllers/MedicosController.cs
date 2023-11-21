@@ -9,6 +9,8 @@ using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
+using Historias_C.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
@@ -77,7 +79,41 @@ namespace Historias_C.Controllers
                 
             }
             return View(medico);
+           /* paciente.UserName = paciente.Email;
+            var resultadoNewPaciente = await _userManager.CreateAsync(paciente, Configs.PasswordDef);
+
+            //creo con usermanager
+            //si está ok
+            //le agrego el rol
+            if (resultadoNewPaciente.Succeeded)
+            {
+                var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
+                if (resultadoAddRole.Succeeded)
+                {
+                    HistoriaClinica hc = new HistoriaClinica()
+                    {
+                        PacienteId = paciente.Id,
+                    };
+                    _context.Add(paciente);
+                    _context.Add(hc);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Pacientes");
+                }
+                else
+                {
+                    return Content($"No se ha podido agregar el rol {Configs.PacienteRolName}");
+                }
+            }
+
+
+            //creamos la HistoriaClinica y la asocio al paciente creado
+            foreach (var error in resultadoNewPaciente.Errors)
+            {
+                ModelState.AddModelError(String.Empty, error.Description);
+            }
         }
+            return View(paciente);
+    }*/          //Algo parecido a esto, ya que empleado va a agregar medicos
 
         private void VerificarMatricula(Medico medico)
         {

@@ -65,6 +65,41 @@ namespace Historias_C.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(empleado);
+            /* paciente.UserName = paciente.Email;
+            var resultadoNewPaciente = await _userManager.CreateAsync(paciente, Configs.PasswordDef);
+
+            //creo con usermanager
+            //si está ok
+            //le agrego el rol
+            if (resultadoNewPaciente.Succeeded)
+            {
+                var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
+                if (resultadoAddRole.Succeeded)
+                {
+                    HistoriaClinica hc = new HistoriaClinica()
+                    {
+                        PacienteId = paciente.Id,
+                    };
+                    _context.Add(paciente);
+                    _context.Add(hc);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Pacientes");
+                }
+                else
+                {
+                    return Content($"No se ha podido agregar el rol {Configs.PacienteRolName}");
+                }
+            }
+
+
+            //creamos la HistoriaClinica y la asocio al paciente creado
+            foreach (var error in resultadoNewPaciente.Errors)
+            {
+                ModelState.AddModelError(String.Empty, error.Description);
+            }
+        }
+            return View(paciente);
+    }*/          //Algo parecido a esto, ya que empleado va a agregar empleados
         }
 
         // GET: Empleados/Edit/5
