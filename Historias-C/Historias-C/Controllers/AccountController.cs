@@ -59,7 +59,7 @@ namespace Historias_C.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.PacienteRolName}")
+                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.PacienteRolName}");
                     }
                     
                 }
