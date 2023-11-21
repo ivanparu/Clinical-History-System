@@ -78,6 +78,13 @@ namespace Historias_C.Controllers
                     var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
                     if (resultadoAddRole.Succeeded)
                     {
+                        HistoriaClinica hc = new HistoriaClinica()
+                        {
+                            PacienteId = paciente.Id,
+                        };
+                        _context.Add(paciente);
+                        _context.Add(hc);
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Pacientes");
                     }
                     else

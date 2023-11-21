@@ -20,48 +20,53 @@ namespace Historias_C.Controllers
             this._roleManager = roleManager;
             this._context = context;
         }
-        public IActionResult Seed()
+        public async Task<IActionResult> SeedAsync()
         {
             CrearRoles().Wait();
 
             if (!_context.Empleados.Any())
             {
-                AddEmpleados();
+                await AddEmpleadosAsync();
             }
 
             if (!_context.Pacientes.Any())
             {
-                AddPacientes();
+                 await AddPacientesAsync();
             }
 
             if (!_context.Medicos.Any())
             {
-                AddMedicos();
+                await AddMedicosAsync();
             }
 
 
             return RedirectToAction("Index", "Home", new { mensaje = "se ejecutó la pre-carga" });
         }
 
-        private void AddMedicos()
+        private async Task AddMedicosAsync()
         {
             Medico medico1 = new Medico()
             {
                 Especialidad = Especialidad.ALERGIA_E_INMUNOLOGIA,
                 Matricula = "S1212NM",
+                Email = "joacom@ort.edu.ar",
                 UserName = "joacom",
                 Password = Configs.PasswordDef,
-                Email = "joacom@ort.edu.ar",
                 Nombre = "Joaco",
                 Apellido = "Messi",
                 DNI = 12457896,
                 Telefono = 1145568978,
             };
-            _context.Medicos.Add(medico1);
-            _context.SaveChanges();
+            medico1.UserName = medico1.Email;
+            var resultadoNewMedico = await _userManager.CreateAsync(medico1, Configs.PasswordDef);
+            if (resultadoNewMedico.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(medico1, Configs.PacienteRolName);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        private void AddPacientes()
+        private async Task AddPacientesAsync()
         {
             Paciente paciente1 = new Paciente()
             {
@@ -74,11 +79,22 @@ namespace Historias_C.Controllers
                 DNI = 456568989,
                 Telefono = 1132326565,
             };
-            _context.Pacientes.Add(paciente1);
-            _context.SaveChanges();
+            paciente1.UserName = paciente1.Email;
+            var resultadoNewPaciente = await _userManager.CreateAsync(paciente1, Configs.PasswordDef);
+            if (resultadoNewPaciente.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(paciente1, Configs.PacienteRolName);
+                
+                HistoriaClinica hc = new HistoriaClinica()
+                {
+                    PacienteId = paciente1.Id,
+                };
+                _context.Add(hc);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        private void AddEmpleados()
+        private async Task AddEmpleadosAsync()
         {
             Empleado empleado1 = new Empleado()
             {
@@ -90,8 +106,13 @@ namespace Historias_C.Controllers
                 DNI = 54546868,
                 Telefono = 1145474847,
             };
-            _context.Empleados.Add(empleado1);
-            _context.SaveChanges();
+            empleado1.UserName = empleado1.Email;
+            var resultadoNewEmpleado = await _userManager.CreateAsync(empleado1, Configs.PasswordDef);
+            if (resultadoNewEmpleado.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(empleado1, Configs.EmpleadoRolName);
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task CrearRoles()

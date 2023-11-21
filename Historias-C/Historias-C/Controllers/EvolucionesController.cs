@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
-    [Authorize(Roles = "medico")]
+    [Authorize]
 
     public class EvolucionesController : Controller
     {

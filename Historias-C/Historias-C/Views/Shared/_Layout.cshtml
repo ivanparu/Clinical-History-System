@@ -49,7 +49,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="CerrarSesion">Cerrar sesion</a>
                                 </li>
-                            
+                            @if (User.IsInRole(Configs.EmpleadoRolName))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
+                                </li>
+                            }
+
                         }
                         else
                         {

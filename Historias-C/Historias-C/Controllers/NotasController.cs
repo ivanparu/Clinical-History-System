@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
-    [Authorize(Roles = "empleado")]
-
+    //[Authorize(Roles = "empleado")]
+    [Authorize]
     public class NotasController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
