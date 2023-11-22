@@ -57,7 +57,6 @@ namespace Historias_C.Controllers
                 DNI = 12457896,
                 Telefono = 1145568978,
             };
-            medico1.UserName = medico1.Email;
             var resultadoNewMedico = await _userManager.CreateAsync(medico1, Configs.PasswordDef);
             if (resultadoNewMedico.Succeeded)
             {
@@ -79,7 +78,6 @@ namespace Historias_C.Controllers
                 DNI = 456568989,
                 Telefono = 1132326565,
             };
-            paciente1.UserName = paciente1.Email;
             var resultadoNewPaciente = await _userManager.CreateAsync(paciente1, Configs.PasswordDef);
             if (resultadoNewPaciente.Succeeded)
             {
@@ -106,7 +104,6 @@ namespace Historias_C.Controllers
                 DNI = 54546868,
                 Telefono = 1145474847,
             };
-            empleado1.UserName = empleado1.Email;
             var resultadoNewEmpleado = await _userManager.CreateAsync(empleado1, Configs.PasswordDef);
             if (resultadoNewEmpleado.Succeeded)
             {
