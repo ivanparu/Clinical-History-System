@@ -10,6 +10,7 @@ using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Historias_C.Helpers;
+using Microsoft.Data.SqlClient;
 
 namespace Historias_C.Controllers
 {
@@ -52,6 +53,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Pacientes/Create
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public IActionResult Create()
         {
             return View();
@@ -62,8 +64,12 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public async Task<IActionResult> Create([Bind("ObraSocial,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Paciente paciente)
         {
+
+            VerificarDNI(paciente); 
+
             if (ModelState.IsValid)
             {
 
@@ -78,13 +84,21 @@ namespace Historias_C.Controllers
                     var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
                     if (resultadoAddRole.Succeeded)
                     {
-                        HistoriaClinica hc = new HistoriaClinica()
+
+                        try
                         {
-                            PacienteId = paciente.Id,
-                        };
-                        _context.Add(hc);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index", "Pacientes");
+                            HistoriaClinica hc = new HistoriaClinica()
+                            {
+                                PacienteId = paciente.Id,
+                            };
+                            _context.Add(hc);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("Index", "Pacientes");
+                        } catch (DbUpdateException dbex)
+                        {
+                            ProcesoDuplicado(dbex);
+                        }
+
                     }
                     else
                     {
@@ -100,6 +114,47 @@ namespace Historias_C.Controllers
                 }
             }
             return View(paciente);
+        }
+
+        private void ProcesoDuplicado(DbUpdateException dbex)
+        {
+            SqlException innerException = dbex.InnerException as SqlException;
+            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
+            {
+                ModelState.AddModelError("DNI", ErrorMessages.DNIExistente);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, dbex.Message);
+            }
+        }
+
+        private void VerificarDNI(Paciente paciente)
+        {
+            if (DNIExist(paciente))
+            {
+                ModelState.AddModelError("DNI", "El DNI ya existe, verificada en BE");
+            };
+        }
+
+        private bool DNIExist(Paciente paciente)
+        {
+             bool resultado = false;
+
+    if (paciente != null && paciente.DNI != 0)
+    {
+        if (paciente.Id != null && paciente.Id != 0)
+        {
+            // Es una modificación, me interesa que no exista solo si no es del registro que estoy modificando.
+            resultado = _context.Pacientes.Any(p => p.DNI == paciente.DNI && p.Id != paciente.Id);
+        }
+        else
+        {
+            // Es una creación, solo me interesa que no exista el DNI.
+            resultado = _context.Pacientes.Any(p => p.DNI == paciente.DNI);
+        }
+    }
+            return resultado;
         }
 
         // GET: Pacientes/Edit/5
