@@ -76,7 +76,7 @@ namespace Historias_C.Controllers
                 {
                     PacienteId = paciente1.Id,
                 };
-                _context.Add(hc);
+                _context.HistoriaClinicas.Add(hc);
                 await _context.SaveChangesAsync();
             }
 
@@ -98,11 +98,11 @@ namespace Historias_C.Controllers
             {
                 await _userManager.AddToRoleAsync(paciente2, Configs.PacienteRolName);
 
-                HistoriaClinica hc = new HistoriaClinica()
+                HistoriaClinica hc2 = new HistoriaClinica()
                 {
                     PacienteId = paciente2.Id,
                 };
-                _context.Add(hc);
+                _context.HistoriaClinicas.Add(hc2);
                 await _context.SaveChangesAsync();
             }
 
@@ -110,7 +110,6 @@ namespace Historias_C.Controllers
 
             Empleado empleado1 = new Empleado()
             {
-                Id = 1,
                 UserName = "mariom@ort.edu.ar",
                 Password = Configs.PasswordDef,
                 Email = "mariom@ort.edu.ar",
@@ -130,7 +129,6 @@ namespace Historias_C.Controllers
 
             Empleado empleado2 = new Empleado()
             {
-                Id = 2,
                 UserName = "santiagor@ort.edu.ar",
                 Password = Configs.PasswordDef,
                 Email = "santiagor@ort.edu.ar",
@@ -174,16 +172,14 @@ namespace Historias_C.Controllers
                 EmpleadoId = empleado1Id
 
             };
-
-            _context.Add(episodio);
-            _context.Add(episodioCerrado);
-
+            _context.Episodios.Add(episodio);
+            _context.Episodios.Add(episodioCerrado);
             await _context.SaveChangesAsync();
 
-            await addEvolucion(medicoId, episodioCerrado.Id);
+            await addEvolucion(medicoId, episodioCerrado.Id, empleado1Id);
             await addEpicrisis(medicoId, episodioCerrado.Id);
         }
-            private async Task addEvolucion(int medicoId, int episodioCerradoId)
+            private async Task addEvolucion(int medicoId, int episodioCerradoId, int empleado1Id)
         {
             Evolucion evolucion = new Evolucion()
             {
@@ -195,9 +191,9 @@ namespace Historias_C.Controllers
 
             };
 
-            _context.Add(evolucion);
+            _context.Evoluciones.Add(evolucion);
             await _context.SaveChangesAsync();
-            await addNota(evolucion.Id);
+            await addNota(evolucion.Id, empleado1Id);
         }
 
         private async Task addEpicrisis(int medicoId, int episodioCerradoId)
@@ -211,23 +207,23 @@ namespace Historias_C.Controllers
 
             };
 
-            _context.Add(epicrisis);
+            _context.Epicrisis.Add(epicrisis);
             await _context.SaveChangesAsync();
 
         }
 
-        private async Task addNota(int evolucionId)
+        private async Task addNota(int evolucionId, int empleado1Id)
         {
             Notas nota = new Notas()
             {
                 EvolucionId = evolucionId,
-                EmpleadoId = 1,
+                EmpleadoId = empleado1Id,
                 Mensaje = "Arteria femoral obstruida.",
                 FechaYHora = DateTime.Now
 
             };
 
-            _context.Add(nota);
+            _context.Notas.Add(nota);
             await _context.SaveChangesAsync();
 
         }
