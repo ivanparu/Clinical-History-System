@@ -8,8 +8,8 @@
         public string Barrio { get; set; }
         public string Ciudad { get; set; }
 
-        public int PersonaId { get; set; }
-        public Persona Persona { get; set; }
+        public int PacienteId { get; set; }
+        public Paciente Paciente { get; set; }
 
 
 

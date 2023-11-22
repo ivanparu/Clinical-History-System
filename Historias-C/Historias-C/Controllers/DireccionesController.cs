@@ -26,7 +26,7 @@ namespace Historias_C.Controllers
         // GET: Direcciones
         public async Task<IActionResult> Index()
         {
-            var historiasClinicasCContext = _context.Direcciones.Include(d => d.Persona);
+            var historiasClinicasCContext = _context.Direcciones.Include(d => d.Paciente);
             return View(await historiasClinicasCContext.ToListAsync());
         }
 
@@ -39,7 +39,7 @@ namespace Historias_C.Controllers
             }
 
             var direccion = await _context.Direcciones
-                .Include(d => d.Persona)
+                .Include(d => d.Paciente)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (direccion == null)
             {
@@ -67,7 +67,7 @@ namespace Historias_C.Controllers
                 return RedirectToAction("IndexDePaciente", "Pacientes"); 
             }
 
-            ViewData["PersonaId"] = paciente.Id; 
+            ViewData["PacienteId"] = paciente.Id; 
             return View();
         }
 
@@ -76,29 +76,29 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Calle,Altura,Barrio,Ciudad,PersonaId")] Direccion direccion)
+        public async Task<IActionResult> Create([Bind("Id,Calle,Altura,Barrio,Ciudad,PacienteId")] Direccion direccion)
         {
             if (ModelState.IsValid)
             {
                 // Obtener el paciente actual (suponiendo que tienes el ID del paciente en algún lugar)
-                var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == PacienteId);
+                var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == direccion.PacienteId);
 
                 // Verificar que el paciente existe
                 if (paciente != null)
                 {
                     // Establecer el ID del paciente en la dirección
-                    direccion.PersonaId = paciente.Id;
+                    direccion.PacienteId = paciente.Id;
 
                     // Agregar y guardar cambios en la base de datos
                     _context.Add(direccion);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("IndexDePaciente", "Pacientes");
                 }
                 else
                 {
                     // Manejar el caso donde el paciente no existe
-                    return RedirectToAction("IndexDePaciente", "Pacientes");
+                    return Content("Paso algo malo");
                 }
             }
 
@@ -126,7 +126,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Calle,Altura,Barrio,Ciudad,PersonaId")] Direccion direccion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Calle,Altura,Barrio,Ciudad,PacienteId")] Direccion direccion)
         {
             if (id != direccion.Id)
             {
@@ -135,26 +135,12 @@ namespace Historias_C.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
                     _context.Update(direccion);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DireccionExists(direccion.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
-            return View(direccion);
+                
+                return RedirectToAction("IndexDePacientes", "Pacientes");
+
         }
 
         // GET: Direcciones/Delete/5
@@ -166,7 +152,7 @@ namespace Historias_C.Controllers
             }
 
             var direccion = await _context.Direcciones
-                .Include(d => d.Persona)
+                .Include(d => d.Paciente)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (direccion == null)
             {
