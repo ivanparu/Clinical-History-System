@@ -5,12 +5,23 @@
 
 }
 
-<div class="text-center text-grey" style="background-color: black">
+<head>
+
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="icon" href="~/Images/logo.png" type="image/x-icon" />
+
+</head>
 
 
-    <h1>Su usuario no cuenta con los permisos suficientes @if (hayReturnUrl) {<span> para accesder a @ViewBag.ReturnUrl</span>} </h1>
+<div class="text-center text-secondary" style="background-color: #A1E8CC">
 
-    // acá agregamos una imagen
 
-    <a asp-action="CerrarSesion"> Cerrar sesion.</a>
+    <h1> No cuenta con los permisos suficientes @if (hayReturnUrl) {<span> para acceder a  @ViewBag.ReturnUrl </span>} </h1>
+
+    <a class="align-content-center" asp-action="CerrarSesion"> <img src="~/Images/logoWarning.png" alt="Logo" height="200" /> </a>
+
+
+    <div>  <a asp-action="CerrarSesion"> Cerrar sesion </a> </div>
+
+
 </div>
