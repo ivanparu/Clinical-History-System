@@ -10,10 +10,11 @@ using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
 using System.Reflection.Metadata;
+using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Configs.PacienteRolName)]
     public class DireccionesController : Controller
     {
         private readonly HistoriasClinicasCContext _context;

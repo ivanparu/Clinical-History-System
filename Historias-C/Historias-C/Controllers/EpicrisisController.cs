@@ -13,7 +13,7 @@ using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
-    [Authorize(Roles = "medico")]
+    [Authorize(Roles = Configs.MedicoRolName)]
 
     public class EpicrisisController : Controller
     {

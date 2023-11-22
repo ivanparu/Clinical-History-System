@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Historias_C.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Configs.EmpleadoRolName)]
 
     public class MedicosController : Controller
     {
@@ -53,6 +53,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Medicos/Create
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public IActionResult Create()
         {
             return View();
@@ -63,6 +64,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public async Task<IActionResult> Create([Bind("Matricula,Especialidad,Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
         {
             VerificarMatricula(medico);

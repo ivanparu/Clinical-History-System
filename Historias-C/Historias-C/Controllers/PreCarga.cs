@@ -60,7 +60,7 @@ namespace Historias_C.Controllers
             var resultadoNewMedico = await _userManager.CreateAsync(medico1, Configs.PasswordDef);
             if (resultadoNewMedico.Succeeded)
             {
-                await _userManager.AddToRoleAsync(medico1, Configs.PacienteRolName);
+                await _userManager.AddToRoleAsync(medico1, Configs.MedicoRolName);
                 await _context.SaveChangesAsync();
             }
         }

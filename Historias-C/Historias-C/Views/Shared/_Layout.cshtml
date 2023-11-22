@@ -31,27 +31,18 @@
                         @if (signInManager.IsSignedIn(User))
                         {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="HistoriaClinicas" asp-action="Index">Historia Clinicas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="CerrarSesion">Cerrar sesion</a>
                                 </li>
                             @if (User.IsInRole(Historias_C.Helpers.Configs.EmpleadoRolName))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Empleados" asp-action="Index">Pacientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Pacientes</a>
                                 </li>
                             }
                             @if (User.IsInRole(Historias_C.Helpers.Configs.MedicoRolName))

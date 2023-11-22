@@ -14,7 +14,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Historias_C.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Configs.MedicoRolName)]
 
     public class EvolucionesController : Controller
     {

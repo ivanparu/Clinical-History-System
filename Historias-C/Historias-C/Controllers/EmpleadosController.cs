@@ -13,7 +13,7 @@ using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
-    [Authorize(Roles = "empleado")]
+    [Authorize(Roles = Configs.EmpleadoRolName)]
     public class EmpleadosController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
