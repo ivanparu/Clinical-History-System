@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Historias_C.styles.css" asp-append-version="true" />
+     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" href="~/Images/logo.png" type="image/x-icon" />
 </head>
 <body style="background: #A1E8CC ">
 
@@ -14,8 +16,8 @@
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: #A1E8CC;">Clinica</a>
+            <div class="container-fluid">      
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/Images/logo.png" alt="Logo" height="35"/> </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -49,7 +51,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="CerrarSesion">Cerrar sesion</a>
                                 </li>
-                            @if (User.IsInRole(Configs.EmpleadoRolName))
+                            @if (User.IsInRole(Historias_C.Helpers.Configs.EmpleadoRolName))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
