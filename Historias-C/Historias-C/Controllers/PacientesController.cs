@@ -117,6 +117,7 @@ namespace Historias_C.Controllers
             {
 
                 paciente.UserName = paciente.Email;
+                paciente.FechaAlta = DateTime.Now;
                 var resultadoNewPaciente = await _userManager.CreateAsync(paciente,Configs.PasswordDef);
 
                 //creo con usermanager

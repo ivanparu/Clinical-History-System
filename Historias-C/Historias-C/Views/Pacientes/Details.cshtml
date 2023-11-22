@@ -202,6 +202,10 @@
                         </tbody>
                     </table>
                 }
+                else
+                {
+                    <h3>EL paciente no tiene ninguna epicrisis</h3>
+                }
                 @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
                 {
                     <h4>Evoluciones</h4>
@@ -286,6 +290,141 @@
                 <h3>El paciente no tiene ningun episodio abierto</h3>
             }
         }
+        @if (User.IsInRole(Configs.PacienteRolName))
+        {
+            <h3>Episodios</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Motivo</th>
+                        <th>Descripción</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Fecha de Alta</th>
+                        <th>Estado</th>
+                        <th>Epicrisis</th>
+                        <th>Empleado</th>
+                        <th>Historia Clinica</th>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                    {
+                        <tr>
+                            <td>@episodio.Motivo</td>
+                            <td>@episodio.Descripcion</td>
+                            <td>@episodio.FechaYHoraInicio</td>
+                            <td>@episodio.FechaYHoraCierre</td>
+                            <td>@episodio.FechaYHoraAlta</td>
+                            <td>@episodio.EstadoAbierto</td>
+                            <td>@episodio.Epicrisis</td>
+                            <td>@episodio.Empleado</td>
+                            <td>@episodio.HistoriaClinica</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        } 
+        @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Epicrisis != null && episodio.Epicrisis != null))
+        {
+            <h4>Epicrisis</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Episodio</th>
+                        <th>Medico</th>
+                        <th>Fecha</th>
+                        <th>Diagnostico</th>
+                        <th>Recomendacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                    {
+                        <tr>
+                            <td>@episodio.Epicrisis.Episodio</td>
+                            <td>@episodio.Epicrisis.FechaYHora</td>
+                            <td>@episodio.Epicrisis.Descripcion</td>
+                            <td>@episodio.Epicrisis.Recomendacion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>No tienes ninguna Epicrisis</h3>
+        }
+        @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
+        {
+            <h4>Evoluciones</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medico</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Alta</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                        <th>Episodio</th>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                    {
+                        foreach (var evolucion in episodio.Evoluciones)
+                        {
+                            <tr>
+                                <td>@evolucion.Medico</td>
+                                <td>@evolucion.FechaYHoraInicio</td>
+                                <td>@evolucion.FechaYHoraAlta</td>
+                                <td>@evolucion.FechaYHoraCierre</td>
+                                <td>@evolucion.DescripcionAtencion</td>
+                                <td>@evolucion.EstadoAbierto</td>
+                                <td>@evolucion.Episodio</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => evolucion.Notas != null && evolucion.Notas.Any())))
+            {
+                <h4>Notas</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Evolucion</th>
+                            <th>Empleado</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                        {
+                            foreach (var evolucion in episodio.Evoluciones.Where(e => !e.EstadoAbierto))
+                            {
+                                foreach (var nota in evolucion.Notas)
+                                {
+                                    <tr>
+                                        <td>@nota.Evolucion</td>
+                                        <td>@nota.Empleado</td>
+                                        <td>@nota.Mensaje</td>
+                                        <td>@nota.FechaYHora</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h3>No tienes notas</h3>
+            }
+        }
+        else
+        {
+            <h3>No tienes evoluciones</h3>
+        }
     }
     else
     {
@@ -293,6 +432,10 @@
         @if (User.IsInRole(Configs.EmpleadoRolName))
         {
             <a asp-controller="Episodio" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
+        }
+        @if (User.IsInRole(Configs.PacienteRolName))
+        {
+            <h2>No tienes episodios</h2>
         }
     }
 }
