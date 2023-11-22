@@ -24,58 +24,19 @@ namespace Historias_C.Controllers
         {
             CrearRoles().Wait();
 
-            if (!_context.Empleados.Any())
+            if (!_context.Empleados.Any() && !_context.Pacientes.Any() && !_context.Empleados.Any())
             {
-                await AddEmpleadosAsync();
+                await creacionPrimaria();
             }
-
-            if (!_context.Pacientes.Any())
-            {
-                 await AddPacientesAsync();
-                await AddOtroPacienteAsync();
-
-            }
-
-            if (!_context.Medicos.Any())
-            {
-                await AddMedicosAsync();
-            }
-            if (!_context.Empleados.Any())
-            {
-                await AddOtherEmpleadosAsync();
-            }
-            if (!_context.Evoluciones.Any())
-            {
-                await addEvolucion();
-            }
-            if (!_context.Episodios.Any())
-            {
-                await addEpisodion();
-            }
-
-            if (!_context.Epicrisis.Any())
-            {
-                await addEpicrisis();
-            }
-
-            if (!_context.Notas.Any())
-            {
-                await addNota();
-            }
-
-
-
-
-
 
             return RedirectToAction("Index", "Home", new { mensaje = "se ejecutó la pre-carga" });
         }
 
-        private async Task AddMedicosAsync()
+        private async Task creacionPrimaria()
         {
+            //Crea medico
             Medico medico1 = new Medico()
             {
-                Id= 40,
                 Especialidad = Especialidad.ALERGIA_E_INMUNOLOGIA,
                 Matricula = "S1212NM",
                 Email = "joacom@ort.edu.ar",
@@ -92,13 +53,11 @@ namespace Historias_C.Controllers
                 await _userManager.AddToRoleAsync(medico1, Configs.MedicoRolName);
                 await _context.SaveChangesAsync();
             }
-        }
 
-        private async Task AddPacientesAsync()
-        {
+            //Crea paciente1
+
             Paciente paciente1 = new Paciente()
             {
-                Id=41,
                 ObraSocial = ObraSocial.OSDE,
                 UserName = "sergiol@ort.edu.ar",
                 Password = Configs.PasswordDef,
@@ -112,23 +71,19 @@ namespace Historias_C.Controllers
             if (resultadoNewPaciente.Succeeded)
             {
                 await _userManager.AddToRoleAsync(paciente1, Configs.PacienteRolName);
-                
+
                 HistoriaClinica hc = new HistoriaClinica()
                 {
-                    Id = 1212,
                     PacienteId = paciente1.Id,
                 };
                 _context.Add(hc);
                 await _context.SaveChangesAsync();
             }
-        }
 
+            //Creo paciente 2
 
-        private async Task AddOtroPacienteAsync()
-        {
-            Paciente paciente1 = new Paciente()
+            Paciente paciente2 = new Paciente()
             {
-                Id = 3,
                 ObraSocial = ObraSocial.OSDE,
                 UserName = "martinrod@ort.edu.ar",
                 Password = Configs.PasswordDef,
@@ -138,26 +93,24 @@ namespace Historias_C.Controllers
                 DNI = 34765444,
                 Telefono = 1132446565,
             };
-            var resultadoNewPaciente = await _userManager.CreateAsync(paciente1, Configs.PasswordDef);
-            if (resultadoNewPaciente.Succeeded)
+            var resultadoNewPaciente2 = await _userManager.CreateAsync(paciente2, Configs.PasswordDef);
+            if (resultadoNewPaciente2.Succeeded)
             {
-                await _userManager.AddToRoleAsync(paciente1, Configs.PacienteRolName);
+                await _userManager.AddToRoleAsync(paciente2, Configs.PacienteRolName);
 
                 HistoriaClinica hc = new HistoriaClinica()
                 {
-                    Id = 1213,
-                    PacienteId = paciente1.Id,
+                    PacienteId = paciente2.Id,
                 };
                 _context.Add(hc);
                 await _context.SaveChangesAsync();
             }
-        }
 
-        private async Task AddEmpleadosAsync()
-        {
+            //Creo empleado 1
+
             Empleado empleado1 = new Empleado()
             {
-                Id= 1,
+                Id = 1,
                 UserName = "mariom@ort.edu.ar",
                 Password = Configs.PasswordDef,
                 Email = "mariom@ort.edu.ar",
@@ -172,10 +125,9 @@ namespace Historias_C.Controllers
                 await _userManager.AddToRoleAsync(empleado1, Configs.EmpleadoRolName);
                 await _context.SaveChangesAsync();
             }
-        }
 
-        private async Task AddOtherEmpleadosAsync()
-        {
+            //Creo empleado 2
+
             Empleado empleado2 = new Empleado()
             {
                 Id = 2,
@@ -187,34 +139,39 @@ namespace Historias_C.Controllers
                 DNI = 29344727,
                 Telefono = 132550299,
             };
-            var resultadoNewEmpleado = await _userManager.CreateAsync(empleado2, Configs.PasswordDef);
-            if (resultadoNewEmpleado.Succeeded)
+            var resultadoNewEmpleado2 = await _userManager.CreateAsync(empleado2, Configs.PasswordDef);
+            if (resultadoNewEmpleado2.Succeeded)
             {
                 await _userManager.AddToRoleAsync(empleado2, Configs.EmpleadoRolName);
                 await _context.SaveChangesAsync();
             }
+
+            //Agrego episodios
+
+            await addEpisodios(empleado1.Id, paciente1.HistoriaClinica.Id, paciente2.HistoriaClinica.Id, medico1.Id);
+
         }
 
-        private async Task addEpisodion()
+       
+
+        private async Task addEpisodios(int empleado1Id, int paciente1hcId, int paciente2hcId, int medicoId)
         {
             Episodio episodio = new Episodio()
             {
-                Id = 27,
                 Motivo = "Suba de la presión arterial.",
                 Descripcion = "Parámetros del corazon alterados.",
-                HistoriaClinicaId = 1212,
-                EmpleadoId= 1
+                HistoriaClinicaId = paciente1hcId,
+                EmpleadoId= empleado1Id
             };
 
             Episodio episodioCerrado = new Episodio()
             {
-                Id = 28,
                 Motivo = "Descenso de la presión arterial.",
                 Descripcion = "Poca presion sanguinea.",
-                HistoriaClinicaId = 1213,
+                HistoriaClinicaId = paciente2hcId,
                 FechaYHoraCierre = DateTime.Now,
                 EstadoAbierto = false,
-                EmpleadoId = 1
+                EmpleadoId = empleado1Id
 
             };
 
@@ -222,14 +179,16 @@ namespace Historias_C.Controllers
             _context.Add(episodioCerrado);
 
             await _context.SaveChangesAsync();
+
+            await addEvolucion(medicoId, episodioCerrado.Id);
+            await addEpicrisis(medicoId, episodioCerrado.Id);
         }
-            private async Task addEvolucion()
+            private async Task addEvolucion(int medicoId, int episodioCerradoId)
         {
             Evolucion evolucion = new Evolucion()
             {
-                Id = 12,
-                MedicoId = 40,
-                EpisodioId = 28,
+                MedicoId = medicoId,
+                EpisodioId = episodioCerradoId,
                 DescripcionAtencion = "El paciente evoluciona favorablemente.",
                 FechaYHoraCierre= DateTime.Now,
                 EstadoAbierto = false
@@ -238,16 +197,15 @@ namespace Historias_C.Controllers
 
             _context.Add(evolucion);
             await _context.SaveChangesAsync();
-            
+            await addNota(evolucion.Id);
         }
 
-        private async Task addEpicrisis()
+        private async Task addEpicrisis(int medicoId, int episodioCerradoId)
         {
             Epicrisis epicrisis = new Epicrisis()
             {
-                Id = 22,
-                MedicoId = 40,
-                EpisodioId = 28,
+                MedicoId = medicoId,
+                EpisodioId = episodioCerradoId,
                 Descripcion = "Arteria femoral obstruida.",
                 Recomendacion = "Valcote 35mg cada 12 hs"
 
@@ -258,12 +216,11 @@ namespace Historias_C.Controllers
 
         }
 
-        private async Task addNota()
+        private async Task addNota(int evolucionId)
         {
             Notas nota = new Notas()
             {
-                Id = 33,
-                EvolucionId = 12,
+                EvolucionId = evolucionId,
                 EmpleadoId = 1,
                 Mensaje = "Arteria femoral obstruida.",
                 FechaYHora = DateTime.Now
