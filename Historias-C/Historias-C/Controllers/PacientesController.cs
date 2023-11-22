@@ -18,9 +18,9 @@ namespace Historias_C.Controllers
     public class PacientesController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
-        private readonly UserManager<Paciente> _userManager;
+        private readonly UserManager<Persona> _userManager;
 
-        public PacientesController(HistoriasClinicasCContext context, UserManager<Paciente> userManager)
+        public PacientesController(HistoriasClinicasCContext context, UserManager<Persona> userManager)
         {
             _context = context; 
             this._userManager = userManager;
@@ -82,7 +82,6 @@ namespace Historias_C.Controllers
                         {
                             PacienteId = paciente.Id,
                         };
-                        _context.Add(paciente);
                         _context.Add(hc);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Pacientes");

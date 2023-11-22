@@ -17,9 +17,9 @@ namespace Historias_C.Controllers
     public class EmpleadosController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
-        private readonly UserManager<Empleado> _userManager;
+        private readonly UserManager<Persona> _userManager;
 
-        public EmpleadosController(HistoriasClinicasCContext context, UserManager<Empleado> userManager)
+        public EmpleadosController(HistoriasClinicasCContext context, UserManager<Persona> userManager)
         {
             _context = context;
             this._userManager = userManager;
