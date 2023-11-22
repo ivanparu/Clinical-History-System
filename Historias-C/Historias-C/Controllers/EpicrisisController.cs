@@ -9,6 +9,7 @@ using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
@@ -53,6 +54,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Epicrisis/Create
+        [Authorize(Roles = Configs.MedicoRolName)]
         public IActionResult Create(int? episodioId)
         {
             //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
@@ -75,6 +77,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Create([Bind("Id,EpisodioId,MedicoId,FechaYHora,Descripcion,Recomendacion")] Epicrisis epicrisis)
         {
             if (ModelState.IsValid)

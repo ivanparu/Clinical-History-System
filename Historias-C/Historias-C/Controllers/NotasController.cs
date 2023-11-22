@@ -9,6 +9,7 @@ using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
@@ -53,6 +54,8 @@ namespace Historias_C.Controllers
         }
 
         // GET: Notas/Create
+
+        [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
         public IActionResult Create(int? evolucionId)
         {
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
@@ -75,6 +78,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
         public async Task<IActionResult> Create([Bind("Id,EvolucionId,EmpleadoId,Mensaje,FechaYHora")] Notas notas)
         {
             if (ModelState.IsValid)

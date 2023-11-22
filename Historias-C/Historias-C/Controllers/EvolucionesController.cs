@@ -90,7 +90,7 @@ namespace Historias_C.Controllers
 
                 _context.Add(evolucion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Pacientes");
             }
             return View(evolucion);
         }
@@ -149,7 +149,7 @@ namespace Historias_C.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Pacientes");
             }
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", evolucion.EpisodioId);
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido", evolucion.MedicoId);

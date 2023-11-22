@@ -62,7 +62,247 @@
     </dl>
 </div>
 
-@if(Model.HistoriaClinica != null)
+
+
+@if (Model.HistoriaClinica != null)
+{
+    <h2>Historia clínica del paciente @Model.HistoriaClinica.Paciente</h2>
+    @if (Model.HistoriaClinica.Episodios != null)
+    {
+        @if (User.IsInRole(Configs.EmpleadoRolName))
+        {
+            <h3>Episodios</h3>
+            <a asp-controller="Episodio" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Motivo</th>
+                        <th>Descripción</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Fecha de Alta</th>
+                        <th>Estado</th>
+                        <th>Epicrisis</th>
+                        <th>Empleado</th>
+                        <th>Historia Clinica</th>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                    {
+                        <tr>
+                            <td>@episodio.Motivo</td>
+                            <td>@episodio.Descripcion</td>
+                            <td>@episodio.FechaYHoraInicio</td>
+                            <td>@episodio.FechaYHoraCierre</td>
+                            <td>@episodio.FechaYHoraAlta</td>
+                            <td>@episodio.EstadoAbierto</td>
+                            <td>@episodio.Epicrisis</td>
+                            <td>@episodio.Empleado</td>
+                            <td>@episodio.HistoriaClinica</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => !evolucion.EstadoAbierto && evolucion.Notas != null && evolucion.Notas.Any())))
+            {
+                <h4>Notas de evoluciones cerradas</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Evolucion</th>
+                            <th>Empleado</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                        {
+                            foreach (var evolucion in episodio.Evoluciones.Where(e => !e.EstadoAbierto))
+                            {
+                                foreach (var nota in evolucion.Notas)
+                                {
+                                    <tr>
+                                        <td>@nota.Evolucion</td>
+                                        <td>@nota.Empleado</td>
+                                        <td>@nota.Mensaje</td>
+                                        <td>@nota.FechaYHora</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h3>EL paciente no tiene notas cargadas</h3>
+            }
+        }
+        @if (User.IsInRole(Configs.MedicoRolName))
+        {
+            @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.EstadoAbierto)){
+                <h3>Episodios abiertos</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Motivo</th>
+                            <th>Descripción</th>
+                            <th>Fecha de Inicio</th>
+                            <th>Fecha de Cierre</th>
+                            <th>Fecha de Alta</th>
+                            <th>Estado</th>
+                            <th>Epicrisis</th>
+                            <th>Empleado</th>
+                            <th>Historia Clinica</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var episodio in Model.HistoriaClinica.Episodios.Where(e => e.EstadoAbierto))
+                        {
+                            <tr>
+                                <td>@episodio.Motivo</td>
+                                <td>@episodio.Descripcion</td>
+                                <td>@episodio.FechaYHoraInicio</td>
+                                <td>@episodio.FechaYHoraCierre</td>
+                                <td>@episodio.FechaYHoraAlta</td>
+                                <td>@episodio.EstadoAbierto</td>
+                                <td>@episodio.Epicrisis</td>
+                                <td>@episodio.Empleado</td>
+                                <td>@episodio.HistoriaClinica</td>
+                                <td>
+                                    <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id">Crear Evolución</a>
+                                    <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id">Cerrar episodio</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Epicrisis != null && episodio.Epicrisis != null))
+                {
+                    <h4>Epicrisis</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Episodio</th>
+                                <th>Medico</th>
+                                <th>Fecha</th>
+                                <th>Diagnostico</th>
+                                <th>Recomendacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                            {
+                                <tr>
+                                    <td>@episodio.Epicrisis.Episodio</td>
+                                    <td>@episodio.Epicrisis.FechaYHora</td>
+                                    <td>@episodio.Epicrisis.Descripcion</td>
+                                    <td>@episodio.Epicrisis.Recomendacion</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
+                {
+                    <h4>Evoluciones</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Medico</th>
+                                <th>Fecha de Inicio</th>
+                                <th>Fecha de Alta</th>
+                                <th>Fecha de Cierre</th>
+                                <th>Descripcion</th>
+                                <th>Estado</th>
+                                <th>Episodio</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                            {
+                                foreach (var evolucion in episodio.Evoluciones)
+                                {
+                                    <tr>
+                                        <td>@evolucion.Medico</td>
+                                        <td>@evolucion.FechaYHoraInicio</td>
+                                        <td>@evolucion.FechaYHoraAlta</td>
+                                        <td>@evolucion.FechaYHoraCierre</td>
+                                        <td>@evolucion.DescripcionAtencion</td>
+                                        <td>@evolucion.EstadoAbierto</td>
+                                        <td>@evolucion.Episodio</td>
+                                        <td>
+                                            <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
+                                            @if (!evolucion.EstadoAbierto)
+                                            {
+                                                <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => !evolucion.EstadoAbierto && evolucion.Notas != null && evolucion.Notas.Any())))
+                    {
+                        <h4>Notas</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Evolucion</th>
+                                    <th>Empleado</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                                {
+                                    foreach (var evolucion in episodio.Evoluciones.Where(e => !e.EstadoAbierto))
+                                    {
+                                        foreach (var nota in evolucion.Notas)
+                                        {
+                                            <tr>
+                                                <td>@nota.Evolucion</td>
+                                                <td>@nota.Empleado</td>
+                                                <td>@nota.Mensaje</td>
+                                                <td>@nota.FechaYHora</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h3>EL paciente no tiene notas</h3>
+                    }
+                }
+                else
+                {
+                    <h3>EL paciente no tiene evoluciones</h3>
+                }
+            }
+            else
+            {
+                <h3>El paciente no tiene ningun episodio abierto</h3>
+            }
+        }
+    }
+    else
+    {
+        <h3>El paciente no tiene episodios</h3>
+        @if (User.IsInRole(Configs.EmpleadoRolName))
+        {
+            <a asp-controller="Episodio" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
+        }
+    }
+}
+else
+{
+    <h2>El paciente no tiene historia clinica</h2>
+}
+
+
+@*/@if(Model.HistoriaClinica != null)
 {
     <h2>Historia clínica del paciente @Model.HistoriaClinica.Paciente</h2>
 
@@ -137,263 +377,165 @@
                         }
                     </tbody>
                 </table>
+                @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => !evolucion.EstadoAbierto && evolucion.Notas != null && evolucion.Notas.Any())))
+                {
+                    <h4>Notas</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Evolucion</th>
+                                <th>Empleado</th>
+                                <th>Mensaje</th>
+                                <th>Fecha</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                            {
+                                foreach (var evolucion in episodio.Evoluciones)
+                                {
+                                    foreach (var nota in evolucion.Notas)
+                                    {
+                                        <tr>
+                                            <td>@nota.Evolucion</td>
+                                            <td>@nota.Empleado</td>
+                                            <td>@nota.Mensaje</td>
+                                            <td>@nota.FechaYHora</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
             }
 
-}
+        } @if (User.IsInRole(Configs.MedicoRolName))
+        {
+            <h3>Episodios</h3>
+            <a asp-controller="Episodio" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Motivo</th>
+                        <th>Descripción</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Fecha de Alta</th>
+                        <th>Estado</th>
+                        <th>Epicrisis</th>
+                        <th>Empleado</th>
+                        <th>Historia Clinica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios.Where(e => e.EstadoAbierto))
+                    {
+                        <tr>
+                            <td>@episodio.Motivo</td>
+                            <td>@episodio.Descripcion</td>
+                            <td>@episodio.FechaYHoraInicio</td>
+                            <td>@episodio.FechaYHoraCierre</td>
+                            <td>@episodio.FechaYHoraAlta</td>
+                            <td>@episodio.EstadoAbierto</td>
+                            <td>@episodio.Epicrisis</td>
+                            <td>@episodio.Empleado</td>
+                            <td>@episodio.HistoriaClinica</td>
+                            <td>
+                                <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id">Crear Evolución</a>
+                                @if (episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => evolucion.EstadoAbierto))
+                                {
+                                    <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id">Cerrar episodio</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
         else
         {
             <h2>El paciente no tiene episodios</h2>
         }
-        }
-        
-    @if (User.IsInRole(Configs.MedicoRolName))
-    {
-        <h3>Episodios</h3>
-        <a asp-controller="Episodio" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Motivo</th>
-                    <th>Descripción</th>
-                    <th>Fecha de Inicio</th>
-                    <th>Fecha de Cierre</th>
-                    <th>Fecha de Alta</th>
-                    <th>Estado</th>
-                    <th>Epicrisis</th>
-                    <th>Empleado</th>
-                    <th>Historia Clinica</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var episodio in Model.HistoriaClinica.Episodios.Where(e => e.EstadoAbierto))
-                {
+
+        @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
+        {
+            <h4>Evoluciones</h4>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@episodio.Motivo</td>
-                        <td>@episodio.Descripcion</td>
-                        <td>@episodio.FechaYHoraInicio</td>
-                        <td>@episodio.FechaYHoraCierre</td>
-                        <td>@episodio.FechaYHoraAlta</td>
-                        <td>@episodio.EstadoAbierto</td>
-                        <td>@episodio.Epicrisis</td>
-                        <td>@episodio.Empleado</td>
-                        <td>@episodio.HistoriaClinica</td>
-                        <td>
-                            <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id">Crear Evolución</a>
-                            @if (episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => evolucion.EstadoAbierto))
+                        <th>Medico</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Alta</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                        <th>Episodio</th>
+                </thead>
+                <tbody>
+                    @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                    {
+                        foreach (var evolucion in episodio.Evoluciones)
+                        {
+                            <tr>
+                                <td>@evolucion.Medico</td>
+                                <td>@evolucion.FechaYHoraInicio</td>
+                                <td>@evolucion.FechaYHoraAlta</td>
+                                <td>@evolucion.FechaYHoraCierre</td>
+                                <td>@evolucion.DescripcionAtencion</td>
+                                <td>@evolucion.EstadoAbierto</td>
+                                <td>@evolucion.Episodio</td>
+                                <td>
+                                    <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
+                                    @if (!evolucion.EstadoAbierto)
+                                    {
+                                        <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => evolucion.Notas != null && evolucion.Notas.Any())))
+            {
+                <h4>Notas</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Evolucion</th>
+                            <th>Empleado</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var episodio in Model.HistoriaClinica.Episodios)
+                        {
+                            foreach (var evolucion in episodio.Evoluciones)
                             {
-                                <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id">Cerrar episodio</a>
+                                foreach (var nota in evolucion.Notas)
+                                {
+                                    <tr>
+                                        <td>@nota.Evolucion</td>
+                                        <td>@nota.Empleado</td>
+                                        <td>@nota.Mensaje</td>
+                                        <td>@nota.FechaYHora</td>
+                                    </tr>
+                                }
                             }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h2>El paciente no tiene episodios</h2>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+        else
+        {
+            <h2>El paciente no tiene episodios</h2>
+        }
     }
 
-    @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
-    {
-        <h4>Evoluciones</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Medico</th>
-                    <th>Fecha de Inicio</th>
-                    <th>Fecha de Alta</th>
-                    <th>Fecha de Cierre</th>
-                    <th>Descripcion</th>
-                    <th>Estado</th>
-                    <th>Episodio</th>
-            </thead>
-            <tbody>
-                @foreach (var episodio in Model.HistoriaClinica.Episodios)
-                {
-                    foreach (var evolucion in episodio.Evoluciones)
-                    {
-                        <tr>
-                            <td>@evolucion.Medico</td>
-                            <td>@evolucion.FechaYHoraInicio</td>
-                            <td>@evolucion.FechaYHoraAlta</td>
-                            <td>@evolucion.FechaYHoraCierre</td>
-                            <td>@evolucion.DescripcionAtencion</td>
-                            <td>@evolucion.EstadoAbierto</td>
-                            <td>@evolucion.Episodio</td>
-                            <td>
-                                <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    }
+
 }
 else
 {
     <h2>El paciente no tiene historia clínica</h2>
-}
-
-@*/@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null)
-{
-    <h4>Episodios</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Motivo</th>
-                <th>Descripción</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Cierre</th>
-                <th>Fecha de Alta</th>
-                <th>Estado</th>
-                <th>Epicrisis</th>
-                <th>Empleado</th>
-                <th>Historia Clinica</th>
-        </thead>
-        <tbody>
-            @foreach (var episodio in Model.HistoriaClinica.Episodios)
-            {
-                <tr>
-                    <td>@episodio.Motivo</td>
-                    <td>@episodio.Descripcion</td>
-                    <td>@episodio.FechaYHoraInicio</td>
-                    <td>@episodio.FechaYHoraCierre</td>
-                    <td>@episodio.FechaYHoraAlta</td>
-                    <td>@episodio.EstadoAbierto</td>
-                    <td>@episodio.Epicrisis</td>
-                    <td>@episodio.Empleado</td>
-                    <td>@episodio.HistoriaClinica</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@episodio.Id">Editar</a> |
-                        <a asp-action="Details" asp-route-id="@episodio.Id">Detalles</a> |
-                        <a asp-action="Delete" asp-route-id="@episodio.Id">Borrar</a>  |
-                        @if (User.IsInRole("medico"))
-                        {
-                            <a asp-controller="Evoluciones" asp-action="Create" asp-route-epidosioId="@episodio.Id">Crear evolución</a>
-                            <a asp-controller="Epicrisis" asp-action="Create" asp-route-id="@episodio.Id">Crear epicrisis</a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No hay Epidosodios disponibles</p>
-}
-
-@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
-{
-    <h4>Evoluciones</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Medico</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Alta</th>
-                <th>Fecha de Cierre</th>
-                <th>Descripcion</th>
-                <th>Estado</th>
-                <th>Episodio</th>
-        </thead>
-        <tbody>
-            @foreach (var episodio in Model.HistoriaClinica.Episodios)
-            {
-                foreach (var evolucion in episodio.Evoluciones)
-                {
-                    <tr>
-                        <td>@evolucion.Medico</td>
-                        <td>@evolucion.FechaYHoraInicio</td>
-                        <td>@evolucion.FechaYHoraAlta</td>
-                        <td>@evolucion.FechaYHoraCierre</td>
-                        <td>@evolucion.DescripcionAtencion</td>
-                        <td>@evolucion.EstadoAbierto</td>
-                        <td>@evolucion.Episodio</td>
-                        <td>
-                            <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Editar</a> |
-                            <a asp-controller="Evoluciones" asp-action="Details" asp-route-id="@evolucion.Id">Detalles</a> |
-                            <a asp-controller="Evoluciones" asp-action="Delete" asp-route-id="@evolucion.Id">Borrar</a>  |
-                            @if (User.IsInRole("empleado")){
-                                <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear nota</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-}
-@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Epicrisis != null && episodio.Epicrisis != null))
-{
-    <h4>Epicrisis</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Episodio</th>
-                <th>Medico</th>
-                <th>Fecha</th>
-                <th>Diagnostico</th>
-                <th>Recomendacion</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var episodio in Model.HistoriaClinica.Episodios)
-            {
-                    <tr>
-                        <td>@episodio.Epicrisis.Episodio</td>
-                        <td>@episodio.Epicrisis.FechaYHora</td>
-                        <td>@episodio.Epicrisis.Descripcion</td>
-                        <td>@episodio.Epicrisis.Recomendacion</td>
-                        <td>
-                            <a asp-controller="Epicrisis" asp-action="Edit" asp-route-id="@episodio.Epicrisis.Id">Editar</a> |
-                            <a asp-controller="Epicrisis" asp-action="Details" asp-route-id="@episodio.Epicrisis.Id">Detalles</a> |
-                            <a asp-controller="Epicrisis" asp-action="Delete" asp-route-id="@episodio.Epicrisis.Id">Borrar</a>
-                    </td>
-                    </tr>
-            }
-        </tbody>
-    </table>
-}
-@if (Model.HistoriaClinica != null && Model.HistoriaClinica.Episodios != null && Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
-{
-    <h4>Notas</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Evolucion</th>
-                <th>Empleado</th>
-                <th>Mensaje</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var episodio in Model.HistoriaClinica.Episodios)
-            {
-                foreach (var evolucion in episodio.Evoluciones)
-                {
-                    foreach(var nota in evolucion.Notas)
-                    {
-                        <tr>
-                            <td>@nota.Evolucion</td>
-                            <td>@nota.Empleado</td>
-                            <td>@nota.Mensaje</td>
-                            <td>@nota.FechaYHora</td>
-                            <td>
-                                <a asp-controller="Notas" asp-action="Edit" asp-route-id="@nota.Id">Editar</a> |
-                                <a asp-controller="Notas" asp-action="Details" asp-route-id="@nota.Id">Detalles</a> |
-                                <a asp-controller="Notas" asp-action="Delete" asp-route-id="@nota.Id">Borrar</a>
-                            </td>
-                        </tr>
-                    }
-                }
-            }
-        </tbody>
-    </table>
-}
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>*/*@
+}*/*@
