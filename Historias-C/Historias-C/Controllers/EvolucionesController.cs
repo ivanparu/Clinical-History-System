@@ -9,6 +9,8 @@ using Historias_C.Data;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Historias_C.Helpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Historias_C.Controllers
 {
@@ -53,7 +55,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Evoluciones/Create
-        
+        [Authorize(Roles = Configs.MedicoRolName)]
         public IActionResult Create(int? episodioId)
         {
             // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
@@ -77,7 +79,8 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        [Authorize(Roles = Configs.MedicoRolName)]
+        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +96,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Evoluciones/Edit/5
-
+        [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Evoluciones == null)
@@ -116,17 +119,22 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
         {
             if (id != evolucion.Id)
             {
                 return NotFound();
             }
-
+            if(evolucion.EstadoAbierto == true)
+            {
+                ModelState.AddModelError("EstadoAbierto", "Si se quiere cerrar la evolucion, esto debe estar destildado");
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
+                    evolucion.FechaYHoraCierre = DateTime.Now;
                     _context.Update(evolucion);
                     await _context.SaveChangesAsync();
                 }
