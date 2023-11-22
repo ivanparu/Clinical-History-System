@@ -19,10 +19,13 @@ namespace Historias_C.Controllers
     public class MedicosController : Controller
     {
         private readonly HistoriasClinicasCContext _context;
+        private readonly UserManager<Medico> _userManager;
 
-        public MedicosController(HistoriasClinicasCContext context)
+        public MedicosController(HistoriasClinicasCContext context, UserManager<Medico> userManager)
         {
             _context = context;
+            this._userManager = userManager;
+
         }
 
         // GET: Medicos
@@ -66,54 +69,48 @@ namespace Historias_C.Controllers
 
             if (ModelState.IsValid)
             {
+                medico.UserName = medico.Email;
                 _context.Add(medico);
-                try
+                var resultadoNewMedico = await _userManager.CreateAsync(medico, Configs.PasswordDef);
+                if (resultadoNewMedico.Succeeded)
+                {
+                    var resultadoAddRole = await _userManager.AddToRoleAsync(medico, Configs.MedicoRolName);
+                if (resultadoAddRole.Succeeded)
+                {
+                    try
                 {
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                catch(DbUpdateException dbex)
+                catch (DbUpdateException dbex)
                 {
                     ProcesoDuplicado(dbex);
                 }
-                
-            }
-            return View(medico);
-           /* paciente.UserName = paciente.Email;
-            var resultadoNewPaciente = await _userManager.CreateAsync(paciente, Configs.PasswordDef);
-
-            //creo con usermanager
-            //si está ok
-            //le agrego el rol
-            if (resultadoNewPaciente.Succeeded)
-            {
-                var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
-                if (resultadoAddRole.Succeeded)
-                {
-                    HistoriaClinica hc = new HistoriaClinica()
-                    {
-                        PacienteId = paciente.Id,
-                    };
-                    _context.Add(paciente);
-                    _context.Add(hc);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Pacientes");
                 }
                 else
                 {
-                    return Content($"No se ha podido agregar el rol {Configs.PacienteRolName}");
+                    return Content($"No se ha podido agregar el rol {Configs.MedicoRolName}");
+                }
+                }
+                foreach (var error in resultadoNewMedico.Errors)
+                {
+                    ModelState.AddModelError(String.Empty, error.Description);
                 }
             }
-
-
-            //creamos la HistoriaClinica y la asocio al paciente creado
-            foreach (var error in resultadoNewPaciente.Errors)
+            return View(medico);
+        }
+        private void ProcesoDuplicado(DbUpdateException dbex)
+        {
+            SqlException innerException = dbex.InnerException as SqlException;
+            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
             {
-                ModelState.AddModelError(String.Empty, error.Description);
+                ModelState.AddModelError("Matricula", ErrorMessages.MatriculaExistente);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, dbex.Message);
             }
         }
-            return View(paciente);
-    }*/          //Algo parecido a esto, ya que empleado va a agregar medicos
 
         private void VerificarMatricula(Medico medico)
         {
@@ -128,7 +125,8 @@ namespace Historias_C.Controllers
             bool resultado = false;
             if (!string.IsNullOrEmpty(medico.Matricula))
             {
-                if (medico.Id != null && medico.Id != 0) { 
+                if (medico.Id != null && medico.Id != 0)
+                {
                     //Es una modificación, me interesa que по exista solo si no es del registro que soy.
                     resultado = _context.Medicos.Any(m => m.Matricula == medico.Matricula && m.Id != medico.Id);
                 }
@@ -141,20 +139,7 @@ namespace Historias_C.Controllers
             return resultado;
         }
 
-        private void ProcesoDuplicado(DbUpdateException dbex)
-        {
-            SqlException innerException = dbex.InnerException as SqlException;
-            if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
-            {
-                ModelState.AddModelError("Matricula", ErrorMessages.MatriculaExistente);
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, dbex.Message);
-            }
-        }
-        
-        
+
         // GET: Medicos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
