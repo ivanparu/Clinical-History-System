@@ -54,7 +54,13 @@
                             @if (User.IsInRole(Historias_C.Helpers.Configs.EmpleadoRolName))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Medicos</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(Historias_C.Helpers.Configs.MedicoRolName))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
                                 </li>
                             }
 

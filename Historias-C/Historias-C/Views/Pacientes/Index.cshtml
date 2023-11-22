@@ -5,10 +5,12 @@
 }
 
 <h1>Índice</h1>
-
-<p>
-    <a asp-action="Create">Crear nuevo</a>
-</p>
+@if (User.IsInRole(Historias_C.Helpers.Configs.EmpleadoRolName))
+{
+    <p>
+        <a asp-action="Create">Crear nuevo</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -69,12 +71,17 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>  |
-                <a asp-controller="Episodios" asp-action="Create" asp-route-pacienteId="@item.Id">Crear episodio</a> |
-                <a asp-controller="HistoriaClinicas" asp-action="Create" asp-route-pacienteId="@item.Id">Crear Historia Clinica</a>
-            </td>
+                    @if (User.IsInRole(Historias_C.Helpers.Configs.EmpleadoRolName))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                    @if (User.IsInRole(Historias_C.Helpers.Configs.MedicoRolName))
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                </td>
         </tr>
 }
     </tbody>

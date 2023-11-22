@@ -10,6 +10,7 @@ using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Historias_C.Helpers;
 
 namespace Historias_C.Controllers
 {
@@ -55,6 +56,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Episodios/Create
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public IActionResult Create(int? pacienteId)
         {
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
@@ -99,6 +101,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.EmpleadoRolName)]
         public async Task<IActionResult> Create([Bind("Id,Motivo,Descripcion,FechaYHoraInicio,EstadoAbierto,HistoriaClinicaId")] Episodio episodio)
         {
 
@@ -120,6 +123,7 @@ namespace Historias_C.Controllers
         }
 
         // GET: Episodios/Edit/5
+        [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Episodios == null)
@@ -143,17 +147,23 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EstadoAbierto,EpicrisisId,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
         {
             if (id != episodio.Id)
             {
                 return NotFound();
             }
+            if (episodio.EstadoAbierto == true)
+            {
+                ModelState.AddModelError("EstadoAbierto", "Si se quiere cerrar el episodio, esto debe estar destildado");
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    episodio.FechaYHoraCierre = DateTime.Now;
                     _context.Update(episodio);
                     await _context.SaveChangesAsync();
                 }
@@ -168,7 +178,7 @@ namespace Historias_C.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "Epicrisis", episodio.Id);
             }
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
             ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);

@@ -15,24 +15,15 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Motivo" class="control-label"></label>
-                <input asp-for="Motivo" class="form-control" />
+                <input asp-for="Motivo" class="form-control" readonly />
                 <span asp-validation-for="Motivo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <input asp-for="Descripcion" class="form-control" readonly />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaYHoraInicio" class="control-label"></label>
-                <input asp-for="FechaYHoraInicio" class="form-control" />
-                <span asp-validation-for="FechaYHoraInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaYHoraCierre" class="control-label"></label>
-                <input asp-for="FechaYHoraCierre" class="form-control" />
-                <span asp-validation-for="FechaYHoraCierre" class="text-danger"></span>
-            </div>
+            <input asp-for="FechaYHoraInicio" hidden />
             <div class="form-group">
                 <label asp-for="FechaYHoraAlta" class="control-label"></label>
                 <input asp-for="FechaYHoraAlta" class="form-control" />
@@ -45,17 +36,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="EpicrisisId" class="control-label"></label>
-                <select asp-for="EpicrisisId" class="form-control" asp-items="ViewBag.EpicrisisId"></select>
+                <select asp-for="EpicrisisId" class="form-control" asp-items="ViewBag.EpicrisisId" readonly></select>
                 <span asp-validation-for="EpicrisisId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmpleadoId" class="control-label"></label>
-                <select asp-for="EmpleadoId" class="form-control" asp-items="ViewBag.EmpleadoId"></select>
+                <select asp-for="EmpleadoId" class="form-control" asp-items="ViewBag.EmpleadoId" readonly></select>
                 <span asp-validation-for="EmpleadoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HistoriaClinicaId" class="control-label"></label>
-                <select asp-for="HistoriaClinicaId" class="form-control" asp-items="ViewBag.HistoriaClinicaId"></select>
+                <select asp-for="HistoriaClinicaId" class="form-control" asp-items="ViewBag.HistoriaClinicaId" readonly></select>
                 <span asp-validation-for="HistoriaClinicaId" class="text-danger"></span>
             </div>
             <div class="form-group">
