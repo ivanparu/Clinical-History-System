@@ -1,0 +1,15 @@
+﻿@model Historias_C.Models.Paciente
+
+<h1>Para buscarlo en la base de datos, coloque su dni</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Pacientes" asp-action="PonerDNI" method="post">
+            <label class="control-label">Ingrese su DNI</label>
+            <input type="number" name="dni" class="form-control" />
+            <button type="submit">Enviar</button>
+
+            <span asp-validation-for="DNI" class="text-danger"></span>
+        </form>
+    </div>
+</div>

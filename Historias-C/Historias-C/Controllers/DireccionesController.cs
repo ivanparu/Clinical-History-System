@@ -23,11 +23,6 @@ namespace Historias_C.Controllers
             _context = context;
         }
 
-        private IEnumerable<Persona> GetPersonasSinDireccion()
-        {
-            return _context.Personas.Include(p => p.Direccion).Where(p => p.Direccion == null);
-        }
-
         // GET: Direcciones
         public async Task<IActionResult> Index()
         {
@@ -55,9 +50,24 @@ namespace Historias_C.Controllers
         }
 
         // GET: Direcciones/Create
-        public IActionResult Create()
+        public IActionResult Create(int? pacienteId)
         {
-            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido");
+            if (pacienteId == null)
+            {
+                // Manejo del caso donde no se proporciona un ID de paciente
+                return RedirectToAction("IndexDePaciente", "Pacientes"); 
+            }
+
+            // Se obtiene el paciente correspondiente al ID proporcionado
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == pacienteId);
+
+            if (paciente == null)
+            {
+                // Manejo del caso donde el paciente no existe
+                return RedirectToAction("IndexDePaciente", "Pacientes"); 
+            }
+
+            ViewData["PersonaId"] = paciente.Id; 
             return View();
         }
 
@@ -68,46 +78,30 @@ namespace Historias_C.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Calle,Altura,Barrio,Ciudad,PersonaId")] Direccion direccion)
         {
-            string errorNoEsperado = string.Empty;
-
-            if (DireccionExists(direccion.Id))
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Id", "Esta persona ya tiene una direccion asociada");
-            }
+                // Obtener el paciente actual (suponiendo que tienes el ID del paciente en algún lugar)
+                var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == PacienteId);
 
-            try
-            {
-                if (ModelState.IsValid)
+                // Verificar que el paciente existe
+                if (paciente != null)
                 {
+                    // Establecer el ID del paciente en la dirección
+                    direccion.PersonaId = paciente.Id;
+
+                    // Agregar y guardar cambios en la base de datos
                     _context.Add(direccion);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-            } catch(DbUpdateException e)
-            {
-                SqlException ie = e.InnerException as SqlException;
 
-                if(ie != null && (ie.Number == 2627 || ie.Number == 2601))
-                {
-                    ModelState.AddModelError("Id", "Esta persona ya tiene una direccion asociada");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    errorNoEsperado = $"Error no esperado al actualizar la DB: {ie.Message}";
+                    // Manejar el caso donde el paciente no existe
+                    return RedirectToAction("IndexDePaciente", "Pacientes");
                 }
             }
-            catch(Exception e)
-            {
-                errorNoEsperado = $"Error no esperado: {e.InnerException.Message}";
-            }
 
-            if (!string.IsNullOrEmpty(errorNoEsperado))
-            {
-                ModelState.AddModelError(string.Empty, errorNoEsperado);
-            }
-
-            
-            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
             return View(direccion);
         }
 
@@ -124,7 +118,6 @@ namespace Historias_C.Controllers
             {
                 return NotFound();
             }
-            ViewData["PersonaId"] = new SelectList(GetPersonasSinDireccion(), "Id", "Apellido", direccion.PersonaId);
             return View(direccion);
         }
 
@@ -200,11 +193,6 @@ namespace Historias_C.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DireccionExists(int id)
-        {
-          return _context.Direcciones.Any(e => e.Id == id);
         }
     }
 }

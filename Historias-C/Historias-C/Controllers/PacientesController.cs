@@ -28,6 +28,49 @@ namespace Historias_C.Controllers
 
         }
 
+        public IActionResult PonerDNI()
+        {
+            return View();
+        }
+
+        public IActionResult PonerDNI(int dni)
+        {
+            // Verificar si existe un paciente con el DNI proporcionado
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.DNI == dni);
+
+            if (paciente != null)
+            {
+                // Redirigir a la acción IndexPaciente y pasar el paciente como modelo
+                return RedirectToAction("IndexDePaciente", new { id = paciente.Id });
+            }
+            else
+            {
+                // Agregar un error de modelo si no se encuentra el paciente
+                ModelState.AddModelError("DNI", "No se encontró ningún paciente con ese DNI");
+                return View(); 
+            }
+        }
+
+        // GET: Pacientes
+        public async Task<IActionResult> IndexDePaciente(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Obtener el paciente de la base de datos
+            var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (paciente == null)
+            {
+                return NotFound();
+            }
+
+            // Pasar el paciente a la vista
+            return View(paciente);
+        }
+
         // GET: Pacientes
         public async Task<IActionResult> Index()
         {
