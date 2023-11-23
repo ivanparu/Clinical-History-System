@@ -91,7 +91,7 @@ namespace Historias_C.Controllers
                     direccion.PacienteId = paciente.Id;
 
                     // Agregar y guardar cambios en la base de datos
-                    _context.Add(direccion);
+                    _context.Direcciones.Add(direccion);
                     await _context.SaveChangesAsync();
 
                     return RedirectToAction("IndexDePaciente", "Pacientes");
@@ -136,7 +136,7 @@ namespace Historias_C.Controllers
 
             if (ModelState.IsValid)
             {
-                    _context.Update(direccion);
+                    _context.Direcciones.Update(direccion);
                     await _context.SaveChangesAsync();
                 }
                 

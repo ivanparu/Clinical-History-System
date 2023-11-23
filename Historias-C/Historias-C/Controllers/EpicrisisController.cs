@@ -85,7 +85,7 @@ namespace Historias_C.Controllers
                 var medicoId = Int32.Parse(_userManager.GetUserId(User));
                 epicrisis.MedicoId = medicoId;
 
-                _context.Add(epicrisis);
+                _context.Epicrisis.Add(epicrisis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -128,7 +128,7 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(epicrisis);
+                    _context.Epicrisis.Update(epicrisis);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

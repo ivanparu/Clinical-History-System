@@ -86,7 +86,7 @@ namespace Historias_C.Controllers
                 var empleadoId = Int32.Parse(_userManager.GetUserId(User));
                 notas.EmpleadoId = empleadoId;
                     
-                _context.Add(notas);
+                _context.Notas.Add(notas);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -129,7 +129,7 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(notas);
+                    _context.Notas.Update(notas);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

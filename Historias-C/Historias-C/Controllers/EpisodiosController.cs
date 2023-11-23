@@ -112,7 +112,7 @@ namespace Historias_C.Controllers
                 var empleadoId = Int32.Parse(_userManager.GetUserId(User));
                 episodio.EmpleadoId = empleadoId;
 
-                _context.Add(episodio);
+                _context.Episodios.Add(episodio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Pacientes");
             }
@@ -164,7 +164,7 @@ namespace Historias_C.Controllers
                 try
                 {
                     episodio.FechaYHoraCierre = DateTime.Now;
-                    _context.Update(episodio);
+                    _context.Episodios.Update(episodio);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

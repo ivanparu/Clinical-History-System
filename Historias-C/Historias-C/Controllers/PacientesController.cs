@@ -137,7 +137,7 @@ namespace Historias_C.Controllers
                             {
                                 PacienteId = paciente.Id,
                             };
-                            _context.Add(hc);
+                            _context.HistoriaClinicas.Add(hc);
                             await _context.SaveChangesAsync();
                             return RedirectToAction("Index", "Pacientes");
                         } catch (DbUpdateException dbex)
@@ -253,7 +253,7 @@ namespace Historias_C.Controllers
                         return View(pacienteDelFormulario);
                     }
 
-                    _context.Update(pacienteEnDb);
+                    _context.HistoriaClinicas.Update(pacienteEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

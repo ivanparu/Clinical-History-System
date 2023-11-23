@@ -88,7 +88,7 @@ namespace Historias_C.Controllers
                 var medicoId = Int32.Parse(_userManager.GetUserId(User));
                 evolucion.MedicoId = medicoId;
 
-                _context.Add(evolucion);
+                _context.Evoluciones.Add(evolucion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Pacientes");
             }
@@ -135,7 +135,7 @@ namespace Historias_C.Controllers
                 try
                 {
                     evolucion.FechaYHoraCierre = DateTime.Now;
-                    _context.Update(evolucion);
+                    _context.Evoluciones.Update(evolucion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
