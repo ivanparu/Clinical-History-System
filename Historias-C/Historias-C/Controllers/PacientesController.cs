@@ -253,7 +253,7 @@ namespace Historias_C.Controllers
                         return View(pacienteDelFormulario);
                     }
 
-                    _context.HistoriaClinicas.Update(pacienteEnDb);
+                    _context.Pacientes.Update(pacienteEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
