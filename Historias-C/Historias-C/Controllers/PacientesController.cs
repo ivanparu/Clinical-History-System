@@ -28,20 +28,22 @@ namespace Historias_C.Controllers
 
         }
 
+        [HttpGet("PonerDNI")]
         public IActionResult PonerDNI()
         {
             return View();
         }
-
-        public IActionResult PonerDNI(int dni)
+        
+        [HttpPost]
+        public IActionResult BuscarDNI(int DNI)
         {
             // Verificar si existe un paciente con el DNI proporcionado
-            var paciente = _context.Pacientes.FirstOrDefault(p => p.DNI == dni);
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.DNI == DNI);
 
             if (paciente != null)
             {
                 // Redirigir a la acción IndexPaciente y pasar el paciente como modelo
-                return RedirectToAction("IndexDePaciente", new { id = paciente.Id });
+                return RedirectToAction("IndexDePaciente","Pacientes" ,new { id = paciente.Id });
             }
             else
             {
