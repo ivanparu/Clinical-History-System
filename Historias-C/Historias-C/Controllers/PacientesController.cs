@@ -88,11 +88,21 @@ namespace Historias_C.Controllers
             }
 
             var paciente = await _context.Pacientes
-                .Include(p => p.HistoriaClinica)
+            .Include(p => p.HistoriaClinica)
+                 .ThenInclude(hc => hc.Episodios)
+                    .ThenInclude(e => e.Evoluciones)
+                        .ThenInclude(ev => ev.Notas)
+            .Include(p => p.HistoriaClinica)
                 .ThenInclude(hc => hc.Episodios)
-                .ThenInclude(e => e.Evoluciones)
-                .ThenInclude(ev => ev.Notas)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                    .ThenInclude(e => e.Epicrisis)
+                        .ThenInclude(ep => ep.Medico)
+            .Include(p => p.HistoriaClinica)
+                .ThenInclude(hc => hc.Episodios)
+                    .ThenInclude(e => e.Empleado)
+            .Include(p => p.HistoriaClinica)
+                .ThenInclude(hc => hc.Episodios)
+                    .ThenInclude(e => e.Empleado)
+            .FirstOrDefaultAsync(m => m.Id == id);
             if (paciente == null)
             {
                 return NotFound();
