@@ -88,6 +88,10 @@ namespace Historias_C.Controllers
             }
 
             var paciente = await _context.Pacientes
+                .Include(p => p.HistoriaClinica)
+                .ThenInclude(hc => hc.Episodios)
+                .ThenInclude(e => e.Evoluciones)
+                .ThenInclude(ev => ev.Notas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (paciente == null)
             {

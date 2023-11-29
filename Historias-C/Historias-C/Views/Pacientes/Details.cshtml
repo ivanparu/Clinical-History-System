@@ -66,7 +66,7 @@
 
 @if (Model.HistoriaClinica != null)
 {
-    <h2>Historia clínica del paciente @Model.HistoriaClinica.Paciente</h2>
+    <h2>Historia clínica del paciente @Model.Nombre</h2>
     @if (Model.HistoriaClinica.Episodios != null)
     {
         @if (User.IsInRole(Configs.EmpleadoRolName))
@@ -303,8 +303,6 @@
                         <th>Fecha de Alta</th>
                         <th>Estado</th>
                         <th>Epicrisis</th>
-                        <th>Empleado</th>
-                        <th>Historia Clinica</th>
                 </thead>
                 <tbody>
                     @foreach (var episodio in Model.HistoriaClinica.Episodios)
@@ -315,10 +313,15 @@
                             <td>@episodio.FechaYHoraInicio</td>
                             <td>@episodio.FechaYHoraCierre</td>
                             <td>@episodio.FechaYHoraAlta</td>
-                            <td>@episodio.EstadoAbierto</td>
+                            @if (episodio.EstadoAbierto == true)
+                            {
+                                <td>Abierto</td>
+                            }
+                            else
+                            {
+                                <td>Cerrado</td>
+                            }
                             <td>@episodio.Epicrisis</td>
-                            <td>@episodio.Empleado</td>
-                            <td>@episodio.HistoriaClinica</td>
                         </tr>
                     }
                 </tbody>
@@ -360,7 +363,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Medico</th>
                         <th>Fecha de Inicio</th>
                         <th>Fecha de Alta</th>
                         <th>Fecha de Cierre</th>
@@ -374,12 +376,18 @@
                         foreach (var evolucion in episodio.Evoluciones)
                         {
                             <tr>
-                                <td>@evolucion.Medico</td>
                                 <td>@evolucion.FechaYHoraInicio</td>
                                 <td>@evolucion.FechaYHoraAlta</td>
                                 <td>@evolucion.FechaYHoraCierre</td>
                                 <td>@evolucion.DescripcionAtencion</td>
-                                <td>@evolucion.EstadoAbierto</td>
+                                @if(evolucion.EstadoAbierto == true)
+                                {
+                                    <td>Abierto</td>
+                                }
+                                else
+                                {
+                                    <td>Cerrado</td>
+                                }
                                 <td>@evolucion.Episodio</td>
                             </tr>
                         }
@@ -393,7 +401,6 @@
                     <thead>
                         <tr>
                             <th>Evolucion</th>
-                            <th>Empleado</th>
                             <th>Mensaje</th>
                             <th>Fecha</th>
                     </thead>
@@ -406,7 +413,6 @@
                                 {
                                     <tr>
                                         <td>@nota.Evolucion</td>
-                                        <td>@nota.Empleado</td>
                                         <td>@nota.Mensaje</td>
                                         <td>@nota.FechaYHora</td>
                                     </tr>
