@@ -5,7 +5,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Paciente</h4>
@@ -135,14 +135,14 @@
             }
             else
             {
-                <h5>EL paciente no tiene notas cargadas</h5>
+                <h5>El paciente no tiene notas cargadas.</h5>
             }
         }
         @if (User.IsInRole(Configs.MedicoRolName))
         {
             @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.EstadoAbierto))
             {
-                <h3>Episodios abiertos</h3>
+                <h3>Episodios abiertos: </h3>
                 <table class="table">
                     <thead>
                         <tr>
@@ -170,8 +170,9 @@
                                 <td>@episodio.Empleado</td>
                                 <td>@episodio.HistoriaClinica</td>
                                 <td>
-                                    <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id">Crear Evolución</a>
-                                    <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id">Cerrar episodio</a>
+                                    <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id" class="btn btn-sm btn-warning"> Crear Evolución</a>
+                                    <a>  </a>
+                                    <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id" class="btn btn-sm btn-warning"> Cerrar episodio</a>
                                 </td>
                             </tr>
                         }
@@ -205,7 +206,7 @@
                 }
                 else
                 {
-                    <h5>EL paciente no tiene ninguna epicrisis</h5>
+                    <h5>El paciente no tiene ninguna epicrisis.</h5>
                 }
                 @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
                 {
@@ -278,17 +279,17 @@
                     }
                     else
                     {
-                        <h5>EL paciente no tiene notas</h5>
+                        <h5>El paciente no tiene notas.</h5>
                     }
                 }
                 else
                 {
-                    <h5>EL paciente no tiene evoluciones</h5>
+                    <h5>El paciente no tiene evoluciones.</h5>
                 }
             }
             else
             {
-                <h5>El paciente no tiene ningun episodio abierto</h5>
+                <h5>El paciente no tiene ningun episodio abierto.</h5>
             }
         }
         @if (User.IsInRole(Configs.PacienteRolName))
@@ -355,7 +356,7 @@
             }
             else
             {
-                <h3>No tienes ninguna Epicrisis</h3>
+                <h3>No tienes ninguna Epicrisis.</h3>
             }
             @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any()))
             {
@@ -424,12 +425,12 @@
                 }
                 else
                 {
-                    <h5>No tienes notas</h5>
+                    <h5>No tienes notas.</h5>
                 }
             }
             else
             {
-                <h5>No tienes evoluciones</h5>
+                <h5>No tienes evoluciones.</h5>
             }
         }
         
@@ -449,11 +450,8 @@
 }
 else
 {
-    <h2>El paciente no tiene historia clinica</h2>
+    <h2>El paciente no tiene historia clinica.</h2>
 }
-
-
-
 
 
 
