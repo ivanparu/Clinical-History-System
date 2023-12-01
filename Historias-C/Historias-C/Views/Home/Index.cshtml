@@ -2,13 +2,22 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="icon" href="~/Images/HomePNG1.png" />
+
 @if (ViewBag.Mensaje != null)
 {
-    <h2 class="text-secondary">@ViewBag.Mensaje</h2>
+    <div class="text-center">
+        <h2 class="text-secondary">@ViewBag.Mensaje</h2>
+    </div>
 }
 
 <div class="text-center">
-    <h1 class="display-5" style="color: dimgrey;">Bienvenido a la clinica ORTopedic!</h1>
-    <p style="color: dimgrey">Nos encontramos en Av Libertador al 1500</p>
-    <p style="color: dimgrey">¡¡¡Veni a atenderte!!!</p>
+    <h1 class="display-7" style="color: dimgrey;">¡Bienvenido a la clínica ORTopedic!</h1>
+    <p style="color: black">Nos encontramos en Av Libertador al 1500 | Horario de atencion: 8:00AM - 20:30PM</p>
+
+    <hr>
+
+    <p> <img src="~/Images/HomePNG1.png" height="200"/> </p>
 </div>
