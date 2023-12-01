@@ -130,7 +130,7 @@ namespace Historias_C.Controllers
         }
 
 
-        public IActionResult TestCurrentUser()
+        /*public IActionResult TestCurrentUser()
         {
 
             if (_signInManager.IsSignedIn(User))
@@ -157,7 +157,7 @@ namespace Historias_C.Controllers
             {
                 return Json($"El correo {email} ya está en uso"); //el email ya esta en uso
             }
-        }
+        }*/
 
     }
 

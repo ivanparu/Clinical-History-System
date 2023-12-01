@@ -90,8 +90,8 @@ namespace Historias_C.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
+            //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
+            //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
             return View(notas);
         }
 
@@ -108,8 +108,8 @@ namespace Historias_C.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
+            //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
+            //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
             return View(notas);
         }
 
@@ -145,8 +145,8 @@ namespace Historias_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
+            //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
+            //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
             return View(notas);
         }
 
