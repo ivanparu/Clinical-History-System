@@ -195,7 +195,7 @@
                         }
                     </tbody>
                 </table>
-                @if (episodiosOrdenados.Any(episodio => episodio.Epicrisis != null && episodio.Epicrisis != null))
+                @if (episodiosOrdenados.Any(episodio => episodio.Epicrisis != null))
                 {
                     <h4>Epicrisis</h4>
                     <table class="table">
@@ -209,10 +209,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var episodio in episodiosOrdenados)
+                            @foreach (var episodio in episodiosOrdenados.Where(e => e.Epicrisis != null))
                             {
                                 <tr>
-                                    <td>@episodio.Epicrisis.Episodio</td>
+                                    <td>@episodio.Epicrisis.EpisodioId</td>
                                     <td>@episodio.Epicrisis.FechaYHora</td>
                                     <td>@episodio.Epicrisis.Descripcion</td>
                                     <td>@episodio.Epicrisis.Recomendacion</td>

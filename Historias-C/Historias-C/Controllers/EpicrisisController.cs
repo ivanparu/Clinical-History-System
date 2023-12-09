@@ -55,11 +55,11 @@ namespace Historias_C.Controllers
 
         // GET: Epicrisis/Create
         [Authorize(Roles = Configs.MedicoRolName)]
-        public IActionResult Create(int? episodioId)
+        public IActionResult Create(int? id)
         {
-            //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
-            if (episodioId == null)
+           // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
+          //  ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            if (id == null)
             {
                 //afuera
                 return Content("definir que hacemos");
@@ -67,7 +67,7 @@ namespace Historias_C.Controllers
             else
             {
                 Epicrisis epicrisis = new Epicrisis();
-                epicrisis.EpisodioId = (int)episodioId;
+                epicrisis.EpisodioId = (int)id;
             }
             return View();
         }

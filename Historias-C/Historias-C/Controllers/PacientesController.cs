@@ -96,7 +96,9 @@ namespace Historias_C.Controllers
                  .ThenInclude(hc => hc.Episodios)
                     .ThenInclude(e => e.Evoluciones)
                       .ThenInclude(ep => ep.Medico)
-
+                       .Include(p => p.HistoriaClinica)
+        .ThenInclude(hc => hc.Episodios)
+            .ThenInclude(e => e.Epicrisis)
             .Include(p => p.HistoriaClinica)
                 .ThenInclude(hc => hc.Episodios)
                     .ThenInclude(e => e.Epicrisis)

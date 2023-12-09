@@ -56,11 +56,11 @@ namespace Historias_C.Controllers
         // GET: Notas/Create
 
         [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
-        public IActionResult Create(int? evolucionId)
+        public IActionResult Create(int? id)
         {
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
             //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
-            if (evolucionId == null)
+            if (id == null)
             {
                 //afuera
                 return Content("definir que hacemos");
@@ -68,7 +68,7 @@ namespace Historias_C.Controllers
             else
             {
                 Notas notas = new Notas();
-                notas.EvolucionId = (int)evolucionId;
+                notas.EvolucionId = (int)id;
             }
             return View();
         }

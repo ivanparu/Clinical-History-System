@@ -67,7 +67,7 @@ namespace Historias_C.Controllers
             var episodiosAbiertos = _context.Episodios.Where(e => e.EstadoAbierto).ToList();
 
             ViewData["EpisodioId"] = new SelectList(episodiosAbiertos, "Id", "Motivo");
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+            //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
        
             return View();
               
