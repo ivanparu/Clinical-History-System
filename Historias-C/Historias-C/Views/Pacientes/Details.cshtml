@@ -245,7 +245,7 @@
                                 foreach (var evolucion in episodio.Evoluciones.OrderByDescending(e => e.FechaYHoraCierre))
                                 {
                                     <tr>
-                                        <td>@evolucion.Medico</td>
+                                        <td>@evolucion.Medico?.Apellido</td>
                                         <td>@evolucion.FechaYHoraInicio</td>
                                         <td>@evolucion.FechaYHoraAlta</td>
                                         <td>@evolucion.FechaYHoraCierre</td>

@@ -54,6 +54,26 @@ namespace Historias_C.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            //Crea medico2
+            Medico medico2 = new Medico()
+            {
+                Especialidad = Especialidad.CUIDADOS_INTENSIVOS,
+                Matricula = "12122NM",
+                Email = "renefa@ort.edu.ar",
+                UserName = "renefa@ort.edu.ar",
+                Password = Configs.PasswordDef,
+                Nombre = "René",
+                Apellido = "Favaloro",
+                DNI = 48982211,
+                Telefono = 1163561177,
+            };
+            var resultadoNewMedico2 = await _userManager.CreateAsync(medico2, Configs.PasswordDef);
+            if (resultadoNewMedico2.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(medico2, Configs.MedicoRolName);
+                await _context.SaveChangesAsync();
+            }
+
             //Crea paciente1
 
             Paciente paciente1 = new Paciente()
