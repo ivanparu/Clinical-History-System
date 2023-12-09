@@ -162,6 +162,24 @@ namespace Historias_C.Controllers
                 EmpleadoId= empleado1Id
             };
 
+            Episodio episodio2 = new Episodio()
+            {
+                Motivo = "Poca coagulación de aorta.",
+                Descripcion = "Valores de aorta bloqueantes.",
+                HistoriaClinicaId = paciente1hcId,
+                EmpleadoId = empleado1Id,
+                FechaYHoraInicio = DateTime.Now.AddDays(-3)
+            };
+
+            Episodio episodio3 = new Episodio()
+            {
+                Motivo = "Arrtimia grado 2.",
+                Descripcion = "Latidos con latencia -23.",
+                HistoriaClinicaId = paciente1hcId,
+                EmpleadoId = empleado1Id,
+                FechaYHoraInicio = DateTime.Now.AddDays(-2)
+            };
+
             Episodio episodioCerrado = new Episodio()
             {
                 Motivo = "Descenso de la presión arterial.",
@@ -173,6 +191,8 @@ namespace Historias_C.Controllers
 
             };
             _context.Episodios.Add(episodio);
+            _context.Episodios.Add(episodio2);
+            _context.Episodios.Add(episodio3);
             _context.Episodios.Add(episodioCerrado);
             await _context.SaveChangesAsync();
 
@@ -191,7 +211,31 @@ namespace Historias_C.Controllers
 
             };
 
+            Evolucion evolucion2 = new Evolucion()
+            {
+                MedicoId = medicoId,
+                EpisodioId = episodioCerradoId,
+                DescripcionAtencion = "Continúa en observacion de glóbulos blancos.",
+                FechaYHoraCierre = DateTime.Now.AddDays(-2).AddHours(-3),
+                EstadoAbierto = false,
+                FechaYHoraInicio = DateTime.Now.AddDays(-5).AddHours(-11),
+            };
+
+            Evolucion evolucion3 = new Evolucion()
+            {
+                MedicoId = medicoId,
+                EpisodioId = episodioCerradoId,
+                DescripcionAtencion = "Estabilización conseguida.",
+                FechaYHoraCierre = DateTime.Now.AddDays(-1).AddHours(-6),
+                EstadoAbierto = false,
+                FechaYHoraInicio = DateTime.Now.AddDays(-4).AddHours(-11),
+            };
+
             _context.Evoluciones.Add(evolucion);
+            _context.Evoluciones.Add(evolucion2);
+            _context.Evoluciones.Add(evolucion3);
+
+
             await _context.SaveChangesAsync();
             await addNota(evolucion.Id, empleado1Id);
         }
@@ -219,11 +263,31 @@ namespace Historias_C.Controllers
                 EvolucionId = evolucionId,
                 EmpleadoId = empleado1Id,
                 Mensaje = "Arteria femoral obstruida.",
+                FechaYHora = DateTime.Now.AddDays(-1).AddHours(4)
+
+            };
+            Notas nota2 = new Notas()
+            {
+                EvolucionId = evolucionId,
+                EmpleadoId = empleado1Id,
+                Mensaje = "Aumentarle Enalapril 20mg cada 12 hs.",
                 FechaYHora = DateTime.Now
+
+
+            };
+            Notas nota3 = new Notas()
+            {
+                EvolucionId = evolucionId,
+                EmpleadoId = empleado1Id,
+                Mensaje = "Moexipril cada 2 hs. Ver goteo.",
+                FechaYHora = DateTime.Now.AddDays(-3).AddHours(2)
 
             };
 
             _context.Notas.Add(nota);
+            _context.Notas.Add(nota2);
+            _context.Notas.Add(nota3);
+
             await _context.SaveChangesAsync();
 
         }

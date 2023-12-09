@@ -56,23 +56,22 @@ namespace Historias_C.Controllers
 
         // GET: Evoluciones/Create
         [Authorize(Roles = Configs.MedicoRolName)]
-        public IActionResult Create(int? episodioId)
+        public IActionResult Create(int? id)
         {
-            // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
-            if (episodioId == null)
+            if (id == null)
             {
                 //afuera
                 return Content("definir que hacemos");
             }
-            else
-            {
-                Evolucion evolucion = new Evolucion();
-                evolucion.EpisodioId = (int)episodioId;
-            }
 
+            var episodiosAbiertos = _context.Episodios.Where(e => e.EstadoAbierto).ToList();
+
+            ViewData["EpisodioId"] = new SelectList(episodiosAbiertos, "Id", "Motivo");
+            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+       
             return View();
-        }
+              
+         }
 
         // POST: Evoluciones/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -80,13 +79,15 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        public async Task<IActionResult> Create([Bind("MedicoId,DescripcionAtencion, EpisodioId")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
 
                 var medicoId = Int32.Parse(_userManager.GetUserId(User));
                 evolucion.MedicoId = medicoId;
+                evolucion.FechaYHoraInicio = DateTime.Now;
+                evolucion.EstadoAbierto = true;
 
                 _context.Evoluciones.Add(evolucion);
                 await _context.SaveChangesAsync();

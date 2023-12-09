@@ -1,7 +1,7 @@
 ﻿@model Historias_C.Models.Evolucion
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Evolucion";
 }
 
 <h1>Crear</h1>
@@ -21,7 +21,7 @@
                 <input asp-for="DescripcionAtencion" class="form-control" />
                 <span asp-validation-for="DescripcionAtencion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="FechaYHoraAlta" class="control-label"></label>
                 <input asp-for="FechaYHoraAlta" class="form-control" />
                 <span asp-validation-for="FechaYHoraAlta" class="text-danger"></span>
