@@ -178,7 +178,7 @@ namespace Historias_C.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Create", "Epicrisis", episodio.Id);
+                return RedirectToAction("Create", "Epicrisis", new { id = episodio.Id });
             }
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
             //ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);

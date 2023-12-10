@@ -3,6 +3,7 @@ using Historias_C.Helpers;
 using Historias_C.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Historias_C.Controllers
 {
@@ -311,7 +312,14 @@ namespace Historias_C.Controllers
             await _context.SaveChangesAsync();
 
         }
+        public IActionResult Recreate()
+        {
 
+            _context.Database.EnsureDeleted();
+            _context.Database.Migrate();
+
+            return RedirectToAction("Index", "Home", new { mensaje = "se regeneró la base de datos" });
+        }
         private async Task CrearRoles()
         {
             foreach (var rolName in roles)

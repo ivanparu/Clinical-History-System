@@ -57,8 +57,6 @@ namespace Historias_C.Controllers
         [Authorize(Roles = Configs.MedicoRolName)]
         public IActionResult Create(int? id)
         {
-           // ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-          //  ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
             if (id == null)
             {
                 //afuera
@@ -78,7 +76,7 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,EpisodioId,MedicoId,FechaYHora,Descripcion,Recomendacion")] Epicrisis epicrisis)
+        public async Task<IActionResult> Create([Bind("Id,EpisodioId,FechaYHora,Descripcion,Recomendacion")] Epicrisis epicrisis)
         {
             if (ModelState.IsValid)
             {

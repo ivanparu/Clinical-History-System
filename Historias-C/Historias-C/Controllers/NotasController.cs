@@ -69,6 +69,7 @@ namespace Historias_C.Controllers
             {
                 Notas notas = new Notas();
                 notas.EvolucionId = (int)id;
+                TempData["EvolucionId"] = (int)id;
             }
             return View();
         }
@@ -79,12 +80,13 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,EvolucionId,EmpleadoId,Mensaje,FechaYHora")] Notas notas)
+        public async Task<IActionResult> Create([Bind("Id,Mensaje,FechaYHora")] Notas notas)
         {
+            notas.EvolucionId = (int)TempData["EvolucionId"];
+            var empleadoId = Int32.Parse(_userManager.GetUserId(User));
+            notas.EmpleadoId = empleadoId;
             if (ModelState.IsValid)
             {
-                var empleadoId = Int32.Parse(_userManager.GetUserId(User));
-                notas.EmpleadoId = empleadoId;
                     
                 _context.Notas.Add(notas);
                 await _context.SaveChangesAsync();
