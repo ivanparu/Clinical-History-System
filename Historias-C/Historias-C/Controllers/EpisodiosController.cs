@@ -148,16 +148,13 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EstadoAbierto,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
         {
             if (id != episodio.Id)
             {
                 return NotFound();
             }
-            if (episodio.EstadoAbierto == true)
-            {
-                ModelState.AddModelError("EstadoAbierto", "Si se quiere cerrar el episodio, esto debe estar destildado");
-            }
+            episodio.EstadoAbierto = false;
 
             if (ModelState.IsValid)
             {
@@ -178,7 +175,7 @@ namespace Historias_C.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Create", "Epicrisis", new { id = episodio.Id });
+                return RedirectToAction("Create", "Epicrisis", new { episodioId = episodio.Id });
             }
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
             //ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);

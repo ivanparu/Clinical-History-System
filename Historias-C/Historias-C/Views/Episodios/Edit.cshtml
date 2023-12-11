@@ -28,11 +28,6 @@
                 <input asp-for="FechaYHoraAlta" class="form-control" />
                 <span asp-validation-for="FechaYHoraAlta" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstadoAbierto" checked="false" /> @Html.DisplayNameFor(model => model.EstadoAbierto)
-                </label>
-            </div>
             <div class="form-group" hidden>
                 <label asp-for="EpicrisisId" class="control-label"></label>
                 <select asp-for="EpicrisisId" class="form-control" asp-items="ViewBag.EpicrisisId" disabled></select>

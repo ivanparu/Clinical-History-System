@@ -55,9 +55,9 @@ namespace Historias_C.Controllers
 
         // GET: Epicrisis/Create
         [Authorize(Roles = Configs.MedicoRolName)]
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? episodioId)
         {
-            if (id == null)
+            if (episodioId == null)
             {
                 //afuera
                 return Content("definir que hacemos");
@@ -65,7 +65,8 @@ namespace Historias_C.Controllers
             else
             {
                 Epicrisis epicrisis = new Epicrisis();
-                epicrisis.EpisodioId = (int)id;
+                //epicrisis.EpisodioId = (int)episodioId;
+                TempData["EpisodioId"] = episodioId;
             }
             return View();
         }
@@ -76,16 +77,19 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,EpisodioId,Descripcion,Recomendacion")] Epicrisis epicrisis)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,MedicoId,Recomendacion")] Epicrisis epicrisis)
         {
+            
+
             if (ModelState.IsValid)
             {
+                epicrisis.EpisodioId = (int)TempData["EpisodioId"];
                 var medicoId = Int32.Parse(_userManager.GetUserId(User));
                 epicrisis.MedicoId = medicoId;
 
                 _context.Epicrisis.Add(epicrisis);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Pacientes");
             }
             //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
             //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido", epicrisis.MedicoId);
