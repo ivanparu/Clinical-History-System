@@ -75,7 +75,7 @@
         @if (User.IsInRole(Configs.EmpleadoRolName))
         {
             <h3>Episodios</h3>
-            <a asp-controller="Episodios" asp-action="Create" asp-route-id="@Model.Id">Crear episodio</a>
+            <a asp-controller="Episodios" asp-action="Create" asp-route-pacienteId="@Model.Id">Crear episodio</a>
             <table class="table">
                 <thead>
                     <tr>
