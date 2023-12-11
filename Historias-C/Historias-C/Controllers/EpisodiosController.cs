@@ -227,5 +227,14 @@ namespace Historias_C.Controllers
         {
           return _context.Episodios.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> AsociarEpiAsync(int? episodioId, int? epicrisisId)
+        {
+            var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == episodioId);
+            episodio.EpicrisisId = epicrisisId;
+            _context.Episodios.Update(episodio);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Pacientes");
+        }
     }
 }
