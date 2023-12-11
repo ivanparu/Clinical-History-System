@@ -148,7 +148,7 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EstadoAbierto,EpicrisisId,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraCierre,FechaYHoraAlta,EstadoAbierto,EmpleadoId,HistoriaClinicaId")] Episodio episodio)
         {
             if (id != episodio.Id)
             {
