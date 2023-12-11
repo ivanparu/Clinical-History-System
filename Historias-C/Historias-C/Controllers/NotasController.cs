@@ -68,7 +68,7 @@ namespace Historias_C.Controllers
             else
             {
                 Notas notas = new Notas();
-                notas.EvolucionId = (int)id;
+                //notas.EvolucionId = (int)id;
                 TempData["EvolucionId"] = (int)id;
             }
             return View();
@@ -80,17 +80,16 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,Mensaje,FechaYHora")] Notas notas)
+        public async Task<IActionResult> Create([Bind("Id,Mensaje")] Notas notas)
         {
             notas.EvolucionId = (int)TempData["EvolucionId"];
             var empleadoId = Int32.Parse(_userManager.GetUserId(User));
             notas.EmpleadoId = empleadoId;
             if (ModelState.IsValid)
             {
-                    
                 _context.Notas.Add(notas);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Pacientes");
             }
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
             //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);
