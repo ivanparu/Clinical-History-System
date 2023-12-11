@@ -25,7 +25,7 @@ namespace Historias_C.Controllers
         {
             CrearRoles().Wait();
 
-            if (!_context.Empleados.Any() && !_context.Pacientes.Any() && !_context.Empleados.Any())
+            if (!_context.Empleados.Any() && !_context.Empleados.Any())
             {
                 await creacionPrimaria();
             }
@@ -40,11 +40,11 @@ namespace Historias_C.Controllers
             {
                 Especialidad = Especialidad.ALERGIA_E_INMUNOLOGIA,
                 Matricula = "S1212NM",
-                Email = "joacom@ort.edu.ar",
-                UserName = "joacom@ort.edu.ar",
+                Email = "medico1@ort.edu.ar",
+                UserName = "medico1@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Nombre = "Joaco",
-                Apellido = "Messi",
+                Nombre = "Medico",
+                Apellido = "Alergista",
                 DNI = 12457896,
                 Telefono = 1145568978,
             };
@@ -60,11 +60,11 @@ namespace Historias_C.Controllers
             {
                 Especialidad = Especialidad.CUIDADOS_INTENSIVOS,
                 Matricula = "12122NM",
-                Email = "renefa@ort.edu.ar",
-                UserName = "renefa@ort.edu.ar",
+                Email = "medico2@ort.edu.ar",
+                UserName = "medico2@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Nombre = "René",
-                Apellido = "Favaloro",
+                Nombre = "Médico",
+                Apellido = "Cuidados",
                 DNI = 48982211,
                 Telefono = 1163561177,
             };
@@ -80,11 +80,11 @@ namespace Historias_C.Controllers
             Paciente paciente1 = new Paciente()
             {
                 ObraSocial = ObraSocial.OSDE,
-                UserName = "sergiol@ort.edu.ar",
+                UserName = "paciente1@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Email = "sergiol@ort.edu.ar",
-                Nombre = "Sergio",
-                Apellido = "Leon",
+                Email = "paciente1@ort.edu.ar",
+                Nombre = "Paciente",
+                Apellido = "Osde",
                 DNI = 456568989,
                 Telefono = 1132326565,
             };
@@ -105,12 +105,12 @@ namespace Historias_C.Controllers
 
             Paciente paciente2 = new Paciente()
             {
-                ObraSocial = ObraSocial.OSDE,
-                UserName = "martinrod@ort.edu.ar",
+                ObraSocial = ObraSocial.Galeno,
+                UserName = "paciente2@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Email = "martinrod@ort.edu.ar",
-                Nombre = "Martín",
-                Apellido = "Rodriguez",
+                Email = "paciente2@ort.edu.ar",
+                Nombre = "Paciente",
+                Apellido = "Galeno",
                 DNI = 34765444,
                 Telefono = 1132446565,
             };
@@ -131,11 +131,11 @@ namespace Historias_C.Controllers
 
             Empleado empleado1 = new Empleado()
             {
-                UserName = "mariom@ort.edu.ar",
+                UserName = "empleado1@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Email = "mariom@ort.edu.ar",
-                Nombre = "Mario",
-                Apellido = "Martinez",
+                Email = "empleado1@ort.edu.ar",
+                Nombre = "Empleado1",
+                Apellido = "Admiistrativo",
                 DNI = 54546868,
                 Telefono = 1145474847,
             };
@@ -150,11 +150,11 @@ namespace Historias_C.Controllers
 
             Empleado empleado2 = new Empleado()
             {
-                UserName = "santiagor@ort.edu.ar",
+                UserName = "empleado2@ort.edu.ar",
                 Password = Configs.PasswordDef,
-                Email = "santiagor@ort.edu.ar",
-                Nombre = "Santiago",
-                Apellido = "Rinaudo",
+                Email = "empleado2@ort.edu.ar",
+                Nombre = "Empleado2",
+                Apellido = "Secretaria",
                 DNI = 29344727,
                 Telefono = 132550299,
             };

@@ -17,7 +17,7 @@ namespace Historias_C.Controllers
         private readonly SignInManager<Persona> _signInManager;
         private readonly RoleManager<Rol> _roleManager;
         private readonly HistoriasClinicasCContext _contexto;
-       
+
 
         public AccountController(UserManager<Persona> userManager, SignInManager<Persona> signInManager, RoleManager<Rol> roleManager, HistoriasClinicasCContext _contexto) {
             this._userManager = userManager;
@@ -49,6 +49,12 @@ namespace Historias_C.Controllers
 
                 if (resultado.Succeeded)
                 {
+
+                    if (!await _roleManager.RoleExistsAsync(Configs.PacienteRolName))
+                    {
+                        await _roleManager.CreateAsync(new Rol(Configs.PacienteRolName));
+                    }
+
                     //le agrego el rol
                     var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
 

@@ -8,7 +8,6 @@ namespace Historias_C.ViewModels
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electronico")]
-        [Remote(action:"EmailDisponible", controller:"Account")]
         public string Email { get; set; }
         
         [Required]
