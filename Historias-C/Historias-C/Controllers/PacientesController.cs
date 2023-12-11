@@ -369,6 +369,6 @@ namespace Historias_C.Controllers
         private bool PacienteExists(int id)
         {
           return _context.Pacientes.Any(e => e.Id == id);
-        }
+        }  
     }
 }
