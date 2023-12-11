@@ -76,7 +76,7 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Create([Bind("Id,EpisodioId,FechaYHora,Descripcion,Recomendacion")] Epicrisis epicrisis)
+        public async Task<IActionResult> Create([Bind("Id,EpisodioId,Descripcion,Recomendacion")] Epicrisis epicrisis)
         {
             if (ModelState.IsValid)
             {

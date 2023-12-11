@@ -250,7 +250,7 @@
                                         <td>@evolucion.FechaYHoraAlta</td>
                                         <td>@evolucion.FechaYHoraCierre</td>
                                         <td>@evolucion.DescripcionAtencion</td>
-                                        @if (episodio.EstadoAbierto == true)
+                                        @if (episodio.EstadoAbierto)
                                         {
                                             <td>Abierto</td>
                                         }
@@ -260,10 +260,14 @@
                                         }
                                         <td>@evolucion.Episodio.Motivo</td>
                                         <td>
-                                            <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
+                                            
                                             @if (!evolucion.EstadoAbierto)
                                             {
                                                 <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
                                             }
                                         </td>
                                     </tr>

@@ -4,16 +4,15 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Editar</h1>
+<h1>Cerrar evolución</h1>
 
-<h4>Evolucion</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="MedicoId" class="control-label"></label>
                 <select asp-for="MedicoId" class="form-control" asp-items="ViewBag.MedicoId" readonly></select>
                 <span asp-validation-for="MedicoId" class="text-danger"></span>
@@ -24,7 +23,7 @@
                 <span asp-validation-for="FechaYHoraAlta" class="text-danger"></span>
             </div>
             <input asp-for="FechaYHoraInicio" hidden />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="DescripcionAtencion" class="control-label"></label>
                 <input asp-for="DescripcionAtencion" class="form-control" readonly />
                 <span asp-validation-for="DescripcionAtencion" class="text-danger"></span>
@@ -34,7 +33,7 @@
                     <input class="form-check-input" asp-for="EstadoAbierto" /> @Html.DisplayNameFor(model => model.EstadoAbierto)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="EpisodioId" class="control-label"></label>
                 <select asp-for="EpisodioId" class="form-control" asp-items="ViewBag.EpisodioId" readonly></select>
                 <span asp-validation-for="EpisodioId" class="text-danger"></span>
