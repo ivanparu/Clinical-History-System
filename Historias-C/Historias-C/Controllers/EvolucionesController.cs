@@ -121,16 +121,15 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.MedicoRolName)]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EpisodioId")] Evolucion evolucion)
         {
             if (id != evolucion.Id)
             {
                 return NotFound();
             }
-            if(evolucion.EstadoAbierto == true)
-            {
-                ModelState.AddModelError("EstadoAbierto", "Si se quiere cerrar la evolucion, esto debe estar destildado");
-            }
+            
+            evolucion.EstadoAbierto = false;
+
             if (ModelState.IsValid)
             {
                 try
