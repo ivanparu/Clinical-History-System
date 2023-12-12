@@ -94,7 +94,7 @@ namespace Historias_C.Controllers
                     _context.Direcciones.Add(direccion);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction("IndexDePaciente", "Pacientes");
+                    return RedirectToAction("IndexDePaciente", "Pacientes", new {id = direccion.PacienteId, direccionId = direccion.Id});
                 }
                 else
                 {

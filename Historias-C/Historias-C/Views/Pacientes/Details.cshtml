@@ -60,7 +60,40 @@
             @Html.DisplayFor(model => model.Telefono)
         </dd>
     </dl>
-</div>
+
+    @*/* @if(Model.Direccion != null)
+    {
+        var direccion = Model.Direccion;
+        <h4>Dirección</h4>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => direccion.Calle)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => direccion.Calle)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => direccion.Altura)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => direccion.Altura)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => direccion.Barrio)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => direccion.Barrio)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => direccion.Ciudad)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => direccion.Ciudad)
+            </dd>
+        </dl>
+    }
+
+</div> @*/*@
 
 
 

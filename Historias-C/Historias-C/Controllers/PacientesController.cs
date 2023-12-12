@@ -54,12 +54,13 @@ namespace Historias_C.Controllers
         }
 
         // GET: Pacientes
-        public async Task<IActionResult> IndexDePaciente(int? id)
+        public async Task<IActionResult> IndexDePaciente(int? id, int? direccionId)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
 
             // Obtener el paciente de la base de datos
             var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == id);
@@ -69,6 +70,11 @@ namespace Historias_C.Controllers
                 return NotFound();
             }
 
+            if(direccionId != null)
+            {
+                var direccion = await _context.Direcciones.FirstOrDefaultAsync(d => d.Id == direccionId);
+                paciente.Direccion = direccion;
+            }
             // Pasar el paciente a la vista
             return View(paciente);
         }

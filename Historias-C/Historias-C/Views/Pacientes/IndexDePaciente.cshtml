@@ -68,7 +68,7 @@
                 <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
                 @if(Model.Direccion == null)
                 {
-                    <a asp-controller="Direcciones" asp-action="Create" asp-route-id="@Model.Id">Agregar Direccion</a>
+                    <a asp-controller="Direcciones" asp-action="Create" asp-route-pacienteId="@Model.Id">Agregar Direccion</a>
                 }
             </td>
         </tr>

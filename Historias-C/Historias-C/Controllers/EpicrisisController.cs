@@ -90,7 +90,6 @@ namespace Historias_C.Controllers
                 _context.Epicrisis.Add(epicrisis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("AsociarEpi", "Episodios", new { epicrisisId = epicrisis.Id, episodioId = epicrisis.EpisodioId });
-
             }
             //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
             //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido", epicrisis.MedicoId);

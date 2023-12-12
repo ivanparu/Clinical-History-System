@@ -42,7 +42,6 @@ namespace Historias_C.Controllers
                 Matricula = "S1212NM",
                 Email = "medico1@ort.edu.ar",
                 UserName = "medico1@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Nombre = "Medico",
                 Apellido = "Alergista",
                 DNI = 12457896,
@@ -62,7 +61,6 @@ namespace Historias_C.Controllers
                 Matricula = "12122NM",
                 Email = "medico2@ort.edu.ar",
                 UserName = "medico2@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Nombre = "Médico",
                 Apellido = "Cuidados",
                 DNI = 48982211,
@@ -81,7 +79,6 @@ namespace Historias_C.Controllers
             {
                 ObraSocial = ObraSocial.OSDE,
                 UserName = "paciente1@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Email = "paciente1@ort.edu.ar",
                 Nombre = "Paciente",
                 Apellido = "Osde",
@@ -107,7 +104,6 @@ namespace Historias_C.Controllers
             {
                 ObraSocial = ObraSocial.Galeno,
                 UserName = "paciente2@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Email = "paciente2@ort.edu.ar",
                 Nombre = "Paciente",
                 Apellido = "Galeno",
@@ -132,7 +128,6 @@ namespace Historias_C.Controllers
             Empleado empleado1 = new Empleado()
             {
                 UserName = "empleado1@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Email = "empleado1@ort.edu.ar",
                 Nombre = "Empleado1",
                 Apellido = "Admiistrativo",
@@ -151,7 +146,6 @@ namespace Historias_C.Controllers
             Empleado empleado2 = new Empleado()
             {
                 UserName = "empleado2@ort.edu.ar",
-                Password = Configs.PasswordDef,
                 Email = "empleado2@ort.edu.ar",
                 Nombre = "Empleado2",
                 Apellido = "Secretaria",

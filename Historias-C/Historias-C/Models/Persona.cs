@@ -18,10 +18,6 @@ namespace Historias_C.Models
             set { base.UserName = value; }
         }
 
-        [Required(ErrorMessage = _reqMsg)]
-        [StringLength(25, MinimumLength = 8, ErrorMessage = _reqRange)]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
 
         [Required(ErrorMessage = _reqMsg)]
         [EmailAddress]
