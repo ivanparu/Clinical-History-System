@@ -65,7 +65,7 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,Id,UserName,Password,Email,Nombre,Apellido,DNI,Telefono")] Medico medico)
         {
             VerificarMatricula(medico);
 

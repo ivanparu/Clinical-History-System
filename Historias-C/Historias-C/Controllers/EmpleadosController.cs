@@ -61,12 +61,13 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
+        public async Task<IActionResult> Create([Bind("Id,Password,Email,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
         {
+
+            empleado.UserName = empleado.Email;
+
             if (ModelState.IsValid)
             {
-
-                empleado.UserName = empleado.Email;
                 var resultadoNewEmpleado = await _userManager.CreateAsync(empleado, Configs.PasswordDef);
 
                 //creo con usermanager

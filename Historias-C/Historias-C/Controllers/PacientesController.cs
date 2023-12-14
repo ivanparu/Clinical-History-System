@@ -137,7 +137,7 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("ObraSocial,Id,UserName,Email,Nombre,Apellido,DNI,Telefono")] Paciente paciente)
         {
 
             VerificarDNI(paciente); 

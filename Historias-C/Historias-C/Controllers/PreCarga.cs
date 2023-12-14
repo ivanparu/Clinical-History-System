@@ -4,6 +4,7 @@ using Historias_C.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Historias_C.Controllers
 {
@@ -267,8 +268,9 @@ namespace Historias_C.Controllers
             };
 
             _context.Epicrisis.Add(epicrisis);
-            await _context.SaveChangesAsync();
-
+            /*await _context.SaveChangesAsync();
+            var episodio = _context.Episodios.Find(episodioCerradoId);
+            episodio.EpicrisisId = epicrisis.Id;*/
         }
 
         private async Task addNota(int evolucionId, int empleado1Id)

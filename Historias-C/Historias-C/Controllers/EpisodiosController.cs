@@ -114,12 +114,14 @@ namespace Historias_C.Controllers
 
                 _context.Episodios.Add(episodio);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pacientes");
+                var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                var pacienteId = hc.PacienteId;
+                return RedirectToAction("Details", "Pacientes", new {id = pacienteId});
             }
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", episodio.EmpleadoId);
-           //ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);
+            //ViewData["EpicrisisId"] = new SelectList(_context.Epicrisis, "Id", "Descripcion", episodio.EpicrisisId);
             //ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
-            return RedirectToAction("Index", "Pacientes");
+            return View(episodio);
         }
 
         // GET: Episodios/Edit/5
