@@ -108,7 +108,7 @@
         @if (User.IsInRole(Configs.EmpleadoRolName))
         {
             <h3>Episodios</h3>
-            <a asp-controller="Episodios" asp-action="Create" asp-route-pacienteId="@Model.Id">Crear episodio</a>
+                <a asp-controller="Episodios" asp-action="Create" class="btn btn-sm btn-warning" asp-route-pacienteId="@Model.Id">Crear episodio</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -296,11 +296,11 @@
                                             
                                             @if (!evolucion.EstadoAbierto)
                                             {
-                                                <a asp-controller="Notas" asp-action="Create" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Crear Nota</a>
                                             }
                                             else
                                             {
-                                                <a asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
+                                                    <a asp-controller="Evoluciones" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
                                             }
                                         </td>
                                     </tr>
