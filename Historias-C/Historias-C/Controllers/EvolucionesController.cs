@@ -64,10 +64,11 @@ namespace Historias_C.Controllers
                 return Content("definir que hacemos");
             }
 
-            var episodiosAbiertos = _context.Episodios.Where(e => e.EstadoAbierto).ToList();
-
-            ViewData["EpisodioId"] = new SelectList(episodiosAbiertos, "Id", "Motivo");
+            //var episodiosAbiertos = _context.Episodios.Where(e => e.EstadoAbierto).ToList();
+            //ViewData["EpisodioId"] = new SelectList(episodiosAbiertos, "Id", "Motivo");
             //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido");
+
+            TempData["EpisodioId"] = id;
        
             return View();
               
@@ -81,6 +82,9 @@ namespace Historias_C.Controllers
         [Authorize(Roles = Configs.MedicoRolName)]
         public async Task<IActionResult> Create([Bind("MedicoId,DescripcionAtencion, EpisodioId")] Evolucion evolucion)
         {
+
+            evolucion.EpisodioId = (int)TempData["EpisodioId"];
+
             if (ModelState.IsValid)
             {
 
