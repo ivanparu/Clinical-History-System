@@ -196,6 +196,17 @@ namespace Historias_C.Controllers
                 FechaYHoraInicio = DateTime.Now.AddDays(-2)
             };
 
+            Episodio episodio4 = new Episodio()
+            {
+                Motivo = "Neurotorax traumático tipo 2.",
+                Descripcion = "Poca compresion pulmonar.",
+                HistoriaClinicaId = paciente2hcId,
+                EmpleadoId = empleado1Id,
+                FechaYHoraInicio = DateTime.Now.AddDays(-2),
+                EstadoAbierto = true
+
+            };
+
             Episodio episodioCerrado = new Episodio()
             {
                 Motivo = "Descenso de la presión arterial.",
@@ -209,6 +220,7 @@ namespace Historias_C.Controllers
             _context.Episodios.Add(episodio);
             _context.Episodios.Add(episodio2);
             _context.Episodios.Add(episodio3);
+            _context.Episodios.Add(episodio4);
             _context.Episodios.Add(episodioCerrado);
             await _context.SaveChangesAsync();
 
