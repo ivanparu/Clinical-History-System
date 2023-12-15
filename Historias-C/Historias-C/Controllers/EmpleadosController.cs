@@ -10,6 +10,7 @@ using Historias_C.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Historias_C.Helpers;
+using Historias_C.ViewModels;
 
 namespace Historias_C.Controllers
 {
@@ -61,13 +62,20 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Password,Email,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
+        public async Task<IActionResult> Create(RegistrarEmpleado model)
         {
 
-            empleado.UserName = empleado.Email;
-
-            if (ModelState.IsValid)
+          if (ModelState.IsValid)
             {
+                Empleado empleado = new Empleado()
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    DNI = model.DNI,
+                    Telefono = model.Telefono,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                };
                 var resultadoNewEmpleado = await _userManager.CreateAsync(empleado, Configs.PasswordDef);
 
                 //creo con usermanager
@@ -78,7 +86,7 @@ namespace Historias_C.Controllers
                     var resultadoAddRole = await _userManager.AddToRoleAsync(empleado, Configs.EmpleadoRolName);
                     if (resultadoAddRole.Succeeded)
                     {
-                        _context.Add(empleado);
+                       // _context.Add(empleado);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Empleados");
                     }
@@ -93,7 +101,7 @@ namespace Historias_C.Controllers
                     ModelState.AddModelError(String.Empty, error.Description);
                 }
             }
-            return View(empleado);
+            return View(model);
         }
 
         // GET: Empleados/Edit/5

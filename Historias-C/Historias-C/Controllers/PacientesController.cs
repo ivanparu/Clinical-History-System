@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Historias_C.Helpers;
 using Microsoft.Data.SqlClient;
+using Historias_C.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Historias_C.Controllers
 {
@@ -137,24 +139,40 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,UserName,Email,Nombre,Apellido,DNI,Telefono")] Paciente paciente)
+        public async Task<IActionResult> Create( RegistrarPaciente model)
         {
 
-            VerificarDNI(paciente); 
 
             if (ModelState.IsValid)
             {
 
-                paciente.UserName = paciente.Email;
-                paciente.FechaAlta = DateTime.Now;
-                var resultadoNewPaciente = await _userManager.CreateAsync(paciente,Configs.PasswordDef);
+                Paciente pacienteNuevo = new Paciente()
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    DNI = model.DNI,
+                    ObraSocial = model.ObraSocial,
+                    Telefono =  model.Telefono,
+                    Nombre=model.Nombre,
+                    Apellido=model.Apellido,
+
+                };
+
+                if (!VerificarDNI(pacienteNuevo)){
+
+                 ModelState.AddModelError(string.Empty, ErrorMessages.DNIExistente);
+                }
+
+
+                var resultadoNewPaciente = await _userManager.CreateAsync(pacienteNuevo, Configs.PasswordDef);
+
 
                 //creo con usermanager
                 //si está ok
                 //le agrego el rol
                 if (resultadoNewPaciente.Succeeded)
                 {
-                    var resultadoAddRole = await _userManager.AddToRoleAsync(paciente, Configs.PacienteRolName);
+                    var resultadoAddRole = await _userManager.AddToRoleAsync(pacienteNuevo, Configs.PacienteRolName);
                     if (resultadoAddRole.Succeeded)
                     {
 
@@ -162,7 +180,7 @@ namespace Historias_C.Controllers
                         {
                             HistoriaClinica hc = new HistoriaClinica()
                             {
-                                PacienteId = paciente.Id,
+                                PacienteId = pacienteNuevo.Id,
                             };
                             _context.HistoriaClinicas.Add(hc);
                             await _context.SaveChangesAsync();
@@ -183,10 +201,11 @@ namespace Historias_C.Controllers
                 //creamos la HistoriaClinica y la asocio al paciente creado
                 foreach(var error in resultadoNewPaciente.Errors)
                 {
-                    ModelState.AddModelError(String.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return View(paciente);
+           // return RedirectToAction("Index", "Empleados");
+           return( View(model) );
         }
 
         private void ProcesoDuplicado(DbUpdateException dbex)
@@ -202,12 +221,16 @@ namespace Historias_C.Controllers
             }
         }
 
-        private void VerificarDNI(Paciente paciente)
+        private bool VerificarDNI(Paciente paciente)
         {
+            bool resultado = true;
+
             if (DNIExist(paciente))
             {
+                resultado = false;
                 ModelState.AddModelError("DNI", "El DNI ya existe, verificada en BE");
             };
+            return resultado;
         }
 
         private bool DNIExist(Paciente paciente)

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
 using Historias_C.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Historias_C.ViewModels;
 
 namespace Historias_C.Controllers
 {
@@ -65,19 +66,38 @@ namespace Historias_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = Configs.EmpleadoRolName)]
-        public async Task<IActionResult> Create([Bind("Matricula,Especialidad,Id,UserName,Password,Email,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Create( RegistrarMedico model)
         {
-            VerificarMatricula(medico);
+           //  VerificarMatricula(model);
 
             if (ModelState.IsValid)
             {
-                medico.UserName = medico.Email;
-                _context.Add(medico);
-                var resultadoNewMedico = await _userManager.CreateAsync(medico, Configs.PasswordDef);
+                Medico medicoNuevo = new Medico()
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    DNI = model.DNI,
+                    Telefono = model.Telefono,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    Especialidad = model.Especialidad,
+                    Matricula = model.Matricula
+
+                };
+
+                if (!VerificarMatricula(medicoNuevo))
+                {
+
+                    ModelState.AddModelError(string.Empty, ErrorMessages.MatriculaExistente);
+                }
+
+                var resultadoNewMedico = await _userManager.CreateAsync(medicoNuevo, Configs.PasswordDef);
+                
                 if (resultadoNewMedico.Succeeded)
                 {
-                    var resultadoAddRole = await _userManager.AddToRoleAsync(medico, Configs.MedicoRolName);
-                if (resultadoAddRole.Succeeded)
+                    var resultadoAddRole = await _userManager.AddToRoleAsync(medicoNuevo, Configs.MedicoRolName);
+                
+                    if (resultadoAddRole.Succeeded)
                 {
                     try
                 {
@@ -99,7 +119,7 @@ namespace Historias_C.Controllers
                     ModelState.AddModelError(String.Empty, error.Description);
                 }
             }
-            return View(medico);
+            return View(model);
         }
         private void ProcesoDuplicado(DbUpdateException dbex)
         {
@@ -114,12 +134,16 @@ namespace Historias_C.Controllers
             }
         }
 
-        private void VerificarMatricula(Medico medico)
+        private bool VerificarMatricula(Medico medico)
         {
+            bool resultado = true;
+
             if (MatriculaExist(medico))
             {
+                resultado = false;
                 ModelState.AddModelError("Matricula", "La matricula ya existe, verificada en BE");
             }
+            return resultado;
         }
 
         private bool MatriculaExist(Medico medico)
