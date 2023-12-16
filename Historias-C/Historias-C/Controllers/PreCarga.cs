@@ -282,8 +282,8 @@ namespace Historias_C.Controllers
             };
 
             _context.Epicrisis.Add(epicrisis);
-            /*await _context.SaveChangesAsync();
-            var episodio = _context.Episodios.Find(episodioCerradoId);
+            await _context.SaveChangesAsync();
+            /*var episodio = _context.Episodios.Find(episodioCerradoId);
             episodio.EpicrisisId = epicrisis.Id;*/
         }
 
