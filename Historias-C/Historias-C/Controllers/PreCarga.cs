@@ -13,14 +13,16 @@ namespace Historias_C.Controllers
         private readonly UserManager<Persona> _userManager;
         private readonly RoleManager<Rol> _roleManager;
         private readonly HistoriasClinicasCContext _context;
+        private readonly SignInManager<Persona> _signInManager;
 
 
         private List<string> roles = new List<string>() { Configs.MedicoRolName, Configs.EmpleadoRolName, Configs.PacienteRolName };
-        public PreCarga(UserManager<Persona> userManager, RoleManager<Rol> roleManager, HistoriasClinicasCContext context)
+        public PreCarga(UserManager<Persona> userManager, RoleManager<Rol> roleManager, HistoriasClinicasCContext context, SignInManager<Persona> signInManager)
         {
             this._userManager = userManager;
             this._roleManager = roleManager;
             this._context = context;
+            this._signInManager = signInManager;
         }
         public async Task<IActionResult> SeedAsync()
         {
@@ -320,11 +322,12 @@ namespace Historias_C.Controllers
             await _context.SaveChangesAsync();
 
         }
-        public IActionResult Recreate()
+        public async Task<IActionResult> RecreateAsync()
         {
 
             _context.Database.EnsureDeleted();
             _context.Database.Migrate();
+            await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home", new { mensaje = "se regeneró la base de datos" });
         }

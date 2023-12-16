@@ -146,6 +146,89 @@
                     }
                 </tbody>
             </table>
+
+            @if (episodiosOrdenados.Any(episodio => episodio.Epicrisis != null))
+                {
+                    <h4>Epicrisis</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Episodio</th>
+                                <th>Medico</th>
+                                <th>Fecha</th>
+                                <th>Diagnostico</th>
+                                <th>Recomendacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var episodio in episodiosOrdenados.Where(e => e.Epicrisis != null))
+                            {
+                                <tr>
+                                    <td>@episodio.Epicrisis.EpisodioId</td>
+                                    <td>@episodio.Epicrisis.FechaYHora</td>
+                                    <td>@episodio.Epicrisis.Descripcion</td>
+                                    <td>@episodio.Epicrisis.Recomendacion</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <h5>El paciente no tiene ninguna epicrisis.</h5>
+                }
+
+            @if (episodiosOrdenados.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any())){
+
+                <h4>Evoluciones</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Medico</th>
+                                <th>Fecha de Inicio</th>
+                                <th>Fecha de Alta</th>
+                                <th>Fecha de Cierre</th>
+                                <th>Descripcion</th>
+                                <th>Estado</th>
+                                <th>Episodio</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var episodio in episodiosOrdenados)
+                            {
+                                foreach (var evolucion in episodio.Evoluciones.OrderByDescending(e => e.FechaYHoraCierre))
+                                {
+                                    <tr>
+                                        <td>@evolucion.Medico?.Apellido</td>
+                                        <td>@evolucion.FechaYHoraInicio</td>
+                                        <td>@evolucion.FechaYHoraAlta</td>
+                                        <td>@evolucion.FechaYHoraCierre</td>
+                                        <td>@evolucion.DescripcionAtencion</td>
+                                        @if (evolucion.EstadoAbierto)
+                                        {
+                                            <td>Abierto</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Cerrado</td>
+                                        }
+                                        <td>@evolucion.Episodio.Motivo</td>
+                                        <td>
+                                            @if(evolucion.Episodio.EstadoAbierto){
+                                                
+                                                @if (!evolucion.EstadoAbierto)
+                                            {
+                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                            }
+                                            } 
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+            }
+
             @if (Model.HistoriaClinica.Episodios.Any(episodio => episodio.Evoluciones != null && episodio.Evoluciones.Any(evolucion => !evolucion.EstadoAbierto && evolucion.Notas != null && evolucion.Notas.Any())))
             {
                 <h4>Notas de evoluciones cerradas</h4>
@@ -183,8 +266,6 @@
         }
         @if (User.IsInRole(Configs.MedicoRolName))
         {
-            @if (episodiosOrdenados.Any(episodio => episodio.EstadoAbierto))
-            {
                 <h3>Episodios abiertos: </h3>
                 <table class="table">
                     <thead>
@@ -200,7 +281,7 @@
                             <th>Historia Clinica</th>
                     </thead>
                     <tbody>
-                        @foreach (var episodio in episodiosOrdenados.Where(e => e.EstadoAbierto))
+                        @foreach (var episodio in episodiosOrdenados)
                         {
                             <tr>
                                 <td>@episodio.Motivo</td>
@@ -219,11 +300,14 @@
                                 <td>@episodio.Epicrisis</td>
                                 <td>@episodio.Empleado</td>
                                 <td>@episodio.HistoriaClinica</td>
-                                <td>
+                                @if (episodio.EstadoAbierto)
+                                {
+                                    <td>
                                     <a asp-controller="Evoluciones" asp-action="Create" asp-route-id="@episodio.Id" class="btn btn-sm btn-warning"> Crear Evolución</a>
                                     <a>  </a>
                                     <a asp-controller="Episodios" asp-action="Edit" asp-route-id="@episodio.Id" class="btn btn-sm btn-warning"> Cerrar episodio</a>
-                                </td>
+                                    </td>
+                                }
                             </tr>
                         }
                     </tbody>
@@ -293,8 +377,9 @@
                                         }
                                         <td>@evolucion.Episodio.Motivo</td>
                                         <td>
-                                            
-                                            @if (!evolucion.EstadoAbierto)
+                                            @if(evolucion.Episodio.EstadoAbierto){
+                                                
+                                                @if (!evolucion.EstadoAbierto)
                                             {
                                                     <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Crear Nota</a>
                                             }
@@ -302,6 +387,7 @@
                                             {
                                                     <a asp-controller="Evoluciones" asp-action="Edit" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Cerrar Evolucion</a>
                                             }
+                                            } 
                                         </td>
                                     </tr>
                                 }
@@ -348,11 +434,6 @@
                     <h5>El paciente no tiene evoluciones.</h5>
                 }
             }
-            else
-            {
-                <h5>El paciente no tiene ningun episodio abierto.</h5>
-            }
-        }
         @if (User.IsInRole(Configs.PacienteRolName))
         {
             <h3>Episodios</h3>
