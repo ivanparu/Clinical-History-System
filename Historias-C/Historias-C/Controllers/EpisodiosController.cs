@@ -236,7 +236,9 @@ namespace Historias_C.Controllers
             episodio.EpicrisisId = epicrisisId;
             _context.Episodios.Update(episodio);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Pacientes");
+            var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+            var pacienteId = hc.PacienteId;
+            return RedirectToAction("Details", "Pacientes", new { id = pacienteId });
         }
     }
 }

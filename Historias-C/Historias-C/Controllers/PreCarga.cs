@@ -283,8 +283,10 @@ namespace Historias_C.Controllers
 
             _context.Epicrisis.Add(epicrisis);
             await _context.SaveChangesAsync();
-            /*var episodio = _context.Episodios.Find(episodioCerradoId);
-            episodio.EpicrisisId = epicrisis.Id;*/
+            var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == episodioCerradoId);
+            episodio.EpicrisisId = epicrisis.Id;
+            _context.Episodios.Update(episodio);
+            await _context.SaveChangesAsync();
         }
 
         private async Task addNota(int evolucionId, int empleado1Id)

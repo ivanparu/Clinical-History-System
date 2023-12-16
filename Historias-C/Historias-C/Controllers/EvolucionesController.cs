@@ -95,7 +95,10 @@ namespace Historias_C.Controllers
 
                 _context.Evoluciones.Add(evolucion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pacientes");
+                var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == evolucion.EpisodioId);
+                var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                var pacienteId = hc.PacienteId;
+                return RedirectToAction("Details", "Pacientes", new { id = pacienteId });
             }
             return View(evolucion);
         }
@@ -153,7 +156,10 @@ namespace Historias_C.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Pacientes");
+                var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == evolucion.EpisodioId);
+                var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                var pacienteId = hc.PacienteId;
+                return RedirectToAction("Details", "Pacientes", new { id = pacienteId });
             }
             //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", evolucion.EpisodioId);
             //ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "Apellido", evolucion.MedicoId);
