@@ -56,11 +56,11 @@ namespace Historias_C.Controllers
         // GET: Notas/Create
 
         [Authorize(Roles = Configs.MedicoRolName + "," + Configs.EmpleadoRolName)]
-        public IActionResult Create(int? id)
+        public IActionResult Create(int? evolucionId)
         {
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido");
             //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
-            if (id == null)
+            if (evolucionId == null)
             {
                 //afuera
                 return Content("definir que hacemos");
@@ -69,7 +69,7 @@ namespace Historias_C.Controllers
             {
                 Notas notas = new Notas();
                 //notas.EvolucionId = (int)id;
-                TempData["EvolucionId"] = (int)id;
+                TempData["EvolucionId"] = (int)evolucionId;
             }
             return View();
         }
@@ -89,7 +89,11 @@ namespace Historias_C.Controllers
             {
                 _context.Notas.Add(notas);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pacientes");
+                //return RedirectToAction("Index", "Pacientes");
+                var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == notas.Evolucion.EpisodioId);
+                var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                var pacienteId = hc.PacienteId;
+                return RedirectToAction("Details", "Pacientes", new { id = pacienteId });
             }
             //ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Apellido", notas.EmpleadoId);
             //ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion", notas.EvolucionId);

@@ -381,7 +381,7 @@
                                                 
                                                 @if (!evolucion.EstadoAbierto)
                                             {
-                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Crear Nota</a>
+                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-evolucionId="@evolucion.Id">Crear Nota</a>
                                             }
                                             else
                                             {

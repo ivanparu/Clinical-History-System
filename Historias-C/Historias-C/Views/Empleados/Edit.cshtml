@@ -12,13 +12,13 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="Legajo" class="control-label"></label>
                 <input asp-for="Legajo" class="form-control" />
                 <span asp-validation-for="Legajo" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
@@ -28,7 +28,7 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="FechaAlta" class="control-label"></label>
                 <input asp-for="FechaAlta" class="form-control" />
                 <span asp-validation-for="FechaAlta" class="text-danger"></span>
