@@ -187,7 +187,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Matricula,Especialidad,Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Medico medico)
+        public async Task<IActionResult> Edit(int id, Medico medico)
         {
             if (id != medico.Id)
             {
@@ -200,7 +200,24 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(medico);
+                    var medicoEnDb = _context.Medicos.Find(id);
+
+                    if (medicoEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    medicoEnDb.Matricula = medico.Matricula;
+                    medicoEnDb.Especialidad = medico.Especialidad;
+                    medicoEnDb.Legajo = medico.Legajo;
+                    medicoEnDb.Email = medico.Email;
+                    medicoEnDb.UserName = medico.Email;
+                    medicoEnDb.Nombre = medico.Nombre;
+                    medicoEnDb.Apellido = medico.Apellido;
+                    medicoEnDb.DNI = medico.DNI;
+                    medicoEnDb.Telefono = medico.Telefono;
+
+                    _context.Medicos.Update(medicoEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
