@@ -274,7 +274,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Paciente pacienteDelFormulario)
+        public async Task<IActionResult> Edit(int id, Paciente pacienteDelFormulario)
         {
             if (id != pacienteDelFormulario.Id)
             {
@@ -285,19 +285,18 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    var pacienteEnDb = _context.Pacientes.Find(pacienteDelFormulario.Id);
+                    var pacienteEnDb = _context.Pacientes.Find(id);
                     if(pacienteEnDb == null)
                     {
                         return NotFound();
                     }
                     pacienteEnDb.ObraSocial = pacienteDelFormulario.ObraSocial;
-                    pacienteEnDb.FechaAlta = pacienteDelFormulario.FechaAlta;
                     pacienteEnDb.Nombre = pacienteDelFormulario.Nombre;
                     pacienteEnDb.Apellido = pacienteDelFormulario.Apellido;
                     pacienteEnDb.Telefono = pacienteDelFormulario.Telefono;
                     pacienteEnDb.DNI = pacienteDelFormulario.DNI;
 
-                    if(ActualizarEmail(pacienteDelFormulario, pacienteEnDb))
+                    if(!ActualizarEmail(pacienteDelFormulario, pacienteEnDb))
                     {
                         ModelState.AddModelError("Email", "El email ya está en uso");
                         return View(pacienteDelFormulario);
@@ -327,7 +326,7 @@ namespace Historias_C.Controllers
             bool resultado = true;
             try
             {
-                if (pacienteEnDb.NormalizedEmail.Equals(pacienteDelFormulario.Email.ToUpper()))
+                if (!pacienteEnDb.NormalizedEmail.Equals(pacienteDelFormulario.Email.ToUpper()))
                 {
                     if (ExistEmail(pacienteDelFormulario.Email))
                     {
@@ -343,7 +342,7 @@ namespace Historias_C.Controllers
                 }
                 else
                 {
-
+                    
                 }
             }
             catch
