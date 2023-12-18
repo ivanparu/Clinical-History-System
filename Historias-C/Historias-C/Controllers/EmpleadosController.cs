@@ -125,7 +125,7 @@ namespace Historias_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Legajo,Id,UserName,Password,Email,FechaAlta,Nombre,Apellido,DNI,Telefono")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, Empleado empleado)
         {
             if (id != empleado.Id)
             {
@@ -136,8 +136,24 @@ namespace Historias_C.Controllers
             {
                 try
                 {
-                    _context.Update(empleado);
+                    var empleadoEnDb = _context.Empleados.Find(id);
+
+                    if (empleadoEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    empleadoEnDb.Email = empleado.Email;
+                    empleadoEnDb.UserName = empleado.Email;
+                    empleadoEnDb.Nombre = empleado.Nombre;
+                    empleadoEnDb.Apellido = empleado.Apellido;
+                    empleadoEnDb.Telefono = empleado.Telefono;
+                    empleadoEnDb.DNI = empleado.DNI;
+
+
+                    _context.Empleados.Update(empleadoEnDb);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
