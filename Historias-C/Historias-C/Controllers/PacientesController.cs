@@ -51,7 +51,7 @@ namespace Historias_C.Controllers
             {
                 // Agregar un error de modelo si no se encuentra el paciente
                 ModelState.AddModelError("DNI", "No se encontró ningún paciente con ese DNI");
-                return View(); 
+                return View("PonerDNI"); 
             }
         }
 

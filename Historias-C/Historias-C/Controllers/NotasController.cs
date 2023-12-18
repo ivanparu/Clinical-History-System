@@ -90,7 +90,9 @@ namespace Historias_C.Controllers
                 _context.Notas.Add(notas);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction("Index", "Pacientes");
-                var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == notas.Evolucion.EpisodioId);
+                var evolucion = await _context.Evoluciones.FindAsync(notas.EvolucionId);
+
+                var episodio = await _context.Episodios.FirstOrDefaultAsync(m => m.Id == evolucion.EpisodioId);
                 var hc = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
                 var pacienteId = hc.PacienteId;
                 return RedirectToAction("Details", "Pacientes", new { id = pacienteId });

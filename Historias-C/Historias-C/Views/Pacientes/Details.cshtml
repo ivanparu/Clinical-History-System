@@ -164,10 +164,11 @@
                             @foreach (var episodio in episodiosOrdenados.Where(e => e.Epicrisis != null))
                             {
                                 <tr>
-                                    <td>@episodio.Epicrisis.EpisodioId</td>
-                                    <td>@episodio.Epicrisis.FechaYHora</td>
-                                    <td>@episodio.Epicrisis.Descripcion</td>
-                                    <td>@episodio.Epicrisis.Recomendacion</td>
+                                    <td>@episodio.Epicrisis?.EpisodioId</td>
+                                    <td>@episodio.Epicrisis?.Medico</td>
+                                    <td>@episodio.Epicrisis?.FechaYHora</td>
+                                    <td>@episodio.Epicrisis?.Descripcion</td>
+                                    <td>@episodio.Epicrisis?.Recomendacion</td>
                                 </tr>
                             }
                         </tbody>
@@ -217,8 +218,8 @@
                                                 
                                                 @if (!evolucion.EstadoAbierto)
                                             {
-                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-id="@evolucion.Id">Crear Nota</a>
-                                            }
+                                                    <a asp-controller="Notas" asp-action="Create" class="btn btn-sm btn-warning" asp-route-evolucionId="@evolucion.Id">Crear Nota</a>
+                                                }
                                             } 
                                         </td>
                                     </tr>
@@ -235,9 +236,9 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Mensaje</th>
                             <th>Evolucion</th>
                             <th>Empleado</th>
-                            <th>Mensaje</th>
                             <th>Fecha</th>
                     </thead>
                     <tbody>
@@ -248,9 +249,9 @@
                                 foreach (var nota in evolucion.Notas.OrderByDescending(n => n.FechaYHora))
                                 {
                                     <tr>
-                                        <td>@nota.Evolucion</td>
-                                        <td>@nota.Empleado</td>
                                         <td>@nota.Mensaje</td>
+                                            <td>@evolucion.DescripcionAtencion</td>
+                                            <td>@nota.Empleado</td>
                                         <td>@nota.FechaYHora</td>
                                     </tr>
                                 }
@@ -299,7 +300,7 @@
                                 }
                                 <td>@episodio.Epicrisis</td>
                                 <td>@episodio.Empleado</td>
-                                <td>@episodio.HistoriaClinica</td>
+                                <td>@episodio.HistoriaClinicaId</td>
                                 @if (episodio.EstadoAbierto)
                                 {
                                     <td>
@@ -329,7 +330,8 @@
                             @foreach (var episodio in episodiosOrdenados.Where(e => e.Epicrisis != null))
                             {
                                 <tr>
-                                    <td>@episodio.Epicrisis.EpisodioId</td>
+                                    <td>@episodio.Epicrisis.Episodio.Motivo</td>
+                                    <td>@episodio.Epicrisis.Medico.UserName</td>
                                     <td>@episodio.Epicrisis.FechaYHora</td>
                                     <td>@episodio.Epicrisis.Descripcion</td>
                                     <td>@episodio.Epicrisis.Recomendacion</td>
@@ -413,7 +415,7 @@
                                         foreach (var nota in evolucion.Notas.OrderByDescending(n => n.FechaYHora))
                                         {
                                             <tr>
-                                                <td>@nota.Evolucion</td>
+                                                <td>@evolucion.DescripcionAtencion</td>
                                                 <td>@nota.Empleado</td>
                                                 <td>@nota.Mensaje</td>
                                                 <td>@nota.FechaYHora</td>
@@ -487,10 +489,11 @@
                         @foreach (var episodio in episodiosOrdenados)
                         {
                             <tr>
-                                <td>@episodio.Epicrisis.Episodio</td>
-                                <td>@episodio.Epicrisis.FechaYHora</td>
-                                <td>@episodio.Epicrisis.Descripcion</td>
-                                <td>@episodio.Epicrisis.Recomendacion</td>
+                                    <td>@episodio.Epicrisis?.Episodio?.Motivo</td>
+                                    <td>@episodio.Epicrisis?.Medico.UserName</td>
+                                    <td>@episodio.Epicrisis?.FechaYHora</td>
+                                    <td>@episodio.Epicrisis?.Descripcion</td>
+                                    <td>@episodio.Epicrisis?.Recomendacion</td>
                             </tr>
                         }
                     </tbody>
