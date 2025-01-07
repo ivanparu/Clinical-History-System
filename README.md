@@ -66,6 +66,14 @@ Developed using **C# (ASP.NET MVC Core with Entity Framework)**, this system int
 
 ---
 
+## Accessing the System 🗝️
+Upon starting the system, an admin user is preloaded for managing the application:
+
+Username: admin@ort.edu.ar
+Password: Password1!
+
+---
+
 ## How to Run the Project 🚀
 
 1. Clone this repository:
