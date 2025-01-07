@@ -70,4 +70,4 @@ Developed using **C# (ASP.NET MVC Core with Entity Framework)**, this system int
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/ivanparu/clinical-history-system.git
+   git clone https://github.com/ivanparu/Clinical-History-System.git
