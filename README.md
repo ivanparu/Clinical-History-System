@@ -74,6 +74,12 @@ Password: Password1!
 
 ---
 
+## Autores
+
+[@ivanparu](https://github.com/ivanparu) y [@augustodoldan](https://github.com/augustodoldan)
+
+---
+
 ## How to Run the Project 🚀
 
 1. Clone this repository:
