@@ -74,7 +74,7 @@ Password: Password1!
 
 ---
 
-## Autores
+## Authors
 
 [@ivanparu](https://github.com/ivanparu) y [@augustodoldan](https://github.com/augustodoldan)
 
